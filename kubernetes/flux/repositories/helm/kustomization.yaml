@@ -2,19 +2,51 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - ./1password-charts.yaml
+  - ./actions-runner-controller.yaml
+  - ./angelnu.yaml
+  - ./aqua.yaml
+  - ./authentik.yaml
+  - ./backube.yaml
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./blakeshome-charts.yaml
   - ./cilium.yaml
+  - ./cloudflare-exporter.yaml
+  - ./cloudnative-pg.yaml
   - ./coredns.yaml
   - ./csi-driver-nfs.yaml
+  - ./deliveryhero-charts.yaml
+  - ./democratic-csi.yaml
+  - ./descheduler.yaml
   - ./external-dns.yaml
+  - ./external-secrets.yaml
+  - ./falco-security-charts.yaml
+  - ./flagger.yaml
+  - ./gitea.yaml
   - ./grafana.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
+  - ./intel.yaml
+  - ./itzg.yaml
   - ./jetstack.yaml
+  - ./k8s-at-home-charts.yaml
   - ./k8s-gateway.yaml
   - ./kubernetes-dashboard.yaml
+  - ./kubernetes-replicator-charts.yaml
+  - ./kubernetes-sigs-descheduler-charts.yaml
+  - ./longhorn.yaml
   - ./metrics-server.yaml
+  - ./nextcloud.yaml
+  - ./nfs-provisioner.yaml
+  - ./piraeus.yaml
   - ./prometheus-community.yaml
+  - ./redis-operator.yaml
+  - ./robusta.yaml
+  - ./rook-ceph.yaml
   - ./stakater.yaml
+  - ./synology-csi.yaml
+  - ./victoriametrics-charts.yaml
+  - ./vmware-tanzu.yaml
   - ./weave-gitops.yaml
+  - ./xunholy-charts.yaml
