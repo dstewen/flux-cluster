@@ -73,7 +73,7 @@ spec:
         annotations:
           hajimari.io/enable: "false"
         hosts:
-          - host: &host "onepassword-connect.davidstewen.com"
+          - host: &host "onepassword-connect.kube-system.svc.cluster.local"
             paths:
               - path: /
                 pathType: Prefix
