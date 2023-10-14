@@ -47,7 +47,7 @@ spec:
         reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/bazarr
-      tag: 1.3.0@sha256:ccab31d39663f08f56f8aee1a5a4212aa907c1981ac2e216d69c1d1cd68f4683
+      tag: 1.3.1@sha256:11ec2cc17c20f816774dbaa490355266fb3ab6ec539e751ea8c30fd54b9ca99f
     env:
       TZ: Australia/Melbourne
     envFrom: *envFrom
