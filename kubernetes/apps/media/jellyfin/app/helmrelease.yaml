@@ -45,7 +45,7 @@ spec:
 #      JELLYFIN_FFmpeg__probesize: 50000000
 #      JELLYFIN_FFmpeg__analyzeduration: 50000000
       JELLYFIN_PublishedServerUrl: &loadBalancerIP 192.168.10.223
-      TZ: Australia/Melbourne
+      TZ: Australia/Victoria
 #      JELLYFIN_CACHE_DIR: "/config/cache"
     service:
       main:

@@ -14,7 +14,7 @@ spec:
           repository: ghcr.io/coder/code-server
           tag: 4.17.1
         env:
-          TZ: Australia/Melbourne
+          TZ: Australia/Victoria
         workingDir: /config
         args:
           - --auth

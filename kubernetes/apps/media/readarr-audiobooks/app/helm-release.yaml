@@ -28,7 +28,7 @@ spec:
       tag: 0.3.7.2257
 
     env:
-      TZ: Australia/Melbourne
+      TZ: Australia/Victoria
 
     service:
       main:

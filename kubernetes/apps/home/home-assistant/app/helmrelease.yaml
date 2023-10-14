@@ -44,9 +44,9 @@ spec:
         reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/home-assistant
-      tag: 2023.10.0@sha256:6b328b83e5e360a8705fa79a75e28e5622220ccd28f513450358ac0d3ed1c732
+      tag: 2023.10.3@sha256:c71d7ab36beddd9b61d49494644a4f982196a3f6570464af9d764cb83f6b1460
     env:
-      TZ: Australia/Melbourne
+      TZ: Australia/Victoria
       POSTGRES_HOST: postgres-rw.database.svc.cluster.local
       POSTGRES_DB: home_assistant
     envFrom: *envFrom

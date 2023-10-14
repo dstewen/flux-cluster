@@ -46,7 +46,7 @@ spec:
       repository: ghcr.io/onedr0p/sonarr-develop
       tag: 4.0.0.686@sha256:a43a92ac3b8b1a0aae1f78c3c8e57a27f44749b2fcabb71bcddf695fe90ca3fb
     env:
-      TZ: Australia/Melbourne
+      TZ: Australia/Victoria
       PUSHOVER_DEBUG: "false"
       SONARR__INSTANCE_NAME: Sonarr
       SONARR__PORT: &port 80
