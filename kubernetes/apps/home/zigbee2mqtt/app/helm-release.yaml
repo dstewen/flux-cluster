@@ -1,0 +1,100 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: zigbee2mqtt
+  namespace: home
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 15m
+  install:
+    disableWait: true
+    remediation:
+      retries: 100
+    createNamespace: true
+  upgrade:
+    remediation:
+      retries: 100
+  dependsOn:
+    - name: mosquitto
+      namespace: home
+  values:
+    image:
+      repository: ghcr.io/koenkk/zigbee2mqtt
+      tag: 1.33.1
+
+    env:
+      TZ: "${TIMEZONE}"
+      ZIGBEE2MQTT_DATA: /data
+      ZIGBEE2MQTT_CONFIG_MQTT_USER: "${MQTT_USER}"
+      ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD: "${MQTT_PASSWORD}"
+
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8080
+
+    ingress:
+      main:
+        enabled: true
+        primary: true
+        ingressClassName: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+          external-dns.alpha.kubernetes.io/target: "${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"
+        hosts:
+          - host: &host "zigbee2mqtt.${SECRET_DOMAIN_CASA}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-tls
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: zigbee2mqtt-config-0
+        mountPath: "/data"
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c46794596029ec11b42d6c7840c9ce8d-if00-port0
+
+    nodeSelector:
+      kubernetes.io/hostname: nuc1
+
+    securityContext:
+      privileged: true
+
+    podSecurityContext:
+      supplementalGroups:
+        - 20 # dialout for /dev/ttyUSB0
+
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 10m
+      limits:
+        memory: 1.5Gi
+
+    config:
+      # Minimal configuration.yml example
+      permit_join: true
+      homeassistant: true
+      mqtt:
+        server: mqtt://mosquitto:1883
+      serial:
+        port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c46794596029ec11b42d6c7840c9ce8d-if00-port0
+      frontend:
+        port: 8080

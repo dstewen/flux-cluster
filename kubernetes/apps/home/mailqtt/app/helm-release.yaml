@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app mailqtt
+  namespace: home
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 15m
+  install:
+    disableWait: true
+    remediation:
+      retries: 100
+  upgrade:
+    remediation:
+      retries: 100
+  values:
+    image:
+      repository: ghcr.io/0dragosh/mailqtt
+      tag: v1.1.0
+
+    controller:
+      replicas: 3
+
+    env:
+      TZ: "${TIMEZONE}"
+      SAVE_ATTACHMENTS: "True"
+      MQTT_HOST: mosquitto.home
+      MQTT_PORT: 1883
+      MQTT_USERNAME: "${MQTT_USER}"
+      MQTT_PASSWORD: "${MQTT_PASSWORD}"
+      MQTT_TOPIC: "cams"
+      DEBUG: "True"
+      SAVE_ATTACHMENTS_DURING_RESET_TIME: "True"
+      SAVE_ATTACHMENTS_DIR: "/attachments"
+
+    service:
+      main:
+        type: LoadBalancer
+        annotations:
+          "io.cilium/lb-ipam-ips": "${SVC_MAILQTT_IP}"
+        ports:
+          http:
+            port: &port 1025
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          tcpSocket:
+            port: *port
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          tcpSocket:
+            port: *port
+
+    persistence:
+      attachments:
+        enabled: false
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_IP}"
+            path: /mnt/biggie/cameras-attachments
+        mountPath: /attachments
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 100Mi
+      limits:
+        memory: 1Gi

@@ -1,0 +1,54 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: scrypted-recordings-restic
+  namespace: home
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: scrypted-recordings-restic-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      metadata:
+        annotations:
+          replicator.v1.mittwald.de/replicate-to: 'volsync'
+      data:
+        RESTIC_REPOSITORY: 's3:{{ .S3_ENDPOINT }}/scrypted-recordings'
+        RESTIC_PASSWORD: '{{ .RESTIC_PASSWORD }}'
+        AWS_ACCESS_KEY_ID: '{{ .AWS_ACCESS_KEY_ID }}'
+        AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_KEY_ID }}'
+  dataFrom:
+    - extract:
+        key: volsync-restic-template
+        property: RESTIC_PASSWORD
+    - extract:
+        key: truenas-minio
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: scrypted-recordings
+  namespace: home
+spec:
+  sourcePVC: scrypted-recordings
+  trigger:
+    schedule: "0 7 * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 7
+    repository: scrypted-recordings-restic-secret
+    cacheCapacity: 60Gi
+    volumeSnapshotClassName: csi-ceph-filesystem
+    storageClassName: ceph-filesystem
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      daily: 1
+      within: 1d

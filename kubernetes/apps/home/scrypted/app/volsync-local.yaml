@@ -1,0 +1,52 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: scrypted-local-minio-restic
+  namespace: home
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: scrypted-local-minio-restic-secret
+    creationPolicy: Owner
+    template:
+      metadata:
+        annotations:
+          replicator.v1.mittwald.de/replicate-to: 'volsync'
+      engineVersion: v2
+      data:
+        RESTIC_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}/v1-scrypted'
+        RESTIC_PASSWORD: '{{ .RESTIC_PASSWORD }}'
+        AWS_ACCESS_KEY_ID: '{{ .AWS_ACCESS_KEY_ID }}'
+        AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
+  dataFrom:
+    - extract:
+        key: volsync-local-minio-restic-template
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: scrypted-local-minio
+  namespace: home
+spec:
+  sourcePVC: config-scrypted-0
+  trigger:
+    schedule: "0 16 * * *"
+  restic:
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: scrypted-local-minio-restic-secret
+    cacheCapacity: 2Gi
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: local-path
+    storageClassName: ceph-block
+    retain:
+      daily: 10
+      within: 10d

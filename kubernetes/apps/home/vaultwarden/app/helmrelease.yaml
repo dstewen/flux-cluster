@@ -1,0 +1,109 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app vaultwarden
+  namespace: home
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    initContainers:
+      01-init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.8
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: &secret vaultwarden-secret
+    controller:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    image:
+      repository: vaultwarden/server
+      tag: 1.29.2
+    env:
+      DATA_FOLDER: "data"
+      ICON_CACHE_FOLDER: "data/icon_cache"
+      ATTACHMENTS_FOLDER: "data/attachments"
+      DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
+      TZ: "${TIMEZONE}"
+      SIGNUPS_ALLOWED: "true"
+      WEBSOCKET_ENABLED: "true"
+      WEBSOCKET_ADDRESS: 0.0.0.0
+      WEBSOCKET_PORT: 3012
+#      SMTP_HOST: smtp-relay.default.svc.cluster.local.
+      SMTP_HOST: "mail.internode.on.net"
+#      SMTP_FROM: vaultwarden@${SECRET_DOMAIN}
+      SMTP_FROM: "dstewen@internode.on.net"
+      SMTP_FROM_NAME: vaultwarden
+#      SMTP_PORT: 2525
+      SMTP_PORT: 465
+      SMTP_USERNAME: "dstewen"
+      SMTP_PASSWORD: "1"
+      SMTP_SECURITY: "force_tls"
+#      USE_SENDMAIL: "true"
+      SMTP_DEBUG: true
+    envFrom: *envFrom
+    service:
+      main:
+        ports:
+          http:
+            port: &port 80
+          websocket:
+            enabled: true
+            port: &websocket-port 3012
+    persistence:
+      data:
+        enabled: true
+        existingClaim: vaultwarden-data
+        mountPath: /data
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "ingress.${SECRET_DOMAIN}"
+          hajimari.io/icon: mdi:lock
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: *port
+              - path: /notifications/hub/negotiate
+                pathType: Prefix
+                service:
+                  port: *port
+              - path: /notifications/hub
+                pathType: Prefix
+                service:
+                  port: *websocket-port
+        tls:
+          - hosts:
+              - *host
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 2Gi

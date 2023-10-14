@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+resources:
+#  - ./nas
+#  - ./pdu
+#  - ./s3400-48t6sp
+#  - ./S3700-24T4F
+  - ./synology-nas
+#  - ./T1500G-10MPS
+#  - ./ups

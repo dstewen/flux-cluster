@@ -52,6 +52,22 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: ceph
+            orgId: 1
+            folder: Ceph
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/ceph
+          - name: cilium
+            orgId: 1
+            folder: Cilium
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/cilium
           - name: flux
             orgId: 1
             folder: Flux
@@ -76,6 +92,22 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/nginx
+          - name: testing
+            orgId: 1
+            folder: Testing
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/testing
+          - name: unifi
+            orgId: 1
+            folder: Unifi
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/unifi
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -90,13 +122,27 @@ spec:
             jsonData:
               prometheusType: Prometheus
             isDefault: true
+          - name: Loki
+            type: loki
+            uid: loki
+            access: proxy
+            url: http://loki-gateway.monitoring.svc.cluster.local
+            jsonData:
+              maxLines: 250
     dashboards:
       default:
+        # Ref: https://grafana.com/grafana/dashboards/11074-node-exporter-for-prometheus-dashboard-en-v20201010/
+        1-node-exporter:
+          url: https://grafana.com/api/dashboards/11074/revisions/9/download
+          datasource: Prometheus
         cloudflared:
           gnetId: 17457 # https://grafana.com/grafana/dashboards/17457?tab=revisions
           revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        cloudnative-pg:
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource: Prometheus
         external-dns:
           gnetId: 15038 # https://grafana.com/grafana/dashboards/15038?tab=revisions
           revision: 1
@@ -104,9 +150,86 @@ spec:
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/13502-minio-dashboard/
+        minio:
+          gnetId: 13502
+          revision: 22
+          datasource: Prometheus
         node-exporter-full:
           gnetId: 1860 # https://grafana.com/grafana/dashboards/1860?tab=revisions
           revision: 31
+          datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/
+        redis:
+          gnetId: 763
+          revision: 5
+          datasource: Prometheus
+        external-secrets:
+          url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
+          datasource: Prometheus
+        loki-chunks:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-chunks.json
+          datasource: Prometheus
+        loki-deletion:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-deletion.json
+          datasource: Prometheus
+        loki-kubernetes-logs:
+          gnetId: 15141 # https://grafana.com/grafana/dashboards/15141?tab=revisions
+          revision: 1
+          datasource: Loki
+        loki-logs:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-logs.json
+          datasource: Prometheus
+        loki-mixin-recording-rules:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-mixin-recording-rules.json
+          datasource: Prometheus
+        loki-operational:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-operational.json
+          datasource: Prometheus
+        loki-reads-resources:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-reads-resources.json
+          datasource: Prometheus
+        loki-reads:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-reads.json
+          datasource: Prometheus
+        loki-retention:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-retention.json
+          datasource: Prometheus
+        loki-writes-resources:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-writes-resources.json
+          datasource: Prometheus
+        loki-writes:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-writes.json
+          datasource: Prometheus
+        miniflux:
+          url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
+          datasource: Prometheus
+        speedtest:
+          gnetId: 13665
+          revision: 1
+          datasource: Prometheus
+      ceph:
+        ceph-cluster:
+          gnetId: 2842 # https://grafana.com/grafana/dashboards/2842?tab=revisions
+          revision: 17
+          datasource: Prometheus
+        ceph-osd:
+          gnetId: 5336 # https://grafana.com/grafana/dashboards/5336?tab=revisions
+          revision: 9
+          datasource: Prometheus
+        ceph-pools:
+          gnetId: 5342 # https://grafana.com/grafana/dashboards/5342?tab=revisions
+          revision: 9
+          datasource: Prometheus
+      cilium:
+        cilium-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json
+          datasource: Prometheus
+        cilium-operator-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/cilium-operator/dashboards/cilium-operator-dashboard.json
+          datasource: Prometheus
+        hubble-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/hubble/dashboards/hubble-dashboard.json
           datasource: Prometheus
       flux:
         flux-cluster:
@@ -114,6 +237,9 @@ spec:
           datasource: Prometheus
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
+          datasource: Prometheus
+        flux-logs:
+          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
           datasource: Prometheus
       kubernetes:
         kubernetes-api-server:
@@ -141,6 +267,75 @@ spec:
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
+      testing:
+        logs-app:
+          gnetId: 13639 # https://grafana.com/grafana/dashboards/13639-logs-app/?tab=revisions
+          revision: 2
+          datasource: Loki
+        logging-dashboard-via-loki:
+          gnetId: 12611 # https://grafana.com/grafana/dashboards/12611-logging-dashboard-via-loki/?tab=revisions
+          revision: 2
+          datasource:
+            - { type: loki, uid: loki }
+        node-exporter-full-2:
+          gnetId: 12486 # https://grafana.com/grafana/dashboards/12486-node-exporter-full/?tab=revisions
+          revision: 2
+          datasource: Prometheus
+        flux2:
+          gnetId: 16714 # https://grafana.com/grafana/dashboards/16714-flux2/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        k3s-cluster-monitoring:
+          gnetId: 15282 # https://grafana.com/grafana/dashboards/15282-k8s-rke-cluster-monitoring/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        grafana-internals:
+          gnetId: 3590 # https://grafana.com/grafana/dashboards/3590-grafana-internals/?tab=revisions
+          revision: 3
+          datasource: Prometheus
+        speedtest-exporter-dashboard:
+          gnetId: 13665 # https://grafana.com/grafana/dashboards/13665-speedtest-exporter-dashboard/?tab=revisions
+          revision: 4
+          datasource: Prometheus
+        loki-stack-monitoring:
+          gnetId: 14055 # https://grafana.com/grafana/dashboards/14055-loki-stack-monitoring-promtail-loki/?tab=revisions
+          revision: 5
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_LOKI, value: Loki }
+        promtail26x:
+          gnetId: 16708 # https://grafana.com/grafana/dashboards/16708-promtail-2-6-x/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        speedtest-exporter-dashboard-2:
+          gnetId: 13665 # https://grafana.com/grafana/dashboards/13665-speedtest-exporter-dashboard/?tab=revisions
+          revision: 4
+          datasource: Prometheus
+        loki-and-promtail:
+          gnetId: 10880 # https://grafana.com/grafana/dashboards/10880-loki-promtail/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        loki-namespacelogs:
+          gnetId: 16227 # https://grafana.com/grafana/dashboards/16227-loki-namespacelogs/?tab=revisions
+          revision: 2
+          datasource: Prometheus
+      unifi:
+        unifi-insights:
+          gnetId: 11315 # https://grafana.com/grafana/dashboards/11315?tab=revisions
+          revision: 9
+          datasource: Prometheus
+        unifi-network-sites:
+          gnetId: 11311 # https://grafana.com/grafana/dashboards/11311?tab=revisions
+          revision: 5
+          datasource: Prometheus
+        unifi-uap:
+          gnetId: 11314 # https://grafana.com/grafana/dashboards/11314?tab=revisions
+          revision: 10
+          datasource: Prometheus
+        unifi-usw:
+          gnetId: 11312 # https://grafana.com/grafana/dashboards/11312?tab=revisions
+          revision: 9
+          datasource: Prometheus
     sidecar:
       dashboards:
         enabled: true
@@ -155,6 +350,14 @@ spec:
         enabled: true
         searchNamespace: ALL
         labelValue: ""
+    plugins:
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
+      - cloudflare-app
     serviceMonitor:
       enabled: true
     ingress:
