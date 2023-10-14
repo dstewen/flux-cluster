@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph-cluster
-      version: v1.12.4
+      version: v1.12.5
       sourceRef:
         kind: HelmRepository
         name: rook-ceph
@@ -56,7 +56,7 @@ spec:
         connections:
           compression:
             # TODO: Test out enabling this on next cluster rebuild
-            enabled: false
+            enabled: true
       crashCollector:
         disable: false
       dashboard:
