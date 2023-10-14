@@ -66,6 +66,9 @@ spec:
 #        port: 8443
       mgr:
         count: 1
+        modules:
+          - name: rook
+            enabled: true
       storage:
         useAllNodes: false
         useAllDevices: false
