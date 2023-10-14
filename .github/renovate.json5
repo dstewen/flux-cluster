@@ -23,7 +23,7 @@
   "flux": {
     "fileMatch": [
       "(^|/)addons/.+\\.ya?ml(\\.j2)?(\\.j2)?$",
-      "(^|/)ansible/.+\\.ya?ml(\\.j2)?(\\.j2)?$",
+//      "(^|/)ansible/.+\\.ya?ml(\\.j2)?(\\.j2)?$",
       "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?(\\.j2)?$"
     ]
   },
