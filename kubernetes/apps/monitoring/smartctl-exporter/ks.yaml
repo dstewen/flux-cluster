@@ -1,12 +1,46 @@
+#---
+# yaml-language-server: $schema=https://kubernetes-schemas.kashall.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+#apiVersion: kustomize.toolkit.fluxcd.io/v1
+#kind: Kustomization
+#metadata:
+#  name: cluster-apps-smartctl-exporter
+#  namespace: flux-system
+#spec:
+#  path: ./kubernetes/apps/monitoring/smartctl-exporter/app
+#  prune: true
+#  sourceRef:
+#    kind: GitRepository
+#    name: home-kubernetes
+#  wait: false
+#  interval: 30m
+#  retryInterval: 1m
+#  timeout: 5m
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.kashall.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-smartctl-exporter
+  name: cluster-apps-smartctl-exporter-amd64
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/monitoring/smartctl-exporter/app
+  path: ./kubernetes/apps/monitoring/smartctl-exporter/amd64/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.kashall.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-smartctl-exporter-arm64
+  namespace: flux-system
+spec:
+  path: ./kubernetes/apps/monitoring/smartctl-exporter/arm64/app
   prune: true
   sourceRef:
     kind: GitRepository
