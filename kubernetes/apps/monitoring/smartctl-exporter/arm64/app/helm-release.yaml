@@ -33,7 +33,6 @@ spec:
       tag: "v0.7.0"
     config:
       devices:
-#        - /dev/sda
         - /dev/nvme0n1
     nodeSelector:
       kubernetes.io/arch: arm64
