@@ -34,7 +34,7 @@ spec:
       repository: ghcr.io/koush/scrypted
       tag: 18-jammy-full-v0.39.4
     env:
-      TZ: "${TIMEZONE}"
+      TZ: Australia/Victoria
     service:
       main:
         ports:
