@@ -44,8 +44,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        annotations:
-          io.cilium/lb-ipam-ips: "192.168.10.224"
+#        annotations:
+#          io.cilium/lb-ipam-ips: "192.168.10.224"
         ports:
           http:
             port: 32400
@@ -57,6 +57,8 @@ spec:
           hajimari.io/enable: "false"
 #          external-dns.alpha.kubernetes.io/target: external.davidstewen.com
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_ssl_protocols TLSv1.3;
         hosts:
           - host: &host "{{ .Release.Name }}.davidstewen.com"
             paths:
