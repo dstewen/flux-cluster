@@ -52,29 +52,29 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
+        ingressClassName: external
         annotations:
           hajimari.io/enable: "false"
-#          external-dns.alpha.kubernetes.io/target: external.davidstewen.com
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_ssl_name plex.davidstewen.com;
-            proxy_ssl_server_name on;
+#          nginx.ingress.kubernetes.io/configuration-snippet: |
+#            proxy_ssl_name plex.davidstewen.com;
+#            proxy_ssl_server_name on;
 #            location = / {
 #              if ($http_x_plex_device = ""){
 #                return 301 $scheme://$host/web/index.html;
 #              }
 #            }
         hosts:
-          - host: &host "{{ .Release.Name }}.davidstewen.com"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: plex
-                    port:
-                      number: 80
+#                backend:
+#                  service:
+#                    name: plex
+#                    port:
+#                      number: 80
         tls:
           - hosts:
               - *host
