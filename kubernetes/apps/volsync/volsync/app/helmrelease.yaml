@@ -32,3 +32,4 @@ spec:
       disableAuth: true
     nodeSelector:
       kubernetes.io/role: worker
+      kubernetes.io/arch: amd64
