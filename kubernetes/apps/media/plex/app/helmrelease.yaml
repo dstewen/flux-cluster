@@ -42,6 +42,10 @@ spec:
       TZ: Australia/Melbourne
     service:
       main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.10.224"
         ports:
           http:
             port: 32400
@@ -58,9 +62,15 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: plex
+                    port:
+                      number: 80
         tls:
           - hosts:
               - *host
+
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
