@@ -72,11 +72,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-#                backend:
-#                  service:
-#                    name: plex.media.svc.cluster.local
-#                    port:
-#                      number: 32400
+                backend:
+                  service:
+                    name: plex.media.svc.cluster.local
+                    port:
+                      number: 32400
         tls:
           - hosts:
               - *host
