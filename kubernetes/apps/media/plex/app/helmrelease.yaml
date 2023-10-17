@@ -57,11 +57,11 @@ spec:
           hajimari.io/enable: "false"
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+#          nginx.ingress.kubernetes.io/ssl-passthrough: "true"
           nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
-#          nginx.ingress.kubernetes.io/configuration-snippet: |
-#            proxy_ssl_name plex.davidstewen.com;
-#            proxy_ssl_server_name on;
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_ssl_name plex.davidstewen.com;
+            proxy_ssl_server_name on;
 #            location = / {
 #              if ($http_x_plex_device = ""){
 #                return 301 $scheme://$host/web/index.html;
