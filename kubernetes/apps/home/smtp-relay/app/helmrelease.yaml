@@ -46,7 +46,7 @@ spec:
       main:
         type: LoadBalancer
         loadBalancerIP: "${CLUSTER_LB_SMTP_RELAY}"
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 2525
