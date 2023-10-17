@@ -74,7 +74,7 @@ spec:
                   service:
                     name: plex
                     port:
-                      number: 80
+                      number: 32400
         tls:
           - hosts:
               - *host
