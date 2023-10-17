@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: ingress-nginx
-      version: 4.8.2
+      version: 4.7.1
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
@@ -46,7 +46,6 @@ spec:
             - key: ingress-class
               operator: In
               values: ["external"]
-      allowSnippetAnnotations: true
       config:
         client-body-buffer-size: 100M
         client-body-timeout: 120
@@ -74,7 +73,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-staging-tls"
+        default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
