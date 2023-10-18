@@ -110,7 +110,7 @@ spec:
         analytics:
           reporting_enabled: false
     gateway:
-      replicas: 3
+      replicas: 2
       ingress:
         enabled: true
         ingressClassName: internal
@@ -125,6 +125,7 @@ spec:
           - hosts:
               - *host
     read:
+      replicas: 2
       persistence:
         storageClass: local-path
         size: 5Gi
@@ -135,10 +136,12 @@ spec:
         - name: rules
           emptyDir: {}
     write:
+      replicas: 2
       persistence:
         storageClass: local-path
         size: 5Gi
     backend:
+      replicas: 2
       persistence:
         storageClass: local-path
         size: 5Gi
