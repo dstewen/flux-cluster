@@ -33,9 +33,13 @@ spec:
     master:
       persistence:
         enabled: false
+      nodeSelector:
+      node-role.kubernetes.io/worker: worker
     replica:
       persistence:
         enabled: false
+      nodeSelector:
+      node-role.kubernetes.io/worker: worker
     sentinel:
       enabled: true
       masterSet: redis-master
@@ -44,10 +48,11 @@ spec:
         failureThreshold: 2
       persistence:
         enabled: false
+      nodeSelector:
+      node-role.kubernetes.io/worker: worker
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
         interval: 1m
-    nodeSelector:
-      node-role.kubernetes.io/worker: worker
+
