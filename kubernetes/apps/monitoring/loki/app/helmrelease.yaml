@@ -124,6 +124,8 @@ spec:
         tls:
           - hosts:
               - *host
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
     read:
       replicas: 2
       persistence:
@@ -135,11 +137,15 @@ spec:
       extraVolumes:
         - name: rules
           emptyDir: {}
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
     write:
       replicas: 2
       persistence:
         storageClass: local-path
         size: 5Gi
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
     backend:
       replicas: 2
       persistence:
@@ -156,6 +162,8 @@ spec:
             name: loki-alerting-rules
         - name: scratch
           emptyDir: {}
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
     monitoring:
       dashboards:
         annotations:
