@@ -35,5 +35,5 @@ spec:
     config:
       data:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
-#    nodeSelector:
-#      kubernetes.io/role: worker
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
