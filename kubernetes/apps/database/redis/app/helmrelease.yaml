@@ -49,3 +49,5 @@ spec:
       serviceMonitor:
         enabled: true
         interval: 1m
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
