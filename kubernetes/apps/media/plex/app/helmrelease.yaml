@@ -74,7 +74,7 @@ spec:
                 pathType: Prefix
                 backend:
                   service:
-                    name: plex
+                    name: plex-0
                     port:
                       number: 32400
         tls:
