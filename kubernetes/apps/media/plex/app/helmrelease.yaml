@@ -80,19 +80,15 @@ spec:
         tls:
           - hosts:
               - *host
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-#                - key: intel.feature.node.kubernetes.io/gpu
+#    affinity:
+#      nodeAffinity:
+#        requiredDuringSchedulingIgnoredDuringExecution:
+#          nodeSelectorTerms:
+#            - matchExpressions:
+#                - key: kubernetes.io/arch=amd64
 #                  operator: In
 #                  values:
 #                    - 'true'
-                - key: kubernetes.io/arch=amd64
-                  operator: In
-                  values:
-                    - 'true'
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
