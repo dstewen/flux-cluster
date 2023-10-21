@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: lldap-gatus-ep
-  namespace: default
+  namespace: security
   labels:
     gatus.io/enabled: "true"
 data:
