@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: nicolaka/netshoot
-      tag: latest
+      tag: v0.11
     command:
       - /bin/sh
       - -c
