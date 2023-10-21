@@ -35,12 +35,16 @@ spec:
       image: docker.io/democraticcsi/democratic-csi:v1.8.3
       config:
         driver: synology-iscsi
+    # https://kubernetes-csi.github.io/docs/external-provisioner.html
     externalProvisioner:
       image: registry.k8s.io/sig-storage/csi-provisioner:v3.6.0
+    # https://kubernetes-csi.github.io/docs/external-resizer.html
     externalResizer:
-      image: registry.k8s.io/sig-storage/csi-resizer:v1.9.0
+      image: registry.k8s.io/sig-storage/csi-resizer:v1.9.1
+    # https://kubernetes-csi.github.io/docs/external-snapshotter.html
     externalSnapshotter:
-      image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.0
+      image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.1
+    # https://github.com/kubernetes-csi/external-health-monitor
     externalHealthMonitorController:
       enabled: true
       image: registry.k8s.io/sig-storage/csi-external-health-monitor-controller:v0.10.0
