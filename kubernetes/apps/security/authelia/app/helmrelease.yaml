@@ -4,7 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app authelia
-  namespace: default
+  namespace: security
 spec:
   interval: 30m
   chart:
@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   dependsOn:
     - name: lldap
-      namespace: default
+      namespace: security
     - name: redis
       namespace: database
   values:
@@ -69,8 +69,8 @@ spec:
       AUTHELIA_LOG_LEVEL: info
       AUTHELIA_NOTIFIER_DISABLE_STARTUP_CHECK: "true"
       AUTHELIA_NOTIFIER_SMTP_DISABLE_REQUIRE_TLS: "true"
-      AUTHELIA_NOTIFIER_SMTP_HOST: smtp-relay.turbo.ac
-      AUTHELIA_NOTIFIER_SMTP_PORT: 25
+      AUTHELIA_NOTIFIER_SMTP_HOST: smtp-relay.home.svc.cluster.local
+      AUTHELIA_NOTIFIER_SMTP_PORT: 2525
       AUTHELIA_NOTIFIER_SMTP_SENDER: Authelia <authelia@buhl.casa>
       AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
       AUTHELIA_SERVER_PORT: &port 80
