@@ -100,6 +100,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/testing
+          - name: trivy
+            orgId: 1
+            folder: Trivy
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/trivy
           - name: unifi
             orgId: 1
             folder: Unifi
@@ -317,6 +325,19 @@ spec:
           datasource: Prometheus
         loki-namespacelogs:
           gnetId: 16227 # https://grafana.com/grafana/dashboards/16227-loki-namespacelogs/?tab=revisions
+          revision: 2
+          datasource: Prometheus
+      trivy:
+        trivy-image-vulnerability-overview:
+          gnetId: 16742 # https://grafana.com/grafana/dashboards/16742-trivy-image-vulnerability-overview/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        trivy-operator-vulnerabilities:
+          gnetId: 16337 # https://grafana.com/grafana/dashboards/16337-trivy-operator-vulnerabilities/?tab=revisions
+          revision: 9
+          datasource: Prometheus
+        trivy-operator-dashboard:
+          gnetId: 11314 # https://grafana.com/grafana/dashboards/17813-trivy-operator-dashboard/
           revision: 2
           datasource: Prometheus
       unifi:
