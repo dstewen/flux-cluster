@@ -18,21 +18,21 @@ access_control:
     - name: internal
       networks: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
   rules:
-    - domain: ["jellyfin.devbu.io"]
+    - domain: ["jellyfin.davidstewen.com"]
       resources: ["^/metrics.*$"]
       policy: deny
-    - domain: ["letsblockit.devbu.io"]
-      resources: ["^/lists.*$"]
-      policy: bypass
-    - domain: ["navidrome.devbu.io"]
-      resources: ["^/ping.*$", "^/rest.*$"]
-      policy: bypass
-    - domain: ["navidrome.devbu.io"]
-      resources: ["^/metrics.*$"]
-      policy: deny
-    - domain: ["wizarr.devbu.io"]
-      resources: ["^/join.*$", "^/j/.*$", "^/setup.*$", "^/static/.*$"]
-      policy: bypass
+#    - domain: ["letsblockit.devbu.io"]
+#      resources: ["^/lists.*$"]
+#      policy: bypass
+#    - domain: ["navidrome.devbu.io"]
+#      resources: ["^/ping.*$", "^/rest.*$"]
+#      policy: bypass
+#    - domain: ["navidrome.devbu.io"]
+#      resources: ["^/metrics.*$"]
+#      policy: deny
+#    - domain: ["wizarr.devbu.io"]
+#      resources: ["^/join.*$", "^/j/.*$", "^/setup.*$", "^/static/.*$"]
+#      policy: bypass
 
 identity_providers:
   oidc:
@@ -47,7 +47,7 @@ identity_providers:
         authorization_policy: two_factor
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "email"]
-        redirect_uris: ["https://grafana.devbu.io/login/generic_oauth"]
+        redirect_uris: ["https://grafana.davidstewen.com/login/generic_oauth"]
         userinfo_signing_algorithm: none
       - id: immich
         description: Immich
@@ -56,7 +56,7 @@ identity_providers:
         authorization_policy: two_factor
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "email"]
-        redirect_uris: ["https://photos.devbu.io/auth/login", "app.immich:/"]
+        redirect_uris: ["https://photos.davidstewen.com/auth/login", "app.immich:/"]
         userinfo_signing_algorithm: none
       - id: miniflux
         description: Miniflux
@@ -65,5 +65,5 @@ identity_providers:
         authorization_policy: two_factor
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "email"]
-        redirect_uris: ["https://miniflux.devbu.io/oauth2/oidc/callback"]
+        redirect_uris: ["https://miniflux.davidstewen.com/oauth2/oidc/callback"]
         userinfo_signing_algorithm: none

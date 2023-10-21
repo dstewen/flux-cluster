@@ -43,9 +43,9 @@ spec:
       # TODO: Switch to release tag on next release
       tag: latest-alpine@sha256:80398ff35ab5e39d749afe25bc6dfccc08f2c5b17b622b496cfee561f25bdeab
     env:
-      TZ: America/New_York
+      TZ: Australia/Victoria
       LLDAP_HTTP_PORT: &port 80
-      LLDAP_HTTP_URL: https://lldap.devbu.io
+      LLDAP_HTTP_URL: https://lldap.davidstewen.com
       LLDAP_LDAP_PORT: &ldapPort 389
       LLDAP_LDAP_BASE_DN: dc=home,dc=arpa
     envFrom: *envFrom
@@ -62,9 +62,9 @@ spec:
         enabled: true
         ingressClassName: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.devbu.io
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
-          - host: &host "{{ .Release.Name }}.devbu.io"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
