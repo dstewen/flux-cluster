@@ -74,7 +74,7 @@ spec:
 #              endpoint: "${SYNOLOGY_NAS}:9000"
               bucketnames: loki-k3s-vms-flux
               access_key_id: "loki-k3s-vms-flux-user"
-              secret_access_key: "Turtle77"
+              secret_access_key: "password"
           ring:
             kvstore:
               store: memberlist
