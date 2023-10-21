@@ -84,6 +84,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/kubernetes
+          - name: loki
+            orgId: 1
+            folder: Loki
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/loki
           - name: nginx
             orgId: 1
             folder: Nginx
@@ -268,14 +276,7 @@ spec:
         kubernetes-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           datasource: Prometheus
-      nginx:
-        nginx:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
-          datasource: Prometheus
-        nginx-request-handling-performance:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
-          datasource: Prometheus
-      testing:
+      loki:
         logs-app:
           gnetId: 13639 # https://grafana.com/grafana/dashboards/13639-logs-app/?tab=revisions
           revision: 2
@@ -285,6 +286,32 @@ spec:
           revision: 2
           datasource:
             - { type: loki, uid: loki }
+        loki-stack-monitoring:
+          gnetId: 14055 # https://grafana.com/grafana/dashboards/14055-loki-stack-monitoring-promtail-loki/?tab=revisions
+          revision: 5
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_LOKI, value: Loki }
+        promtail26x:
+          gnetId: 16708 # https://grafana.com/grafana/dashboards/16708-promtail-2-6-x/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        loki-and-promtail:
+          gnetId: 10880 # https://grafana.com/grafana/dashboards/10880-loki-promtail/?tab=revisions
+          revision: 1
+          datasource: Prometheus
+        loki-namespacelogs:
+          gnetId: 16227 # https://grafana.com/grafana/dashboards/16227-loki-namespacelogs/?tab=revisions
+          revision: 2
+          datasource: Prometheus
+      nginx:
+        nginx:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+          datasource: Prometheus
+        nginx-request-handling-performance:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+          datasource: Prometheus
+      testing:
         node-exporter-full-2:
           gnetId: 12486 # https://grafana.com/grafana/dashboards/12486-node-exporter-full/?tab=revisions
           revision: 2
@@ -304,28 +331,6 @@ spec:
         speedtest-exporter-dashboard:
           gnetId: 13665 # https://grafana.com/grafana/dashboards/13665-speedtest-exporter-dashboard/?tab=revisions
           revision: 4
-          datasource: Prometheus
-        loki-stack-monitoring:
-          gnetId: 14055 # https://grafana.com/grafana/dashboards/14055-loki-stack-monitoring-promtail-loki/?tab=revisions
-          revision: 5
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-            - { name: DS_LOKI, value: Loki }
-        promtail26x:
-          gnetId: 16708 # https://grafana.com/grafana/dashboards/16708-promtail-2-6-x/?tab=revisions
-          revision: 1
-          datasource: Prometheus
-        speedtest-exporter-dashboard-2:
-          gnetId: 13665 # https://grafana.com/grafana/dashboards/13665-speedtest-exporter-dashboard/?tab=revisions
-          revision: 4
-          datasource: Prometheus
-        loki-and-promtail:
-          gnetId: 10880 # https://grafana.com/grafana/dashboards/10880-loki-promtail/?tab=revisions
-          revision: 1
-          datasource: Prometheus
-        loki-namespacelogs:
-          gnetId: 16227 # https://grafana.com/grafana/dashboards/16227-loki-namespacelogs/?tab=revisions
-          revision: 2
           datasource: Prometheus
       trivy:
         trivy-image-vulnerability-overview:
