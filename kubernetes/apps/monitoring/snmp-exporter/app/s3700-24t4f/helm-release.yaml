@@ -33,6 +33,7 @@ spec:
         defaultMode: 420
     serviceMonitor:
       enabled: true
+      namespace: monitoring
       params:
         - name: s3700-24t4f
           target: 192.168.10.3
@@ -41,9 +42,9 @@ spec:
       scrapeTimeout: 30s
 #      scrapeInterval: 60s
       relabelings:
-        - source_labels: [__address__]
-          target_label: __param_target
-        - source_labels: [__param_target]
-          target_label: instance
-        - target_label: __address__
-          replacement: s3700-24t4f-snmp-exporter:9116
+#        - source_labels: [__address__]
+#          target_label: __param_target
+        - sourceLabels: [__param_target]
+          targetLabel: instance
+#        - target_label: __address__
+#          replacement: s3700-24t4f-snmp-exporter:9116
