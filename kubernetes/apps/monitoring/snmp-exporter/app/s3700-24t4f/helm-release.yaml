@@ -35,7 +35,7 @@ spec:
       enabled: true
       namespace: monitoring
       params:
-        - name: s3700-24t4f
+        - name: s3700-24t4f-0
           target: 192.168.10.3
           module:
             - if_mib
