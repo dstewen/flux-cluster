@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app s3700-24t4f-snmp-exporter
+  name: &app snmp-exporter-s3700-24t4f
   namespace: monitoring
 spec:
   interval: 5m
@@ -19,16 +19,16 @@ spec:
   install:
     createNamespace: true
   values:
-    fullnameOverride: s3700-24t4f-snmp-exporter
+    fullnameOverride: snmp-exporter-s3700-24t4f
     image:
       repository: quay.io/prometheus/snmp-exporter
     extraArgs:
       - "--config.file=/config/snmp.yaml"
     extraConfigmapMounts:
-      - name: s3700-24t4f-snmp-exporter
+      - name: snmp-exporter-s3700-24t4f
         mountPath: /config/snmp.yaml
         subPath: snmp.yaml
-        configMap: s3700-24t4f-snmp-exporter
+        configMap: snmp-exporter-s3700-24t4f
         readOnly: true
         defaultMode: 420
     serviceMonitor:
