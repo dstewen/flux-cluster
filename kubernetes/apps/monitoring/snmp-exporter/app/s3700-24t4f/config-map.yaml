@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: s3400-48t6sp-snmp-exporter
+  name: snmp-exporter-s3700-24t4f
   namespace: monitoring
 data:
   snmp.yaml: |
