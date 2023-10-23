@@ -5,3 +5,13 @@ namespace: monitoring
 resources:
   - config-map.yaml
   - helm-release.yaml
+#configMapGenerator:
+#  - name: dell-idrac-dashboard
+#    files:
+#      - dell-idrac-dashboard.json=./dashboard.json
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+#  labels:
+#    grafana_dashboard: "true"

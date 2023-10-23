@@ -4,3 +4,13 @@ kind: Kustomization
 resources:
   - config-map.yaml
   - helm-release.yaml
+#configMapGenerator:
+#  - name: apc-ups-dashboard
+#    files:
+#      - apc-ups-dashboard.json=./dashboard.json
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+#  labels:
+#    grafana_dashboard: "true"
