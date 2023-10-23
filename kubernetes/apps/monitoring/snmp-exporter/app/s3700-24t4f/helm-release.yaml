@@ -39,6 +39,7 @@ spec:
           target: 192.168.10.3
           module:
             - if_mib
+      path: /snmp
       scrapeTimeout: 30s
 #      scrapeInterval: 60s
       relabelings:
