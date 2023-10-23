@@ -36,7 +36,7 @@ spec:
       namespace: monitoring
       params:
         - name: s3700-24t4f-0
-          target: 192.168.10.3
+          target: 192.168.10.2
           module:
             - if_mib
       path: /snmp
