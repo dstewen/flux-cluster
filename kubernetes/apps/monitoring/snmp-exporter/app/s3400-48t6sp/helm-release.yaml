@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: s3400-48t6sp-snmp-exporter
+  name: &app s3400-48t6sp-snmp-exporter
   namespace: monitoring
 spec:
   interval: 5m
