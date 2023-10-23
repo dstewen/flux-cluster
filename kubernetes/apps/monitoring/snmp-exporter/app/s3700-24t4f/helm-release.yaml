@@ -38,7 +38,7 @@ spec:
         - name: s3700-24t4f-0
           target: 192.168.10.2
           module:
-            - if_mib
+            - cisco_custom
       path: /snmp
       scrapeTimeout: 30s
 #      scrapeInterval: 60s
