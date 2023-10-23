@@ -19,16 +19,16 @@ spec:
   install:
     createNamespace: true
   values:
-    fullnameOverride: snmp-exporter-s3700-24t4f
+    fullnameOverride: *app
     image:
       repository: quay.io/prometheus/snmp-exporter
     extraArgs:
       - "--config.file=/config/snmp.yaml"
     extraConfigmapMounts:
-      - name: snmp-exporter-s3700-24t4f
+      - name: *app
         mountPath: /config/snmp.yaml
         subPath: snmp.yaml
-        configMap: snmp-exporter-s3700-24t4f
+        configMap: *app
         readOnly: true
         defaultMode: 420
     serviceMonitor:
