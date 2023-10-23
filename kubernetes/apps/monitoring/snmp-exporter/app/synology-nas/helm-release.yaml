@@ -45,7 +45,7 @@ spec:
       relabelings:
 #        - source_labels: [__address__]
 #          target_label: __param_target
-        - source_labels: [__param_target]
-          target_label: instance
+        - sourcelabels: [__param_target]
+          targetlabel: instance
 #        - target_label: __address__
 #          replacement: synology-nas-snmp-exporter:9116
