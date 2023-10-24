@@ -6,8 +6,8 @@ namespace: monitoring
 resources:
 #  - ./nas
 #  - ./pdu
-#  - ./s3400-48t6sp
+  - ./s3400-48t6sp
   - ./s3700-24t4f
   - ./synology-nas
-#  - ./T1500G-10MPS
+#  - ./t1500g-10mps
 #  - ./ups
