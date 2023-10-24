@@ -38,7 +38,7 @@ spec:
         - name: s3400-48t6sp-0
           target: 192.168.10.3
           module:
-            - if_mib
+            - cisco_custom
       path: /snmp
       scrapeTimeout: 30s
 #      scrapeInterval: 60s
