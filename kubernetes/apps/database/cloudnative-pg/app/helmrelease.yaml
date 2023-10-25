@@ -37,4 +37,4 @@ spec:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
     nodeSelector:
       kubernetes.io/arch: arm64
-      app: databases
+#      app: databases
