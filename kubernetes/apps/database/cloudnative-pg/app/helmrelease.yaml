@@ -36,4 +36,5 @@ spec:
       data:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
     nodeSelector:
-      node-role.kubernetes.io/worker: worker
+      kubernetes.io/arch: arm64
+      app: databases
