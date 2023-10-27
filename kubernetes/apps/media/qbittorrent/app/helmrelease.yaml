@@ -106,7 +106,7 @@ spec:
         defaultMode: 0775
         readOnly: true
     nodeSelector:
-      node-role.kubernetes.io/worker: "true"
+      node-role.kubernetes.io/worker: worker
 #    affinity:
 #      podAntiAffinity:
 #        requiredDuringSchedulingIgnoredDuringExecution:
