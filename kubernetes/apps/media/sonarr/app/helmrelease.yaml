@@ -121,4 +121,4 @@ spec:
       limits:
         memory: 2000Mi
     nodeSelector:
-      node-role.kubernetes.io/worker: "true"
+      node-role.kubernetes.io/worker: worker

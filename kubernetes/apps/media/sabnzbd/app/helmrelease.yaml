@@ -107,7 +107,7 @@ spec:
         enabled: true
         type: emptyDir
     nodeSelector:
-      node-role.kubernetes.io/worker: "true"
+      node-role.kubernetes.io/worker: worker
 #    affinity:
 #      podAntiAffinity:
 #        requiredDuringSchedulingIgnoredDuringExecution:
