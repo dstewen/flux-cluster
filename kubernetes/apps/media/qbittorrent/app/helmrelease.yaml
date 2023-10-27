@@ -53,7 +53,7 @@ spec:
         enabled: true
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.42.202
+          io.cilium/lb-ipam-ips: 192.168.10.223
         ports:
           bittorrent:
             enabled: true
@@ -66,7 +66,7 @@ spec:
         enabled: true
         ingressClassName: internal
         hosts:
-          - host: &host qb.devbu.io
+          - host: &host qb.davidstewen.com
             paths:
               - path: /
                 pathType: Prefix
@@ -91,8 +91,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: expanse.turbo.ac
-        path: /eros/Media
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/plex/media
         mountPath: /media
       incomplete:
         enabled: true

@@ -76,7 +76,7 @@ spec:
         enabled: true
         ingressClassName: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.devbu.io"
+          - host: &host "{{ .Release.Name }}.davidstewen.com"
             paths:
               - path: /
                 pathType: Prefix
@@ -100,8 +100,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: expanse.turbo.ac
-        path: /eros/Media
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/plex/media
         mountPath: /media
       incomplete:
         enabled: true
