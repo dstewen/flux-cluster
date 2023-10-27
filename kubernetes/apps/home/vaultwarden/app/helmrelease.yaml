@@ -107,3 +107,6 @@ spec:
         memory: 100Mi
       limits:
         memory: 2Gi
+    nodeSelector:
+      kubernetes.io/arch: arm64
+      node-role.kubernetes.io/worker: worker
