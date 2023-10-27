@@ -46,12 +46,12 @@ spec:
       repository: ghcr.io/onedr0p/radarr-develop
       tag: 5.0.3.8127@sha256:f5ef22e9de96c1fafe915e09cc17caaa6344a92bcd8dfca1af798ee849a23abb
     env:
-      TZ: America/New_York
+      TZ: Australia/Victoria
       PUSHOVER_DEBUG: "false"
-      PUSHOVER_APP_URL: &host "{{ .Release.Name }}.devbu.io"
+      PUSHOVER_APP_URL: &host "{{ .Release.Name }}.davidstewen.com"
       RADARR__INSTANCE_NAME: Radarr
       RADARR__PORT: &port 80
-      RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.devbu.io"
+      RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.davidstewen.com"
       RADARR__LOG_LEVEL: info
       RADARR__THEME: dark
     envFrom: *envFrom
@@ -103,8 +103,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: expanse.turbo.ac
-        path: /eros/Media
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/plex/media
         mountPath: /media
       scripts:
         enabled: true

@@ -103,8 +103,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: expanse.turbo.ac
-        path: /eros/Media
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/plex/media
         mountPath: /media
       scripts:
         enabled: true

@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: media
 resources:
   - ./helmrelease.yaml
-  - ./volsync.yaml
-  - ./gatus.yaml
+#  - ./volsync.yaml
+#  - ./gatus.yaml
 configMapGenerator:
   - name: qbittorrent-scripts
     files:
