@@ -35,6 +35,15 @@ spec:
     config:
       data:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
-    nodeSelector:
-      kubernetes.io/arch: arm64
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+              - blade4
+              - blade5
+              - blade6
 #      app: databases
