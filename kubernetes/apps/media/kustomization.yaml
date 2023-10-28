@@ -13,7 +13,7 @@ resources:
 #  - plex-meta-manager/ks.yaml
 #  - plexautolanguages/ks.yaml
 #  - prowlarr/ks.yaml
-#  - ./qbittorrent/ks.yaml
+  - ./qbittorrent/ks.yaml
 #  - ./radarr/ks.yaml
 #  - readarr/ks.yaml
 #  - readarr-audiobooks/ks.yaml
