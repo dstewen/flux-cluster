@@ -61,7 +61,7 @@ spec:
       main:
         enabled: true
         annotations:
-          hajimari.io/enable: true
+          hajimari.io/enable: "true"
           hajimari.io/icon: mdi:account-multiple
           hajimari.io/info: "LLDAP instance for home.arpa"
         ingressClassName: internal
