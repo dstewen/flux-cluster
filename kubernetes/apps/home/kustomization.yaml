@@ -10,5 +10,5 @@ resources:
   - ./smtp-relay/ks.yaml
 #  - ./unifi/ks.yaml
 #  - ./unifi-backup/ks.yaml
-  - ./vaultwarden/ks.yaml
+#  - ./vaultwarden/ks.yaml
 #  - ./zigbee2mqtt/ks.yaml
