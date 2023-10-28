@@ -37,17 +37,17 @@ spec:
     service:
       type: LoadBalancer
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: emqx.devbu.io
-        io.cilium/lb-ipam-ips: 192.168.42.204
+        external-dns.alpha.kubernetes.io/hostname: emqx.davidstewen.com
+        io.cilium/lb-ipam-ips: 192.168.10.226
       externalTrafficPolicy: Cluster
     ingress:
       dashboard:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: internal
         path: /
         pathType: Prefix
         hosts:
-          - &host emqx.devbu.io
+          - &host emqx.davidstewen.com
         tls:
           - hosts:
               - *host
