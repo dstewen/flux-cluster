@@ -42,7 +42,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
-        loadBalancerIP: ${CLUSTER_LB_UNIFI}
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.10.227"
         ports:
           http:
             port: 8443
@@ -81,7 +82,9 @@ spec:
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          hajimari.io/enable: true
           hajimari.io/icon: mdi:lan
+          hajimari.io/info: "Unifi Controller"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

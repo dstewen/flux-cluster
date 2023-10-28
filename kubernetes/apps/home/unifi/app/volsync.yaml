@@ -4,7 +4,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: unifi-restic
-  namespace: default
+  namespace: home
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -28,7 +28,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: unifi
-  namespace: default
+  namespace: home
 spec:
   sourcePVC: unifi-config
   trigger:
