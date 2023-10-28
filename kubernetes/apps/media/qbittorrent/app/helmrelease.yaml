@@ -65,6 +65,9 @@ spec:
       main:
         enabled: true
         ingressClassName: internal
+        annotations:
+          hajimari.io/enable: true
+          hajimari.io/icon: mdi:download
         hosts:
           - host: &host qb.davidstewen.com
             paths:
