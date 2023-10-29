@@ -82,7 +82,7 @@ spec:
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          hajimari.io/enable: true
+          hajimari.io/enable: "true"
           hajimari.io/icon: mdi:lan
           hajimari.io/info: "Unifi Controller"
         hosts:
