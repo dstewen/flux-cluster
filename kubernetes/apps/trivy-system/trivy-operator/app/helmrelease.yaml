@@ -39,3 +39,6 @@ spec:
       ignoreUnfixed: true
     serviceMonitor:
       enabled: true
+    trivyOperator:
+      scanJobNodeSelector:
+        nodeType: worker
