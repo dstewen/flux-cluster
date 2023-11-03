@@ -101,5 +101,5 @@ spec:
       requests:
         memory: 2Gi
         cpu: 50m
-#    nodeSelector:
-#      node-role.kubernetes.io/worker: worker
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
