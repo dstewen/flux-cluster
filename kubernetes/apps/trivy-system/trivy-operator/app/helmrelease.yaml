@@ -41,4 +41,4 @@ spec:
       enabled: true
     trivyOperator:
       scanJobNodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        node-role.kubernetes.io/worker: worker
