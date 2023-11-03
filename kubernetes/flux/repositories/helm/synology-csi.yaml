@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 2h
-  url: https://dcardellino.github.io/helm-charts/
+  url: https://christian-schlichtherle.github.io/synology-csi-chart
