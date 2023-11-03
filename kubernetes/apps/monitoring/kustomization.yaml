@@ -7,10 +7,10 @@ resources:
   - ./grafana/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./kubernetes-dashboard/ks.yaml
-#  - ./loki/ks.yaml
+  - ./loki/ks.yaml
   - ./pihole-exporter/ks.yaml
   - ./prometheus-nut-exporter/ks.yaml
-#  - ./promtail/ks.yaml
+  - ./promtail/ks.yaml
 #  - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/speedtest-exporter.yaml
