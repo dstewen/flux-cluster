@@ -5,6 +5,6 @@ metadata:
   name: robusta-charts
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 2h
   url: https://robusta-charts.storage.googleapis.com
   timeout: 3m

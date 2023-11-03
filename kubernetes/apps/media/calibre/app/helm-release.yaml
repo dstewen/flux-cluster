@@ -5,7 +5,7 @@ metadata:
   name: calibre
   namespace: media
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: app-template

@@ -5,7 +5,7 @@ metadata:
   name: &app snmp-exporter-s3400-48t6sp
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts

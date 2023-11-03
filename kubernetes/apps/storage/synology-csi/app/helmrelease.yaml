@@ -5,7 +5,7 @@ metadata:
   name: synology-csi
   namespace: storage
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: synology-csi
