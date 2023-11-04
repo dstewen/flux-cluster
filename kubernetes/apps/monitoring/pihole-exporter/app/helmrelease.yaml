@@ -43,3 +43,5 @@ spec:
             enabled: true
             protocol: TCP
             port: 9617
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker

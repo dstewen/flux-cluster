@@ -52,3 +52,5 @@ spec:
       impersonationResourceNames: ["admin"]
     podAnnotations:
       secret.reloader.stakater.com/reload: cluster-user-auth
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker

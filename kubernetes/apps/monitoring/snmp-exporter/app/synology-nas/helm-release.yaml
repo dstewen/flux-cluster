@@ -49,3 +49,5 @@ spec:
           targetLabel: instance
 #        - target_label: __address__
 #          replacement: synology-nas-snmp-exporter:9116
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
