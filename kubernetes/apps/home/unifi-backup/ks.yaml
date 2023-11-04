@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-workloads-unifi-backup
+  name: cluster-apps-unifi-backup
   namespace: flux-system
 spec:
-  path: ./k8s/cluster-0/workloads/home/unifi-backup/app
+  path: ./kubernetes/apps/home/unifi-backup/app
   prune: true
   dependsOn:
-    - name: cluster-workloads-external-secrets-stores
+    - name: cluster-apps-external-secrets-stores
   sourceRef:
     kind: GitRepository
     name: flux-system

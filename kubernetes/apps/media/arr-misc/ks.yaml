@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-workloads-arr-misc
+  name: cluster-apps-arr-misc
   namespace: flux-system
 spec:
-  path: ./k8s/cluster-0/workloads/media/arr-misc/app
+  path: ./kubernetes/apps/media/arr-misc/app
   prune: true
   sourceRef:
     kind: GitRepository
