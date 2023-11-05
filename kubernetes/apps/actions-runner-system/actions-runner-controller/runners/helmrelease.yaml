@@ -52,3 +52,5 @@ spec:
 #      name: actions-runner-controller-auth-secret
 #      valuesKey: github_app_private_key
 #      targetPath: githubConfigSecret.github_app_private_key
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
