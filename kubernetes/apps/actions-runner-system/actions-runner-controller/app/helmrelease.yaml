@@ -30,5 +30,3 @@ spec:
     keepHistory: false
 #  values:
 #    fullnameOverride: gha-runner-scale-set-controller
-  nodeSelector:
-    node-role.kubernetes.io/worker: worker
