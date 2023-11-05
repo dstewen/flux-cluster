@@ -104,3 +104,5 @@ spec:
       requests:
         cpu: 100m
         memory: 128M
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
