@@ -92,3 +92,5 @@ spec:
         memory: 100Mi
       limits:
         memory: 500Mi
+    nodeSelector:
+      node-role.kubernetes.io/worker: worker
