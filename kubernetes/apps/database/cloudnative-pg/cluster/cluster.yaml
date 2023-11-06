@@ -61,3 +61,6 @@ spec:
 #          secretAccessKey:
 #            name: cloudnative-pg-secret
 #            key: aws-secret-access-key
+  affinity:
+    nodeSelector:
+      beta.kubernetes.io/arch: arm64
