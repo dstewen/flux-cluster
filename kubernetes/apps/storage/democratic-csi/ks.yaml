@@ -5,8 +5,8 @@ metadata:
   name: cluster-apps-democratic-csi
   namespace: flux-system
 spec:
-#  dependsOn:
-#    - name: cluster-apps-metallb-config
+  dependsOn:
+    - name: cluster-apps-snapshot-controller
   path: ./kubernetes/apps/storage/democratic-csi/app
   prune: true
   sourceRef:
