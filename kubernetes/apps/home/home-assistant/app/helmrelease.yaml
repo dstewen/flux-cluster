@@ -25,11 +25,13 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: democratic-csi
-      namespace: storage
-    - name: nginx-internal
-      namespace: networking
+#  dependsOn:
+#    - name: democratic-csi
+#      namespace: storage
+#    - name: rook-ceph-cluster
+#      namespace: rook-ceph
+#    - name: volsync
+#      namespace: volsync
   values:
     initContainers:
       01-init-db:
