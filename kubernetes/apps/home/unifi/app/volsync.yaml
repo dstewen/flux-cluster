@@ -38,8 +38,9 @@ spec:
     pruneIntervalDays: 7
     repository: unifi-restic-secret
     cacheCapacity: 2Gi
+    cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
-    storageClassName: rook-ceph-block
+    storageClassName: ceph-block
     moverSecurityContext:
       runAsUser: 999
       runAsGroup: 999
