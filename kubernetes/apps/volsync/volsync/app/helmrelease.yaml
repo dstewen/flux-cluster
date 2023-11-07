@@ -35,10 +35,10 @@ spec:
       disableAuth: true
     nodeSelector:
 #      kubernetes.io/role: worker
-      kubernetes.io/arch: arm64
-    image:
-      repository: zimbres/volsync
-      tag: 0.7.1
+      kubernetes.io/arch: amd64
+#    image:
+#      repository: zimbres/volsync
+#      tag: 0.7.1
   postRenderers:
     - kustomize:
         patchesStrategicMerge:
