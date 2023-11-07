@@ -110,4 +110,4 @@ spec:
         memory: 2Gi
     nodeSelector:
       kubernetes.io/arch: arm64
-      node-role.kubernetes.io/worker: worker
+#      node-role.kubernetes.io/worker: worker
