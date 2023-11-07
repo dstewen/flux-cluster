@@ -85,7 +85,7 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
     volumeClaimTemplates:
-      - name: home-assistant-config
+      - name: config
         mountPath: /config
         accessMode: ReadWriteOnce
         size: 5Gi
