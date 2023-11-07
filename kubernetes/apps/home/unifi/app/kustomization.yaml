@@ -5,5 +5,5 @@ kind: Kustomization
 namespace: home
 resources:
   - ./helmrelease.yaml
-  - ./volsync.yaml
+#  - ./volsync.yaml
   - ./volume.yaml
