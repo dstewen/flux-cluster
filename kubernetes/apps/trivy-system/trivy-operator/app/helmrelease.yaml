@@ -33,7 +33,8 @@ spec:
     operator:
       replicas: 3
       scanJobsConcurrentLimit: 3
-      scanJobTimeout: 10m
+      scanJobTimeout: 15m
+      metricsVulnIdEnabled: true
       vulnerabilityScannerScanOnlyCurrentRevisions: true
       configAuditScannerScanOnlyCurrentRevisions: true
     trivy:
