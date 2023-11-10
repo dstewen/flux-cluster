@@ -108,6 +108,21 @@ spec:
         memory: 100Mi
       limits:
         memory: 2Gi
-    nodeSelector:
-      kubernetes.io/arch: arm64
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: knode-role.kubernetes.io/worker
+              operator: In
+              values:
+              - worker
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+              - arm64
 #      node-role.kubernetes.io/worker: worker
