@@ -113,7 +113,7 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: knode-role.kubernetes.io/worker
+            - key: node-role.kubernetes.io/worker
               operator: In
               values:
               - worker
