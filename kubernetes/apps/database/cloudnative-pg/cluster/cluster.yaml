@@ -62,5 +62,19 @@ spec:
 #            name: cloudnative-pg-secret
 #            key: aws-secret-access-key
   affinity:
-    nodeSelector:
-      beta.kubernetes.io/arch: arm64
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/worker
+            operator: In
+            values:
+            - worker
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: kubernetes.io/arch
+            operator: In
+            values:
+            - arm64
