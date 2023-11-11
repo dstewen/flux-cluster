@@ -40,7 +40,7 @@ spec:
       image: registry.k8s.io/sig-storage/csi-provisioner:v3.6.1
     # https://kubernetes-csi.github.io/docs/external-resizer.html
     externalResizer:
-      image: registry.k8s.io/sig-storage/csi-resizer:v1.9.1
+      image: registry.k8s.io/sig-storage/csi-resizer:v1.9.2
     # https://kubernetes-csi.github.io/docs/external-snapshotter.html
     externalSnapshotter:
       image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.1
