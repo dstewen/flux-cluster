@@ -32,7 +32,7 @@ spec:
       name: "org.democratic-csi.iscsi-synology"
     driver:
       existingConfigSecret: democratic-csi-secret
-      image: docker.io/democraticcsi/democratic-csi:v1.8.3
+      image: docker.io/democraticcsi/democratic-csi:v1.8.4
       config:
         driver: synology-iscsi
     # https://kubernetes-csi.github.io/docs/external-provisioner.html
