@@ -7,5 +7,5 @@ resources:
   - ./helmrelease.yaml
   - ./dashboard
   - ./prometheusrule.yaml
-  - ./secret.sops.yaml
+#  - ./secret.sops.yaml
   - ./servicemonitor.yaml
