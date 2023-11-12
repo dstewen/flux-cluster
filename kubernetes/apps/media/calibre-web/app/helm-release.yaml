@@ -34,10 +34,17 @@ spec:
     env:
       TZ: "${TIMEZONE}"
 
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: ceph-block
+
     persistence:
-      config:
-        enabled: true
-        existingClaim: calibre-web-config-0
+#      config:
+#        enabled: true
+#        existingClaim: calibre-web-config-0
       media:
         enabled: true
         type: nfs
