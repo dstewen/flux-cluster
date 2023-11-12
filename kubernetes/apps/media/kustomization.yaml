@@ -8,7 +8,7 @@ resources:
 #  - ./arr-misc/ks.yaml
 #  - ./bazarr/ks.yaml
 #  - ./calibre/ks.yaml
-#  - ./calibre-web/ks.yaml
+  - ./calibre-web/ks.yaml
 #  - ./jellyfin/ks.yaml
 #  - ./plex/ks.yaml
 #  - ./plex-meta-manager/ks.yaml

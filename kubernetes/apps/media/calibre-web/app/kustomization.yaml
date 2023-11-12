@@ -4,8 +4,9 @@ kind: Kustomization
 resources:
   - pvc.yaml
   - helm-release.yaml
-  - volsync.yaml
-  - volsync-local.yaml
+  - pvc.yaml
+#  - volsync.yaml
+#  - volsync-local.yaml
 labels:
   - pairs:
       app.kubernetes.io/name: calibre-web
