@@ -124,13 +124,28 @@ spec:
         tls:
           - hosts:
               - *host
-      nodeSelector:
-        node-role.kubernetes.io/worker: worker
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
     read:
       replicas: 2
       persistence:
         storageClass: local-path
-        size: 5Gi
+        size: 10Gi
       extraVolumeMounts:
         - name: rules
           mountPath: /rules
@@ -143,14 +158,29 @@ spec:
       replicas: 2
       persistence:
         storageClass: local-path
-        size: 5Gi
-      nodeSelector:
-        node-role.kubernetes.io/worker: worker
+        size: 10Gi
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
     backend:
       replicas: 2
       persistence:
         storageClass: local-path
-        size: 5Gi
+        size: 10Gi
       extraVolumeMounts:
         - name: rules
           mountPath: /rules/fake
@@ -162,8 +192,23 @@ spec:
             name: loki-alerting-rules
         - name: scratch
           emptyDir: {}
-      nodeSelector:
-        node-role.kubernetes.io/worker: worker
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
     monitoring:
       dashboards:
         annotations:
