@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: snmp-generator
+  name: snmp-exporter
   namespace: monitoring
 spec:
   interval: 30m
@@ -16,29 +16,57 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
+    initContainers:
+      image: quay.io/prometheus/snmp-generator:v0.24.1
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+        - -c
+        - cp -f /opt/snmp.yml /etc/snmp_exporter
+      volumeMounts:
+      - name: config
+        mountPath: /etc/snmp_exporter
+
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+
     image:
-      repository: quay.io/prometheus/snmp-generator
-      tag: v0.24.1@sha256:f9847b7550f44865982f6fccef03cf96971cb60fc748780c5531f65a97330083
+      repository: quay.io/prometheus/snmp-exporter
+      # TODO: Switch to release tag on next release
+      tag: v0.24.1@sha256:c2a96acba22d11a02de5622b12780cf95895cb0f8969ddf7126f9ce42db0c59d
     env:
       TZ: Australia/Victoria
-    resources:
-      requests:
-        cpu: 15m
-        memory: 30M
-      limits:
-        memory: 60M
-
-    service:
-      main:
-        ports:
-          http:
-            enabled: false
-          metrics:
-            enabled: true
-            protocol: TCP
-            port: 9617
+#    resources:
+#      requests:
+#        cpu: 15m
+#        memory: 30M
+#      limits:
+#        memory: 60M
+    volumeMounts:
+      - name: config
+        mountPath: /etc/snmp_exporter
+#    service:
+#      main:
+#        ports:
+#          http:
+#            enabled: false
+#          metrics:
+#            enabled: true
+#            protocol: TCP
+#            port: 9617
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -55,4 +83,4 @@ spec:
             - key: kubernetes.io/arch
               operator: In
               values:
-              - amd64
+              - arm64
