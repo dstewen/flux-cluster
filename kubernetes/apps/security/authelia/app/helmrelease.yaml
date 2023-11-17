@@ -71,7 +71,7 @@ spec:
       AUTHELIA_NOTIFIER_SMTP_DISABLE_REQUIRE_TLS: "true"
       AUTHELIA_NOTIFIER_SMTP_HOST: smtp-relay.home.svc.cluster.local
       AUTHELIA_NOTIFIER_SMTP_PORT: 2525
-      AUTHELIA_NOTIFIER_SMTP_SENDER: Authelia <authelia@buhl.casa>
+      AUTHELIA_NOTIFIER_SMTP_SENDER: Authelia <dstewen@internode.on.net>
       AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
       AUTHELIA_SERVER_PORT: &port 80
       AUTHELIA_SESSION_DOMAIN: davidstewen.com
@@ -122,6 +122,9 @@ spec:
         enabled: true
         ingressClassName: internal
         annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: mdi:two-factor-authentication
+          hajimari.io/info: "Authelia SSO"
           external-dns.alpha.kubernetes.io/target: ingress.davidstewen.com
           nginx.ingress.kubernetes.io/configuration-snippet: |
             add_header Cache-Control "no-store";
