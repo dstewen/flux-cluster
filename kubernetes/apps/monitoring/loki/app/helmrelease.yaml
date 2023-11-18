@@ -60,7 +60,7 @@ spec:
                 period: 24h
         common:
           path_prefix: /var/loki
-          replication_factor: 2
+          replication_factor: 3
           storage:
 #            bucketNames:
 #              admin: loki-k3s-vms-flux
@@ -110,7 +110,7 @@ spec:
         analytics:
           reporting_enabled: false
     gateway:
-      replicas: 2
+      replicas: 3
       ingress:
         enabled: true
         ingressClassName: internal
@@ -142,7 +142,7 @@ spec:
                 values:
                 - arm64
     read:
-      replicas: 2
+      replicas: 3
       persistence:
         storageClass: local-path
         size: 10Gi
@@ -155,7 +155,7 @@ spec:
       nodeSelector:
         node-role.kubernetes.io/worker: worker
     write:
-      replicas: 2
+      replicas: 3
       persistence:
         storageClass: local-path
         size: 10Gi
@@ -177,7 +177,7 @@ spec:
                 values:
                 - arm64
     backend:
-      replicas: 2
+      replicas: 3
       persistence:
         storageClass: local-path
         size: 10Gi
