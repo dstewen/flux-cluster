@@ -1,32 +1,34 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: snapshot-validation-webhook
-  namespace: kube-system
+  name: snapshot-controller
 spec:
   interval: 30m
   chart:
     spec:
-      chart: snapshot-validation-webhook
-      version: 1.9.0
+      chart: snapshot-controller
+      version: 2.0.2
       sourceRef:
         kind: HelmRepository
         name: piraeus
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
-    crds: Skip
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: Skip
+    crds: CreateReplace
     remediation:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: snapshot-controller
+  values:
+    controller:
+      serviceMonitor:
+        create: true
+    webhook:
+      enabled: false
