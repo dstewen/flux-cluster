@@ -35,7 +35,7 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cnpg-backups/
+      destinationPath: s3://cnpg-backups-new/
       endpointURL: http://192.168.10.198:9000
       serverName: &currentCluster postgres-v4
       s3Credentials:
