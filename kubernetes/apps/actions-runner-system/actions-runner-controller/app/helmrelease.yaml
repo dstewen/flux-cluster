@@ -28,5 +28,8 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-#  values:
-#    fullnameOverride: gha-runner-scale-set-controller
+  values:
+    metrics:
+      controllerManagerAddr: ":8080"
+      listenerAddr: ":8080"
+      listenerEndpoint: "/metrics"
