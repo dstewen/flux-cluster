@@ -183,14 +183,14 @@ spec:
                 operator: In
                 values:
                 - arm64
-#          preferredDuringSchedulingIgnoredDuringExecution:
-#          - weight: 50
-#            preference:
-#              matchExpressions:
-#              - key: node-role.kubernetes.io/worker
-#                operator: In
-#                values:
-#                - worker
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
     backend:
       replicas: 3
       persistence:
