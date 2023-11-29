@@ -134,7 +134,7 @@ spec:
                 values:
                 - worker
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
+          - weight: 50
             preference:
               matchExpressions:
               - key: kubernetes.io/arch
@@ -169,7 +169,7 @@ spec:
                 values:
                 - worker
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
+          - weight: 50
             preference:
               matchExpressions:
               - key: kubernetes.io/arch
@@ -202,7 +202,7 @@ spec:
                 values:
                 - worker
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
+          - weight: 50
             preference:
               matchExpressions:
               - key: kubernetes.io/arch
