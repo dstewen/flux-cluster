@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: arc-controller-metrics
+spec:
+  staticConfigs:
+    - targets: ["actions-runner-controller.actions-runner-system.svc.cluster.local:8080"]
+  metricsPath: /metrics
