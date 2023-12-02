@@ -6,5 +6,5 @@ metadata:
   name: arc-controller-metrics
 spec:
   staticConfigs:
-    - targets: ["actions-runner-controller.actions-runner-system.svc.cluster.local:8080"]
+    - targets: ["actions-runner-controller-gha-rs-controller-74f95bbd7b-pmbqd.actions-runner-system.svc.cluster.local:8080"]
   metricsPath: /metrics
