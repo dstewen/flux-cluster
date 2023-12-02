@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -33,17 +33,69 @@ spec:
 #    - name: volsync
 #      namespace: volsync
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/onedr0p/plex-beta
-      tag: 1.32.7.7571-13cdc68dc@sha256:59d99221e5560d57ecb1e8550c330bb7dd5ccb77cd0ecab3832125a6608b3207
-    env:
-      TZ: Australia/Victoria
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
+            env:
+              TZ: Australia/Victoria
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /identity
+                    port: 32400
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+#                gpu.intel.com/i915: 1
+                cpu: 200m
+                memory: 2Gi
+              limits:
+#                gpu.intel.com/i915: 1
+                memory: 4Gi
+        pod:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/worker
+                    operator: In
+                    values:
+                    - worker
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                    - arm64
+#          nodeSelector:
+#            intel.feature.node.kubernetes.io/gpu: "true"
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups: [44, 105, 10000]
     service:
       main:
         type: LoadBalancer
-        externalTrafficPolicy: Local
         annotations:
           io.cilium/lb-ipam-ips: "192.168.10.224"
         ports:
@@ -52,82 +104,31 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
-          hajimari.io/enable: "false"
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#          nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-          nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
-#          nginx.ingress.kubernetes.io/configuration-snippet: |
-#            proxy_ssl_name plex-0;
-#            proxy_ssl_server_name on;
-#            location = / {
-#              if ($http_x_plex_device = ""){
-#                return 301 $scheme://$host/web/index.html;
-#              }
-#            }
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: plex-0
-                    port:
-                      number: 32400
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-#    affinity:
-#      nodeAffinity:
-#        requiredDuringSchedulingIgnoredDuringExecution:
-#          nodeSelectorTerms:
-#            - matchExpressions:
-#                - key: kubernetes.io/arch=amd64
-#                  operator: In
-#                  values:
-#                    - 'true'
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [44, 105, 10000]
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: ceph-block
     persistence:
-      media:
+      config:
         enabled: true
+        existingClaim: plex
+        storageClass: ceph-block
+      transcode:
+        type: emptyDir
+      media:
         type: nfs
         server: 192.168.10.15
         path: /volume2/piNFS01/flux-cluster/plex/media
-        mountPath: /media
-        readOnly: true
-      transcode:
-        enabled: true
-        type: emptyDir
-#    nodeSelector:
-#      intel.feature.node.kubernetes.io/gpu: "true"
-#    affinity:
-#      podAntiAffinity:
-#        requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#                - key: app.kubernetes.io/name
-#                  operator: In
-#                  values: ["frigate"]
-#            topologyKey: kubernetes.io/hostname
-    resources:
-      requests:
-#        gpu.intel.com/i915: 1
-        cpu: 100m
-        memory: 2000Mi
-      limits:
-#        gpu.intel.com/i915: 1
-        memory: 4000Mi
+        globalMounts:
+          - path: /media
+            readOnly: true
