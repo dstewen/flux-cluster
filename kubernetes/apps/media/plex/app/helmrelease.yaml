@@ -128,7 +128,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex
+        existingClaim: plex-config-0
         storageClass: ceph-block
       transcode:
         type: emptyDir
