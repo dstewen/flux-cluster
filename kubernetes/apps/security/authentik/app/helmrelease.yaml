@@ -1,0 +1,124 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app authentik
+  namespace: security
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: authentik
+      version: 2023.10.4
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    initContainers:
+      init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.9
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - secretRef:
+              name: authentik-secret
+    global:
+      storageClass: ceph-block
+    envValueFrom:
+      AUTHENTIK_SECRET_KEY:
+        secretKeyRef:
+          name: authentik-secret
+          key: AUTHENTIK_SECRET_KEY
+      AUTHENTIK_POSTGRESQL__HOST:
+        secretKeyRef:
+          name: authentik-secret
+          key: AUTHENTIK_POSTGRESQL__HOST
+      AUTHENTIK_POSTGRESQL__NAME:
+        secretKeyRef:
+          name: authentik-secret
+          key: AUTHENTIK_POSTGRESQL__NAME
+      AUTHENTIK_POSTGRESQL__USER:
+        secretKeyRef:
+          name: authentik-secret
+          key: AUTHENTIK_POSTGRESQL__USER
+      AUTHENTIK_POSTGRESQL__PASSWORD:
+        secretKeyRef:
+          name: authentik-secret
+          key: AUTHENTIK_POSTGRESQL__PASSWORD
+      AUTHENTIK_REDIS__URL:
+        secretKeyRef:
+          name: authentik-secret
+          key: AUTHENTIK_REDIS__URL
+    replicas: 2
+    annotations:
+      secret.reloader.stakater.com/reload: "authentik-secret"
+      configmap.reloader.stakater.com/reload: "authentik-branding"
+    authentik:
+      log_level: info
+      avatars: "gravatar,initials"
+      email:
+        host: smtp-relay.home.svc.cluster.local
+        port: 2525
+        from: "Access <dstewen@internode.on.net>"
+      error_reporting:
+        enable: false
+        send_pii: false
+      outposts:
+        docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
+      # https://github.com/goauthentik/authentik/pull/7118
+      # https://github.com/goauthentik/authentik/issues/1285
+      #redis:
+      #  host: "redis-headless.database.svc.cluster.local"
+    ingress:
+      enabled: true
+      ingressClassName: external
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        hajimari.io/enable: "true"
+        hajimari.io/icon: simple-icons:webauthn
+        hajimari.io/group: Security
+        hajimari.io/appName: Authentik
+      hosts:
+#        - host: &host id.ok8.sh
+        - host: &host "id.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+      tls:
+        - hosts:
+            - *host
+    postgresql:
+      enabled: false
+    prometheus:
+      rules:
+        create: true
+      serviceMonitor:
+        create: true
+    redis:
+      enabled: true
+    geoip:
+      enabled: false
+    autoscaling:
+      server:
+        enabled: true
+      worker:
+        enabled: true
+    volumes:
+      - configMap:
+          name: authentik-branding
+        name: branding
+    volumeMounts:
+      - mountPath: /media/branding
+        name: branding
