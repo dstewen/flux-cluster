@@ -84,7 +84,7 @@ spec:
                   - key: kubernetes.io/arch
                     operator: In
                     values:
-                    - arm64
+                    - amd64
 #          nodeSelector:
 #            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
