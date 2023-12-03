@@ -119,7 +119,7 @@ spec:
           nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
 #          nginx.ingress.kubernetes.io/ssl-passthrough: "true"
           nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_ssl_name plex-0;
+            proxy_ssl_name plex;
             proxy_ssl_server_name on;
             location = / {
               if ($http_x_plex_device = ""){
@@ -131,7 +131,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: plex-0
+                  name: plex
 #                  port: http
                   port: 32400
         tls:
