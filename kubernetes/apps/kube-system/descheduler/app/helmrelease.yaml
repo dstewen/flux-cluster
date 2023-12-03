@@ -77,11 +77,11 @@ spec:
           params:
             nodeResourceUtilizationThresholds:
               thresholds:
-                cpu: 35
-                memory: 35
+                cpu: 20
+                memory: 20
               targetThresholds:
-                cpu: 60
-                memory: 60
+                cpu: 50
+                memory: 50
     service:
       enabled: true
     serviceMonitor:
