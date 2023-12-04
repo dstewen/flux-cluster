@@ -17,7 +17,6 @@ spec:
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -31,31 +30,11 @@ spec:
       namespace: kube-system
   values:
     manageCRDs: true
+    image:
+      repository: &image ghcr.io/onedr0p/volsync
+      tag: &tag 0.8.0
+    restic:
+      repository: *image
+      tag: *tag
     metrics:
       disableAuth: true
-    nodeSelector:
-#      kubernetes.io/role: worker
-      kubernetes.io/arch: amd64
-#    image:
-#      repository: zimbres/volsync
-#      tag: 0.7.1
-  postRenderers:
-    - kustomize:
-        patchesStrategicMerge:
-          - apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: volsync
-            spec:
-              template:
-                spec:
-                  containers:
-                    - name: manager
-                      volumeMounts:
-                        - name: tz-config
-                          mountPath: /etc/localtime
-                  volumes:
-                    - name: tz-config
-                      hostPath:
-                        path: /usr/share/zoneinfo/Australia/Victoria
-                        type: File
