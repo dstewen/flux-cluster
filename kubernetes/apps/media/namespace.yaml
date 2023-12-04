@@ -4,6 +4,6 @@ kind: Namespace
 metadata:
   name: media
   annotations:
-    kustomize.toolkit.fluxcd.io/prune: disabled
-    linkerd.io/inject: enabled
     volsync.backube/privileged-movers: "true"
+  labels:
+    kustomize.toolkit.fluxcd.io/prune: disabled
