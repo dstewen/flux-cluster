@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: database
 resources:
   - pgadmin-secret.yaml
-  - helm-release.yaml
+  - helmrelease.yaml
 #  - volsync-config.yaml
 configMapGenerator:
   - name: servers-json
