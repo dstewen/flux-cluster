@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich-gatus-ep
+  namespace: default
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: immich
+        group: internal
+        interval: 1h
+        url: https://photos.chestr.dev
+        conditions:
+          - "[STATUS] == 200"
+          - "[BODY] != pat(*auth.chestr.dev*)"
+        alerts:
+          - type: pushover
+      - name: immich
+        group: guarded
+        interval: 1h
+        url: 1.1.1.1
+        dns:
+          query-name: photos.chestr.dev
+          query-type: A
+        conditions:
+          - "len([BODY]) == 0"
+        alerts:
+          - type: pushover

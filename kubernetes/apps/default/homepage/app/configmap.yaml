@@ -95,10 +95,10 @@ data:
             - icon: kubernetes-dashboard.png
               description: Helm Chart Search
               href: https://nanne.dev/k8s-at-home-search/
-        - home-cluster:
+        - flux-cluster:
             - icon: github.png
               description: Renovate Dashboard
-              href: https://github.com/mchestr/home-cluster/issues/1922
+              href: https://github.com/dstewen/flux-cluster/issues/93
   services.yaml: |
     - Infrastructure:
         - Cloudflared:
