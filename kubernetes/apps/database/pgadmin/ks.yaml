@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: home-kubernetes
   dependsOn:
-    - name: security-external-secrets-stores
+    - name: cluster-apps-external-secrets-stores
 #    - name: system-volsync
   prune: true
   wait: false
