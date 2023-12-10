@@ -39,7 +39,9 @@ spec:
       defaultEnable: true
       namespaceSelector:
         matchNames:
+          - database
           - default
+          - gameserver
           - home
           - media
           - monitoring
@@ -72,15 +74,15 @@ spec:
             - name: Grafana-DS
               url: https://grafana.davidstewen.com
               icon: simple-icons:grafana
-            - name: Grafana-Blades
-              url: https://192.168.10.151/
-              icon: simple-icons:grafana
             - name: Gitops
               url: https://gitops.davidstewen.com/
               icon: sawtooth-wave
             - name: Minio
               url: http://192.168.10.198:9001/
               icon: simple-icons:minio
+            - name: Home-Assistant
+              url: http://192.168.10.22:8123/
+              icon: simple-icons:Home-Assistant
     ingress:
       main:
         enabled: true
