@@ -82,7 +82,7 @@ spec:
               icon: simple-icons:minio
             - name: Home-Assistant
               url: http://192.168.10.22:8123/
-              icon: simple-icons:Home-Assistant
+              icon: simple-icons:homeassistant
     ingress:
       main:
         enabled: true
