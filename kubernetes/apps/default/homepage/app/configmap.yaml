@@ -115,20 +115,40 @@ data:
             icon: pfsense.png
         - S3400-48T6SP:
             href: http://192.168.10.3
-            icon: switch.png
+            icon: mdi-switch
         - S3700-24T4F:
             href: http://192.168.10.2
-            icon: switch.png
+            icon: mdi-switch
         - T1500G-10MPS:
             href: http://192.168.10.20
-            icon: switch.png
+            icon: mdi-switch
     - Monitoring:
-        - Status:
+        - Grafana-Status:
             href: https://grafana.davidstewen.com
             icon: grafana.png
             widget:
               type: grafana
               url: https://grafana.davidstewen.com
+        - Home-Assistant-Status:
+            href: http://192.168.10.22:8123
+            icon: si-homeassistant
+            widget:
+              type: homeassistant
+              url: http://192.168.10.22:8123
+              key {{HOMEPAGE_VAR_HASS_API_TOKEN}}
+        - Minio:
+            href: http://192.168.10.198:9001/
+            icon: si-minio
+        - PiHole:
+            href: http://192.168.10.195
+            icon: pihole.png
+            widget:
+              type: pihole
+              url: http://192.168.10.195
+              key {{HOMEPAGE_VAR_PIHOLE_API_TOKEN}}
+        - Rook-Ceph:
+            href: https://rook.davidstewen.com/
+            icon: si-ceph
     - Storage:
         - DSM918:
             href: http://192.168.10.15:5000/
