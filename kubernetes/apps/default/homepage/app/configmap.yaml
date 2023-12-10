@@ -129,6 +129,8 @@ data:
             widget:
               type: grafana
               url: https://grafana.davidstewen.com
+              username: {{HOMEPAGE_VAR_GRAFANA_USER}}
+              password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
         - Home-Assistant-Status:
             href: http://192.168.10.22:8123
             icon: si-homeassistant
