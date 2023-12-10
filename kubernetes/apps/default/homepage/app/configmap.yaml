@@ -135,7 +135,7 @@ data:
             icon: synology-dsm.png
             widget:
               type: diskstation
-              url: https://192.168.10.15:5001/
+              url: http://192.168.10.15:5000/
               username: {{HOMEPAGE_VAR_DSM_USER}}
               password: {{HOMEPAGE_VAR_DSM_PASSWORD}}
   widgets.yaml: |
