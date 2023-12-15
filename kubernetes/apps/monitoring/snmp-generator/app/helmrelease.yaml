@@ -28,7 +28,7 @@ spec:
     keepHistory: false
   values:
     initContainers:
-      image: quay.io/prometheus/snmp-generator:v0.24.1
+      image: quay.io/prometheus/snmp-generator:v0.25.0
       imagePullPolicy: IfNotPresent
       command:
         - sh
