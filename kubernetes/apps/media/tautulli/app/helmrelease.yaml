@@ -35,7 +35,7 @@ spec:
       type: statefulset
     image:
       repository: ghcr.io/onedr0p/tautulli
-      tag: 2.13.2@sha256:5015fecb1e8734e8d72604de8d5c252958988fcf0374a44cbbc41e40af723775
+      tag: 2.13.4@sha256:529f1be5e677b13fcef5e344afc7643df0c7bec6a3185a2777ece757dff70e2b
     env:
       TZ: Australia/Melbourne
     service:
