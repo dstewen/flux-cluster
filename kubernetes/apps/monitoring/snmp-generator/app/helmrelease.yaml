@@ -46,7 +46,7 @@ spec:
     image:
       repository: quay.io/prometheus/snmp-exporter
       # TODO: Switch to release tag on next release
-      tag: v0.24.1@sha256:c2a96acba22d11a02de5622b12780cf95895cb0f8969ddf7126f9ce42db0c59d
+      tag: v0.25.0@sha256:cf0768ea183aba8a91bc30e76edeed26790d32b23d37d1473337931ecd05cb8c
     env:
       TZ: Australia/Victoria
 #    resources:
