@@ -43,7 +43,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: "15.5"
+              tag: "16.1"
             envFrom:
               - secretRef:
                   name: immich-dbinit-secret
@@ -52,7 +52,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.88.2
+              tag: v1.90.2
             command: /bin/sh
             args:
               - ./start-server.sh
