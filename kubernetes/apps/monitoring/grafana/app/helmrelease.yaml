@@ -164,7 +164,7 @@ spec:
           datasource: Prometheus
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
-          gnetId: 17457 # https://grafana.com/grafana/dashboards/17457?tab=revisions
+          gnetId: 17457
           revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
@@ -173,7 +173,7 @@ spec:
           datasource: Prometheus
         external-dns:
           # renovate: depName="External-dns"
-          gnetId: 15038 # https://grafana.com/grafana/dashboards/15038?tab=revisions
+          gnetId: 15038
           revision: 1
           datasource: Prometheus
         cert-manager:
@@ -187,7 +187,7 @@ spec:
           datasource: Prometheus
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
-          gnetId: 1860 # https://grafana.com/grafana/dashboards/1860?tab=revisions
+          gnetId: 1860
           revision: 31
           datasource: Prometheus
         # Ref: https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/
@@ -206,7 +206,7 @@ spec:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-deletion.json
           datasource: Prometheus
         loki-kubernetes-logs:
-          gnetId: 15141 # https://grafana.com/grafana/dashboards/15141?tab=revisions
+          gnetId: 15141
           revision: 1
           datasource: Loki
         loki-logs:
@@ -243,17 +243,17 @@ spec:
       ceph:
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
-          gnetId: 2842 # https://grafana.com/grafana/dashboards/2842?tab=revisions
+          gnetId: 2842
           revision: 17
           datasource: Prometheus
         ceph-osd:
           # renovate: depName="Ceph - OSD (Single)"
-          gnetId: 5336 # https://grafana.com/grafana/dashboards/5336?tab=revisions
+          gnetId: 5336
           revision: 9
           datasource: Prometheus
         ceph-pools:
           # renovate: depName="Ceph - Pools"
-          gnetId: 5342 # https://grafana.com/grafana/dashboards/5342?tab=revisions
+          gnetId: 5342
           revision: 9
           datasource: Prometheus
       cilium:
@@ -309,30 +309,36 @@ spec:
           datasource: Prometheus
       loki:
         logs-app:
-          gnetId: 13639 # https://grafana.com/grafana/dashboards/13639-logs-app/?tab=revisions
+          # renovate: depName="Loki / Logs / App"
+          gnetId: 13639
           revision: 2
           datasource: Loki
         logging-dashboard-via-loki:
-          gnetId: 12611 # https://grafana.com/grafana/dashboards/12611-logging-dashboard-via-loki/?tab=revisions
+          # renovate: depName="Logging Dashboard via Loki"
+          gnetId: 12611
           revision: 2
           datasource:
             - { type: loki, uid: loki }
         loki-stack-monitoring:
-          gnetId: 14055 # https://grafana.com/grafana/dashboards/14055-loki-stack-monitoring-promtail-loki/?tab=revisions
+          # renovate: depName="Loki Stack Monitoring"
+          gnetId: 14055
           revision: 5
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
             - { name: DS_LOKI, value: Loki }
         promtail26x:
-          gnetId: 16708 # https://grafana.com/grafana/dashboards/16708-promtail-2-6-x/?tab=revisions
+          # renovate: depName="Promtail26x"
+          gnetId: 16708
           revision: 1
           datasource: Prometheus
         loki-and-promtail:
-          gnetId: 10880 # https://grafana.com/grafana/dashboards/10880-loki-promtail/?tab=revisions
+          # renovate: depName="Loki and Promtail"
+          gnetId: 10880
           revision: 1
           datasource: Prometheus
         loki-namespacelogs:
-          gnetId: 16227 # https://grafana.com/grafana/dashboards/16227-loki-namespacelogs/?tab=revisions
+          # renovate: depName="Loki Logs by Namespace"
+          gnetId: 16227
           revision: 2
           datasource: Prometheus
       nginx:
@@ -343,7 +349,8 @@ spec:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
         nginx-ingress-controller:
-          gnetId: 10187 # https://grafana.com/grafana/dashboards/10187-nginx/
+          # renovate: depName="Nginx Ingress Controller"
+          gnetId: 10187
           revision: 1
           datasource: Prometheus
       testing:
@@ -351,85 +358,100 @@ spec:
           url: https://github.com/actions/actions-runner-controller/commits/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
           datasource: Prometheus
         authentik:
-          gnetId: 14837 # https://grafana.com/grafana/dashboards/14837-authentik/?tab=revisions
+          # renovate: depName="Authentik"
+          gnetId: 14837
           revision: 2
           datasource: Prometheus
         node-exporter-full-2:
-          gnetId: 12486 # https://grafana.com/grafana/dashboards/12486-node-exporter-full/?tab=revisions
+          # renovate: depName="Node Exporter Full v2"
+          gnetId: 12486
           revision: 2
           datasource: Prometheus
         flux2:
-          gnetId: 16714 # https://grafana.com/grafana/dashboards/16714-flux2/?tab=revisions
+          # renovate: depName="Flux2"
+          gnetId: 16714
           revision: 1
           datasource: Prometheus
         snmp-stats:
-          gnetId: 11169 # https://grafana.com/grafana/dashboards/11169-snmp-stats/?tab=revisions
+          # renovate: depName="SNMP Stats ifmib"
+          gnetId: 11169
           revision: 1
           datasource: Prometheus
         k3s-cluster-monitoring:
-          gnetId: 15282 # https://grafana.com/grafana/dashboards/15282-k8s-rke-cluster-monitoring/?tab=revisions
+          # renovate: depName="k3s Cluster Monitoring"
+          gnetId: 15282
           revision: 1
           datasource: Prometheus
         kube-cluster-prometheus:
-          gnetId: 6417 # https://grafana.com/grafana/dashboards/6417-kubernetes-cluster-prometheus/?tab=revisions
+          # renovate: depName="Kube Cluster Prometheus"
+          gnetId: 6417
           revision: 1
           datasource: Prometheus
         kube-state-metrics-v2:
-          gnetId: 13332 # https://grafana.com/grafana/dashboards/13332-kube-state-metrics-v2/?tab=revisions
+          # renovate: depName="Kube State Metrics v2"
+          gnetId: 13332
           revision: 12
           datasource: Prometheus
         kube-storage-usage:
-          gnetId: 20066 # https://grafana.com/grafana/dashboards/20066-kubernetes-storage-usage/?tab=revisions
+          # renovate: depName="Kube Storage Usage"
+          gnetId: 20066
           revision: 1
           datasource: Prometheus
         kube-events-dashboard:
-          gnetId: 20018 # https://grafana.com/grafana/dashboards/20018-kubernetes-events-dashboard/?tab=revisions
+          # renovate: depName="Kube Events"
+          gnetId: 20018
           revision: 1
           datasource: Loki
         kubernetes-logs:
-          gnetId: 16976 # https://grafana.com/grafana/dashboards/16976-kubernetes-logs/?tab=revisions
+          # renovate: depName="Kubernetes Logs"
+          gnetId: 16976
           revision: 1
           datasource: Loki
         grafana-internals:
-          gnetId: 3590 # https://grafana.com/grafana/dashboards/3590-grafana-internals/?tab=revisions
+          # renovate: depName="Grafana Internals"
+          gnetId: 3590
           revision: 3
           datasource: Prometheus
         speedtest-exporter-dashboard:
-          gnetId: 13665 # https://grafana.com/grafana/dashboards/13665-speedtest-exporter-dashboard/?tab=revisions
+          # renovate: depName="Speedtest Exporter"
+          gnetId: 13665
           revision: 4
           datasource: Prometheus
       trivy:
         trivy-image-vulnerability-overview:
-          gnetId: 16742 # https://grafana.com/grafana/dashboards/16742-trivy-image-vulnerability-overview/?tab=revisions
+          # renovate: depName="Trivy Image Vulnerability"
+          gnetId: 16742
           revision: 1
           datasource: Prometheus
         trivy-operator-vulnerabilities:
-          gnetId: 16337 # https://grafana.com/grafana/dashboards/16337-trivy-operator-vulnerabilities/?tab=revisions
+          # renovate: depName="Trivy Operator Vulnerabilities"
+          gnetId: 16337
           revision: 9
           datasource: Prometheus
         trivy-operator-dashboard:
-          gnetId: 11314 # https://grafana.com/grafana/dashboards/17813-trivy-operator-dashboard/
+          # renovate: depName="Trivy Operator Dashboard"
+          gnetId: 11314
           revision: 2
           datasource: Prometheus
       unifi:
         unifi-insights:
           # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
-          gnetId: 11315 # https://grafana.com/grafana/dashboards/11315?tab=revisions
+          gnetId: 11315
           revision: 9
           datasource: Prometheus
         unifi-network-sites:
           # renovate: depName="UniFi-Poller: Network Sites - Prometheus"
-          gnetId: 11311 # https://grafana.com/grafana/dashboards/11311?tab=revisions
+          gnetId: 11311
           revision: 5
           datasource: Prometheus
         unifi-uap:
           # renovate: depName="UniFi-Poller: UAP Insights - Prometheus"
-          gnetId: 11314 # https://grafana.com/grafana/dashboards/11314?tab=revisions
+          gnetId: 11314
           revision: 10
           datasource: Prometheus
         unifi-usw:
           # renovate: depName="UniFi-Poller: USW Insights - Prometheus"
-          gnetId: 11312 # https://grafana.com/grafana/dashboards/11312?tab=revisions
+          gnetId: 11312
           revision: 9
           datasource: Prometheus
     sidecar:
