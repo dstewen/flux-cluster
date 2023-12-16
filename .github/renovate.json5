@@ -105,6 +105,11 @@
       "matchDatasources": ["docker"],
       "commitMessageTopic": "image {{depName}}"
     },
+    {
+      "matchDatasources": ["custom.grafana-dashboards"],
+      "commitMessageTopic": "dashboard {{depName}}",
+      "commitMessageExtra": "to revision {{newVersion}}"
+    },
     // commit messages
     {
       "matchDatasources": ["docker"],
@@ -197,6 +202,12 @@
       "semanticCommitType": "fix",
       "semanticCommitScope": "github-action"
     },
+    {
+      "matchDatasources": ["custom.grafana-dashboards"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "grafana-dashboard"
+    },
     // labels
     {
       "matchUpdateTypes": ["major"],
@@ -251,6 +262,18 @@
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Process Grafana dashboards",
+      "fileMatch": [
+        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        "depName=\"(?<depName>\\S+)\"\\n.*?gnetId: (?<packageName>\\d+)\\n.*?revision: (?<currentValue>\\d+)"
+      ],
+      "datasourceTemplate": "custom.grafana-dashboards",
+      "versioningTemplate": "regex:^(?<major>\\d+)$"
     }
   ]
 }
