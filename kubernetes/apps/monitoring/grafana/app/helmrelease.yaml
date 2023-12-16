@@ -431,7 +431,7 @@ spec:
         trivy-operator-dashboard:
           # renovate: depName="Trivy Operator Dashboard"
           gnetId: 11314
-          revision: 2
+          revision: 10
           datasource: Prometheus
       unifi:
         unifi-insights:
