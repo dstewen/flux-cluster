@@ -10,14 +10,13 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -27,30 +26,62 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      strategy: RollingUpdate
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/foxcpp/maddy
-      tag: 0.7.0
-    env:
-      DEBUG: "true"
-#      SMTP_DOMAIN: "${SECRET_DOMAIN}"
-      SMTP_DOMAIN: "internode.on.net"
-      SMTP_SERVER: "mail.internode.on.net"
-      SMTP_PORT: "465"
-    envFrom:
-      - secretRef:
-          name: smtp-relay-secret
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
+    controllers:
+      main:
+        replicas: 2
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/foxcpp/maddy
+              tag: 0.7.0
+            env:
+              DEBUG: "true"
+              SMTP_DOMAIN: "internode.on.net"
+              SMTP_SERVER: "mail.internode.on.net"
+              SMTP_PORT: 465
+            envFrom:
+              - secretRef:
+                  name: smtp-relay-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 10Mi
+              limits:
+                memory: 50Mi
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
     service:
       main:
         type: LoadBalancer
-#        loadBalancerIP: "${CLUSTER_LB_SMTP_RELAY}"
-#        loadBalancerIP: "192.168.10.225"
-        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.10.225"
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 2525
@@ -71,25 +102,13 @@ spec:
         enabled: true
         type: configMap
         name: smtp-relay-configmap
-        subPath: maddy.conf
-        mountPath: /data/maddy.conf
-        readOnly: true
+        globalMounts:
+          - path: /data/maddy.conf
+            subPath: maddy.conf
+            readOnly: true
       data:
         enabled: true
         type: emptyDir
         medium: Memory
         sizeLimit: 1Gi
         mountPath: /dev/shm
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: *app
-    resources:
-      requests:
-        cpu: 10m
-        memory: 10Mi
-      limits:
-        memory: 50Mi
