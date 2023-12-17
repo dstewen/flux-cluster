@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: netshoot
+  namespace: networking
 spec:
   interval: 30m
   chart:
@@ -43,12 +44,6 @@ spec:
                 operator: In
                 values:
                 - worker
-      annotations:
-        setGateway: "true"
-      securityContext:
-        capabilities:
-          add:
-            - NET_ADMIN
     controllers:
       main:
         containers:
@@ -60,6 +55,8 @@ spec:
             args:
               - "-c"
               - "sleep infinity"
+            annotations:
+              setGateway: "true"
             resources:
               requests:
                 cpu: 5m
