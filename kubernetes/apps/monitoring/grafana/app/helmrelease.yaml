@@ -32,16 +32,41 @@ spec:
     deploymentStrategy:
       type: Recreate
     admin:
-      existingSecret: grafana-admin-secret
+#      existingSecret: grafana-admin-secret
+      existingSecret: grafana-secret
+      passwordKey: adminPass
+      userKey: adminUser
     env:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_SERVER_ROOT_URL: "https://grafana.${SECRET_DOMAIN}"
+    envFromSecrets:
+      - name: grafana-secret
     grafana.ini:
       analytics:
         check_for_updates: false
         check_for_plugin_updates: false
         reporting_enabled: false
+      auth:
+        signout_redirect_url: https://id.${SECRET_DOMAIN}/application/o/grafana-provider/end-session/
+        oauth_auto_login: false
+        oauth_allow_insecure_email_lookup: true
+      auth.anonymous:
+        enabled: true
+        org_name: Main Org.
+        org_role: Viewer
+        hide_version: true
+      auth.generic_oauth:
+        name: authentik
+        enabled: true
+        client_id: # Set by env vars secret
+        client_secret: # Set by env vars secret
+        scopes: openid email profile
+        auth_url: https://id.${SECRET_DOMAIN}/application/o/authorize/
+        token_url: https://id.${SECRET_DOMAIN}/application/o/token/
+        api_url: https://id.${SECRET_DOMAIN}/application/o/userinfo/
+        # Optionally map user groups to Grafana roles
+        role_attribute_path: contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -482,6 +507,15 @@ spec:
       enabled: true
       ingressClassName: internal
       annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/icon: grafana.png
+        gethomepage.dev/name: Grafana
+        gethomepage.dev/group: Monitoring
+        gethomepage.dev/widget.type: grafana
+        gethomepage.dev/widget.url: http://grafana.monitoring
+        gethomepage.dev/widget.username: '{{`{{HOMEPAGE_VAR_GRAFANA_USERNAME}}`}}'
+        gethomepage.dev/widget.password: '{{`{{HOMEPAGE_VAR_GRAFANA_PASSWORD}}`}}'
+        external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hajimari.io/icon: simple-icons:grafana
       hosts:
         - &host "grafana.${SECRET_DOMAIN}"
