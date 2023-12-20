@@ -447,7 +447,8 @@ spec:
           # renovate: depName="Trivy Image Vulnerability"
           gnetId: 16742
           revision: 1
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         trivy-operator-vulnerabilities:
           # renovate: depName="Trivy Operator Vulnerabilities"
           gnetId: 16337
