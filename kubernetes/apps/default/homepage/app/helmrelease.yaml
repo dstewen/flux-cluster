@@ -22,6 +22,24 @@ spec:
     remediation:
       retries: 5
   values:
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
     controllers:
       main:
         replicas: 1
