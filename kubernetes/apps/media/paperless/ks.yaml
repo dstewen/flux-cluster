@@ -8,11 +8,11 @@ spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg-cluster
     - name: cluster-apps-external-secrets-stores
-  path: ./kubernetes/apps/default/paperless/app
+  path: ./kubernetes/apps/media/paperless/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-ops-kubernetes
+    name: home-kubernetes
   interval: 30m
   retryInterval: 1m
   timeout: 5m
