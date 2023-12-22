@@ -4,13 +4,12 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: snmp-generator
-  namespace: monitoring
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -27,60 +26,60 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      image: quay.io/prometheus/snmp-generator:v0.24.1
-      imagePullPolicy: IfNotPresent
-      command:
-        - sh
-        - -c
-        - cp -f /opt/snmp.yml /etc/snmp_exporter
-      volumeMounts:
-      - name: config
-        mountPath: /etc/snmp_exporter
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
+    controllers:
+      main:
+        initContainers:
+          init-generator:
+            image:
+              repository: quay.io/prometheus/snmp-generator
+              tag: v0.24.1
+        containers:
+          main:
+            image:
+              repository: quay.io/prometheus/snmp-exporter
+              tag: v0.24.1
+            env:
+              TZ: Australia/Victoria
+            resources:
+              requests:
+                cpu: 15m
+                memory: 30M
+              limits:
+                memory: 60M
+    service:
+      main:
+        ports:
+          http:
+            enabled: false
+          metrics:
+            enabled: true
+            protocol: TCP
+            port: 9617
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 5m
+          scrapeTimeout: 1m
 
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-
-    image:
-      repository: quay.io/prometheus/snmp-exporter
-      # TODO: Switch to release tag on next release
-      tag: v0.24.1@sha256:c2a96acba22d11a02de5622b12780cf95895cb0f8969ddf7126f9ce42db0c59d
-    env:
-      TZ: Australia/Victoria
-#    resources:
-#      requests:
-#        cpu: 15m
-#        memory: 30M
-#      limits:
-#        memory: 60M
-    volumeMounts:
-      - name: config
-        mountPath: /etc/snmp_exporter
-#    service:
-#      main:
-#        ports:
-#          http:
-#            enabled: false
-#          metrics:
-#            enabled: true
-#            protocol: TCP
-#            port: 9617
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/worker
-              operator: In
-              values:
-              - worker
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          preference:
-            matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-              - arm64
