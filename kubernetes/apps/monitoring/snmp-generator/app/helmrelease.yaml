@@ -58,6 +58,7 @@ spec:
               tag: v0.24.1
             env:
               TZ: Australia/Victoria
+            command: "/bin/sh"
             resources:
               requests:
                 cpu: 15m
