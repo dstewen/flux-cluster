@@ -50,12 +50,12 @@ spec:
           init-generator:
             image:
               repository: quay.io/prometheus/snmp-generator
-              tag: v0.24.1
+              tag: v0.25.0
         containers:
           main:
             image:
               repository: quay.io/prometheus/snmp-exporter
-              tag: v0.24.1
+              tag: v0.25.0@sha256:cf0768ea183aba8a91bc30e76edeed26790d32b23d37d1473337931ecd05cb8c
             env:
               TZ: Australia/Victoria
             command: "/bin/sh"
