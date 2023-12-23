@@ -7,5 +7,5 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 #  - ./volsync.yaml
-#  - ./volume.yaml
+  - ./volume.yaml
 #  - ./gatus.yaml
