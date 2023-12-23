@@ -10,5 +10,5 @@ configMapGenerator:
   - name: mosquitto-configmap
     files:
       - ./configs/mosquitto.conf
-generatorOptions:
-  disableNameSuffixHash: true
+#generatorOptions:
+#  disableNameSuffixHash: true
