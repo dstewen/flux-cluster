@@ -9,5 +9,3 @@ resources:
 #  - ./volsync.yaml
   - ./volume.yaml
 #  - ./gatus.yaml
-patchesStrategicMerge:
-  - ./patches/addons.yaml
