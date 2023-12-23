@@ -7,7 +7,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 #  - ./volsync.yaml
-#  - ./volume.yaml
+  - ./volume.yaml
 #  - ./gatus.yaml
-patchesStrategicMerge:
-  - ./patches/addons.yaml
+#patchesStrategicMerge:
+#  - ./patches/addons.yaml
