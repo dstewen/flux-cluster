@@ -363,8 +363,8 @@ spec:
           datasource: Prometheus
         loki-namespacelogs:
           # renovate: depName="Loki Logs by Namespace"
-          gnetId: 16337
-          revision: 3
+          gnetId: 16997
+          revision: 9
           datasource: Prometheus
       nginx:
         nginx:
