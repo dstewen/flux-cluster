@@ -1,8 +1,9 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app mosquitto
+  name: mosquitto
   namespace: home
 spec:
   interval: 30m
@@ -30,43 +31,48 @@ spec:
           reloader.stakater.com/auto: "true"
         initContainers:
           init-config:
-            image: &image
+            image:
               repository: docker.io/library/eclipse-mosquitto
               tag: 2.0.18@sha256:8c49a0fab9a1ee9bf5d229061eec4e279f04484c07f60c85c13821788360ce4f
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - |
-                cp /tmp/secret/* /mosquitto/external_config/;
-                chmod 600 /mosquitto/external_config/mosquitto_pwd;
-                mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd;
+            command: ["/bin/sh", "-c"]
+            args: ["cp /tmp/secret/* /mosquitto/external_config/ && mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd"]
         containers:
           main:
-            image: *image
-            resources:
-              requests:
-                cpu: 10m
-                memory: 10M
-              limits:
-                memory: 50M
+            image:
+              repository: docker.io/library/eclipse-mosquitto
+              tag: 2.0.18@sha256:8c49a0fab9a1ee9bf5d229061eec4e279f04484c07f60c85c13821788360ce4f
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 5m
+                memory: 4Mi
+              limits:
+                memory: 16Mi
         pod:
           securityContext:
-            runAsUser: 1883
-            runAsGroup: 1883
+            runAsUser: 568
+            runAsGroup: 568
             runAsNonRoot: true
-            fsGroup: 1883
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+    service:
+      main:
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: mosquitto.davidstewen.com
+          io.cilium/lb-ipam-ips: 192.168.10.228
+        ports:
+          http:
+            port: 1883
     persistence:
-      data:
+      config:
         enabled: true
-        existingClaim: mosquitto-config-v1
+        existingClaim: mosquitto
+        globalMounts:
+          - path: /data
       config-file:
         type: configMap
         name: mosquitto-configmap
@@ -75,10 +81,6 @@ spec:
             main:
               - path: /mosquitto/config/mosquitto.conf
                 subPath: mosquitto.conf
-      external-config:
-        type: emptyDir
-        globalMounts:
-          - path: /mosquitto/external_config
       secret-file:
         type: secret
         name: mosquitto-secret
@@ -86,8 +88,7 @@ spec:
           main:
             init-config:
               - path: /tmp/secret
-    service:
-      main:
-        ports:
-          http:
-            port: 1883
+      external-config:
+        type: emptyDir
+        globalMounts:
+          - path: /mosquitto/external_config
