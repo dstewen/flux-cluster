@@ -65,7 +65,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: *app
+        existingClaim: mosquitto-config-v1
       config-file:
         type: configMap
         name: mosquitto-configmap
