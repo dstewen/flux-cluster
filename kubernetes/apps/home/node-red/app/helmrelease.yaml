@@ -11,7 +11,7 @@ spec:
       version: 2.4.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: bjw-s
         namespace: flux-system
   install:
     remediation:
@@ -68,7 +68,7 @@ spec:
         annotations:
           hajimari.io/icon: cib:node-red
         hosts:
-          - host: &host '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths: &paths
               - path: /
                 service:
