@@ -10,7 +10,7 @@ configMapGenerator:
   - name: node-red-configmap
     files:
       - ./configs/settings.js
-#generatorOptions:
-#  disableNameSuffixHash: true
-#  annotations:
-#    kustomize.toolkit.fluxcd.io/substitute: disabled
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
