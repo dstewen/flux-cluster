@@ -12,13 +12,13 @@ module.exports = {
       icon: "fa-cloud",
       strategy: require("passport-openidconnect").Strategy,
       options: {
-        issuer: process.env.NODE_RED_OAUTH_ISSUER_URL,
-        authorizationURL: process.env.NODE_RED_OAUTH_AUTH_URL,
-        tokenURL: process.env.NODE_RED_OAUTH_TOKEN_URL,
-        userInfoURL: process.env.NODE_RED_OAUTH_USER_URL,
+        issuer: "https://id.davidstewen.com/application/o/node-red/",
+        authorizationURL: "https://id.davidstewen.com/application/o/authorize/",
+        tokenURL: "https://id.davidstewen.com/application/o/token/",
+        userInfoURL: "https://id.davidstewen.com/application/o/userinfo/",
         clientID: "gsNX0kKrg6Oo5YzFXui4WYScmUXMizSOSstpRz9B",
         clientSecret: process.env.NODE_RED_OAUTH_CLIENT_SECRET,
-        callbackURL: process.env.NODE_RED_OAUTH_CALLBACK_URL,
+        callbackURL: "https://nr.davidstewen.com/auth/strategy/callback/",
         scope: ["email", "profile", "openid"],
         proxy: true,
         verify: function (issuer, profile, done) {
