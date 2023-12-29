@@ -21,8 +21,6 @@ includes:
   ansible: .taskfiles/AnsibleTasks.yaml
   brew: .taskfiles/BrewTasks.yaml
   cluster: .taskfiles/ClusterTasks.yaml
-  external-secrets: .taskfiles/ExternalSecrets/Taskfile.yaml
-  volsync: .taskfiles/VolSync/Taskfile.yaml
 
 tasks:
 
