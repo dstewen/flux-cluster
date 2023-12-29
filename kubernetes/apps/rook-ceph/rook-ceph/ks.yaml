@@ -25,6 +25,8 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-rook-ceph
+    - name: snapshot-controller
+      namespace: kube-system
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
   prune: true
   sourceRef:
