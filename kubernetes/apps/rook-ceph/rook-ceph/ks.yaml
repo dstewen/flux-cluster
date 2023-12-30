@@ -7,11 +7,11 @@ metadata:
   namespace: flux-system
 spec:
   path: ./kubernetes/apps/rook-ceph/rook-ceph/app
-  prune: true
+  prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 15m
@@ -25,10 +25,8 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-rook-ceph
-    - name: snapshot-controller
-      namespace: kube-system
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
-  prune: true
+  prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
