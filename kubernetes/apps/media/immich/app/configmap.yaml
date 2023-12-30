@@ -11,7 +11,7 @@ data:
   DB_PORT: "5432"
   DISABLE_REVERSE_GEOCODING: "true"
   ENABLE_MAPBOX: "false"
-  LOG_LEVEL: log
+  LOG_LEVEL: verbose
   NODE_ENV: production
   REDIS_HOSTNAME: immich-redis.media.svc.cluster.local
   REDIS_PORT: "6379"
