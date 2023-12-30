@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: qbittorrent
-  namespace: media
+  name: &app qbittorrent
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -28,100 +28,91 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
-    - name: volsync
-      namespace: volsync
   values:
-    controller:
-      type: statefulset
-      annotations:
-        configmap.reloader.stakater.com/reload: qbittorrent-scripts
-    image:
-      repository: ghcr.io/onedr0p/qbittorrent
-      tag: 4.6.2@sha256:fedb62126c82ae0c7192e9052633411294a27e9c233613c03b0a8d168d160040
-    env:
-      TZ: Australia/Melbourne
-      QBITTORRENT__PORT: &port 80
-      QBITTORRENT__BT_PORT: &bittorrentPort 50413
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 4.6.2
+            env:
+              TZ: Australia/Melbourne
+              QBITTORRENT__PORT: &port 8080
+              QBITTORRENT__BT_PORT: &port-bt "${SECRET_VPN_FORWARDED_PORT_1:=54321}"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 16G
+          reannounce:
+            image:
+              repository: ghcr.io/buroa/qbittools
+              tag: v0.11.0
+            args: ["reannounce", "-s", "localhost", "-p", "8080"]
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["sabnzbd"]
+                  topologyKey: kubernetes.io/hostname
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
       main:
         ports:
           http:
             port: *port
-          cross-seed:
-            port: 2468
       bittorrent:
-        enabled: true
+        controller: main
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.10.223
         ports:
           bittorrent:
             enabled: true
-            port: *bittorrentPort
+            port: *port-bt
             protocol: TCP
-            targetPort: *bittorrentPort
-        externalTrafficPolicy: Cluster
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
+        className: internal
         annotations:
           hajimari.io/enable: true
           hajimari.io/icon: mdi:download
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: qBittorrent
+          gethomepage.dev/icon: qbittorrent.png
         hosts:
-          - host: &host qb.davidstewen.com
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [10000]
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: ceph-block
-    # Note: If downloading very large torrents it might be worth using NFS for your download directory.
-    # Beware if you are downloading torrents directly to a ZFS dataset that dataset will accrue fragmentation.
     persistence:
-      media:
+      config:
+        enabled: true
+        existingClaim: *app
+      downloads:
         enabled: true
         type: nfs
         server: 192.168.10.15
         path: /volume2/piNFS01/flux-cluster/plex/media
-        mountPath: /media
-      incomplete:
-        enabled: true
-        type: emptyDir
-      completed-script:
-        enabled: true
-        type: configMap
-        name: qbittorrent-scripts
-        mountPath: /scripts/completed.sh
-        subPath: completed.sh
-        defaultMode: 0775
-        readOnly: true
-    nodeSelector:
-      node-role.kubernetes.io/worker: worker
-#    affinity:
-#      podAntiAffinity:
-#        requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#                - key: app.kubernetes.io/name
-#                  operator: In
-#                  values: ["sabnzbd"]
-#            topologyKey: kubernetes.io/hostname
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 16Gi
+        globalMounts:
+          - path: /downloads
+            subPath: torrents
