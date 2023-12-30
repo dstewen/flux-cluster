@@ -7,3 +7,4 @@ resources:
   - ./democratic-csi/ks.yaml
 #  - ./rook-ceph/ks.yaml
 #  - ./synology-csi/ks.yaml
+  - ./snapshot-controller/ks.yaml
