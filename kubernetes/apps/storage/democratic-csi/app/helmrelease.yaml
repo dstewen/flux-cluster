@@ -28,7 +28,7 @@ spec:
     keepHistory: false
   dependsOn:
     - name: snapshot-controller
-      namespace: kube-system
+      namespace: storage
   values:
     csiDriver:
       # should be globally unique for a given cluster
