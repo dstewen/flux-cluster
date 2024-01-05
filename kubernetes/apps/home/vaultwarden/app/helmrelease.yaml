@@ -89,22 +89,17 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 100Mi
+                memory: 64M
               limits:
-                memory: 2Gi
-        statefulset:
-          volumeClaimTemplates:
-            - name: config
-              accessMode: ReadWriteOnce
-              size: 10Gi
-              storageClass: ceph-block
-              globalMounts:
-                - path: /data
+                memory: 128M
     service:
       main:
         ports:
           http:
             port: &port 80
+          websocket:
+            enabled: true
+            port: &websocket-port 3012
     ingress:
       main:
         enabled: true
@@ -121,6 +116,21 @@ spec:
                 service:
                   name: main
                   port: *port
+              - path: /notifications/hub/negotiate
+                pathType: Prefix
+                service:
+                  name: main
+                  port: *port
+              - path: /notifications/hub
+                pathType: Prefix
+                service:
+                  name: main
+                  port: *websocket-port
         tls:
           - hosts:
               - *host
+    persistence:
+      data:
+        enabled: true
+        existingClaim: vaultwarden-data
+        mountPath: /data
