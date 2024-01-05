@@ -39,6 +39,7 @@ spec:
     env:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SERVER_ROOT_URL: "https://grafana.${SECRET_DOMAIN}"
     envFromSecrets:
       - name: grafana-secret
@@ -119,6 +120,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/loki
+          - name: network
+            orgId: 1
+            folder: Network
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/network
           - name: nginx
             orgId: 1
             folder: Nginx
@@ -187,163 +196,208 @@ spec:
         1-node-exporter:
           url: https://grafana.com/api/dashboards/11074/revisions/9/download
           datasource: Prometheus
+
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
           revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+
         cloudnative-pg:
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
           datasource: Prometheus
+
         external-dns:
           # renovate: depName="External-dns"
           gnetId: 35038
           revision: 3
           datasource: Prometheus
+
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
+
         # Ref: https://grafana.com/grafana/dashboards/13502-minio-dashboard/
         minio:
           # renovate: depName="MinIO Dashboard"
           gnetId: 13502
           revision: 24
           datasource: Prometheus
+
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
           revision: 33
           datasource: Prometheus
+
         # Ref: https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/
         redis:
           # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
           gnetId: 763
           revision: 5
           datasource: Prometheus
+
         external-secrets:
           url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: Prometheus
+
         loki-chunks:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-chunks.json
           datasource: Prometheus
+
         loki-deletion:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-deletion.json
           datasource: Prometheus
+
         loki-kubernetes-logs:
           gnetId: 15141
           revision: 1
           datasource: Loki
+
         loki-logs:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-logs.json
           datasource: Prometheus
+
         loki-mixin-recording-rules:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-mixin-recording-rules.json
           datasource: Prometheus
+
         loki-operational:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-operational.json
           datasource: Prometheus
+
         loki-reads-resources:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-reads-resources.json
           datasource: Prometheus
+
         loki-reads:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-reads.json
           datasource: Prometheus
+
         loki-retention:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-retention.json
           datasource: Prometheus
+
         loki-writes-resources:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-writes-resources.json
           datasource: Prometheus
+
         loki-writes:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-writes.json
           datasource: Prometheus
+
         miniflux:
           url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
           datasource: Prometheus
+
         speedtest:
           gnetId: 13665
           revision: 1
           datasource: Prometheus
+
       ceph:
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
           gnetId: 2842
           revision: 17
           datasource: Prometheus
+
         ceph-osd:
           # renovate: depName="Ceph - OSD (Single)"
           gnetId: 5336
           revision: 9
           datasource: Prometheus
+
         ceph-pools:
           # renovate: depName="Ceph - Pools"
           gnetId: 5342
           revision: 9
           datasource: Prometheus
+
       cilium:
         cilium-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json
           datasource: Prometheus
+
         cilium-operator-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/cilium-operator/dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
+
         hubble-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/hubble/dashboards/hubble-dashboard.json
           datasource: Prometheus
+
       flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/tree/main/monitoring/configs/dashboards/cluster.json
           datasource: Prometheus
+
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/tree/main/monitoring/configs/dashboards/control-plane.json
           datasource: Prometheus
+
         flux-logs:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/tree/main/monitoring/configs/dashboards/logs.json
           datasource: Prometheus
+
       kubernetes:
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
           gnetId: 15761
           revision: 14
           datasource: Prometheus
+
         kubernetes-coredns:
           # renovate: depName="Kubernetes / System / CoreDNS"
           gnetId: 15762
           revision: 14
           datasource: Prometheus
+
         kubernetes-global:
           # renovate: depName="Kubernetes / Views / Global"
           gnetId: 15757
           revision: 33
           datasource: Prometheus
+
         kubernetes-namespaces:
           # renovate: depName="Kubernetes / Views / Namespaces"
           gnetId: 15758
           revision: 31
           datasource: Prometheus
+
         kubernetes-nodes:
           # renovate: depName="Kubernetes / Views / Nodes"
           gnetId: 15759
           revision: 24
           datasource: Prometheus
+
         kubernetes-pods:
           # renovate: depName="Kubernetes / Views / Pods"
           gNetId: 15760
           revision: 21
           datasource: Prometheus
+
+        kubernetes-volumes:
+          # renovate: depName="K8s / Storage / Volumes / Cluster"
+          gnetId: 11454
+          revision: 14
+          datasource: Prometheus
+
       loki:
         logs-app:
           # renovate: depName="Loki / Logs / App"
           gnetId: 13639
           revision: 2
           datasource: Loki
+
         logging-dashboard-via-loki:
           # renovate: depName="Logging Dashboard via Loki"
           gnetId: 12611
           revision: 2
           datasource:
             - { type: loki, uid: loki }
+
         loki-stack-monitoring:
           # renovate: depName="Loki Stack Monitoring"
           gnetId: 14055
@@ -351,97 +405,117 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
             - { name: DS_LOKI, value: Loki }
+
         promtail26x:
           # renovate: depName="Promtail26x"
           gnetId: 16708
           revision: 1
           datasource: Prometheus
+
         loki-and-promtail:
           # renovate: depName="Loki and Promtail"
           gnetId: 10880
           revision: 1
           datasource: Prometheus
+
         loki-namespacelogs:
           # renovate: depName="Loki Logs by Namespace"
           gnetId: 16997
           revision: 9
           datasource: Prometheus
+
       nginx:
         nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
           datasource: Prometheus
+
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
+
         nginx-ingress-controller:
           # renovate: depName="Nginx Ingress Controller"
           gnetId: 10187
           revision: 1
           datasource: Prometheus
+
       testing:
         arc-autoscaling-runner-set-monitoring:
           url: https://github.com/actions/actions-runner-controller/commits/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
           datasource: Prometheus
+
         authentik:
           # renovate: depName="Authentik"
           gnetId: 14837
           revision: 2
           datasource: Prometheus
+
         node-exporter-full-2:
           # renovate: depName="Node Exporter Full v2"
           gnetId: 12486
           revision: 2
           datasource: Prometheus
+
         flux2:
           # renovate: depName="Flux2"
           gnetId: 16714
           revision: 1
           datasource: Prometheus
+
         snmp-stats:
           # renovate: depName="SNMP Stats ifmib"
           gnetId: 11169
           revision: 1
           datasource: Prometheus
+
         k3s-cluster-monitoring:
           # renovate: depName="k3s Cluster Monitoring"
           gnetId: 15282
           revision: 1
           datasource: Prometheus
+
         kube-cluster-prometheus:
           # renovate: depName="Kube Cluster Prometheus"
           gnetId: 6417
           revision: 1
           datasource: Prometheus
+
         kube-state-metrics-v2:
           # renovate: depName="Kube State Metrics v2"
           gnetId: 13332
           revision: 12
           datasource: Prometheus
+
         kube-storage-usage:
           # renovate: depName="Kube Storage Usage"
           gnetId: 20066
           revision: 1
           datasource: Prometheus
+
         kube-events-dashboard:
           # renovate: depName="Kube Events"
           gnetId: 20018
           revision: 1
           datasource: Loki
+
         kubernetes-logs:
           # renovate: depName="Kubernetes Logs"
           gnetId: 16976
           revision: 1
           datasource: Loki
+
         grafana-internals:
           # renovate: depName="Grafana Internals"
           gnetId: 3590
           revision: 3
           datasource: Prometheus
+
         speedtest-exporter-dashboard:
           # renovate: depName="Speedtest Exporter"
           gnetId: 13665
           revision: 4
           datasource: Prometheus
+
       trivy:
         trivy-image-vulnerability-overview:
           # renovate: depName="Trivy Image Vulnerability"
@@ -449,37 +523,44 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+
         trivy-operator-vulnerabilities:
           # renovate: depName="Trivy Operator Vulnerabilities"
           gnetId: 16337
           revision: 9
           datasource: Prometheus
+
         trivy-operator-dashboard:
           # renovate: depName="Trivy Operator Dashboard"
           gnetId: 11314
           revision: 10
           datasource: Prometheus
+
       unifi:
         unifi-insights:
           # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
           gnetId: 11315
           revision: 9
           datasource: Prometheus
+
         unifi-network-sites:
           # renovate: depName="UniFi-Poller: Network Sites - Prometheus"
           gnetId: 11311
           revision: 5
           datasource: Prometheus
+
         unifi-uap:
           # renovate: depName="UniFi-Poller: UAP Insights - Prometheus"
           gnetId: 11314
           revision: 10
           datasource: Prometheus
+
         unifi-usw:
           # renovate: depName="UniFi-Poller: USW Insights - Prometheus"
           gnetId: 11312
           revision: 9
           datasource: Prometheus
+
     sidecar:
       dashboards:
         enabled: true
@@ -524,7 +605,7 @@ spec:
         - hosts:
             - *host
     persistence:
-      enabled: true
-      storageClassName: local-path
+      enabled: false
+#      storageClassName: local-path
     testFramework:
       enabled: false
