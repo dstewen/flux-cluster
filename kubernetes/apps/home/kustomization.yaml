@@ -9,5 +9,5 @@ resources:
 #  - ./node-red/ks.yaml
   - ./smtp-relay/ks.yaml
 #  - ./unifi/ks.yaml
-#  - ./vaultwarden/ks.yaml
+  - ./vaultwarden/ks.yaml
 #  - ./zigbee2mqtt/ks.yaml
