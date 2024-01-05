@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,102 +27,100 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/onedr0p/postgres-init:16.1
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: &secret vaultwarden-secret
-    controller:
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: vaultwarden/server
-      tag: 1.30.1
-    env:
-      DATA_FOLDER: "data"
-      ICON_CACHE_FOLDER: "data/icon_cache"
-      ATTACHMENTS_FOLDER: "data/attachments"
-      DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
-      TZ: "${TIMEZONE}"
-      SIGNUPS_ALLOWED: "true"
-      WEBSOCKET_ENABLED: "true"
-      WEBSOCKET_ADDRESS: 0.0.0.0
-      WEBSOCKET_PORT: 3012
-#      SMTP_HOST: smtp-relay.default.svc.cluster.local.
-      SMTP_HOST: "mail.internode.on.net"
-#      SMTP_FROM: vaultwarden@${SECRET_DOMAIN}
-      SMTP_FROM: "dstewen@internode.on.net"
-      SMTP_FROM_NAME: vaultwarden
-#      SMTP_PORT: 2525
-      SMTP_PORT: 465
-      SMTP_USERNAME: "dstewen"
-      SMTP_PASSWORD: "1"
-      SMTP_SECURITY: "force_tls"
-#      USE_SENDMAIL: "true"
-      SMTP_DEBUG: true
-    envFrom: *envFrom
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
+    controllers:
+      main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16.1
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: vaultwarden-secret
+        containers:
+          main:
+            image:
+              repository: vaultwarden/server
+              tag: 1.30.1
+            env:
+              DATA_FOLDER: "data"
+              ICON_CACHE_FOLDER: "data/icon_cache"
+              ATTACHMENTS_FOLDER: "data/attachments"
+              DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
+              TZ: "${TIMEZONE}"
+              SIGNUPS_ALLOWED: "true"
+              WEBSOCKET_ENABLED: "true"
+              WEBSOCKET_ADDRESS: 0.0.0.0
+              WEBSOCKET_PORT: 3012
+#              SMTP_HOST: smtp-relay.home.svc.cluster.local.
+              SMTP_HOST: "mail.internode.on.net"
+#              SMTP_FROM: vaultwarden@${SECRET_DOMAIN}
+              SMTP_FROM: "dstewen@internode.on.net"
+              SMTP_FROM_NAME: vaultwarden
+#              SMTP_PORT: 2525
+              SMTP_PORT: 465
+              SMTP_USERNAME: "dstewen"
+              SMTP_PASSWORD: "1"
+              SMTP_SECURITY: "force_tls"
+              SMTP_DEBUG: true
+            envFrom: *envFrom
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 2Gi
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 10Gi
+              storageClass: ceph-block
+              globalMounts:
+                - path: /data
     service:
       main:
         ports:
           http:
             port: &port 80
-          websocket:
-            enabled: true
-            port: &websocket-port 3012
-    persistence:
-      data:
-        enabled: true
-        existingClaim: vaultwarden-data
-        mountPath: /data
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "ingress.${SECRET_DOMAIN}"
-          hajimari.io/enable: "true"
+        className: "internal"
+        anotations:
+          external-dns.alpha.kubernetes.io/enabled: "true"
+          external-dns.alpha.kubernetes.io/target: services.${SECRET_DOMAIN}.
           hajimari.io/icon: mdi:lock
+          hajimari.io/enable: "true"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
                 service:
+                  name: main
                   port: *port
-              - path: /notifications/hub/negotiate
-                pathType: Prefix
-                service:
-                  port: *port
-              - path: /notifications/hub
-                pathType: Prefix
-                service:
-                  port: *websocket-port
         tls:
           - hosts:
               - *host
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        memory: 2Gi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/worker
-              operator: In
-              values:
-              - worker
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          preference:
-            matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-              - arm64
-#      node-role.kubernetes.io/worker: worker
