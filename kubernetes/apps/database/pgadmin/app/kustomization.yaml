@@ -5,7 +5,7 @@ namespace: database
 resources:
   - pgadmin-secret.yaml
   - helmrelease.yaml
-#  - volsync-config.yaml
+  - volsync-config.yaml
   - pvc.yaml
 configMapGenerator:
   - name: servers-json
