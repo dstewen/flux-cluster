@@ -39,8 +39,8 @@ spec:
     repository: home-assistant-restic-secret
     cacheCapacity: 2Gi
     cacheStorageClassName: local-path
-    volumeSnapshotClassName: csi-ceph-blockpool
-    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-filesystem
+    storageClassName: ceph-filesystem
     moverSecurityContext:
       runAsUser: 568
       runAsGroup: 568
