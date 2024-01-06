@@ -3,14 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: sonarr
-  namespace: media
+  name: &app sonarr
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,35 +25,49 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: cloudnative-pg
+      namespace: database
     - name: rook-ceph-cluster
       namespace: rook-ceph
-#    - name: volsync
-#      namespace: volsync
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/onedr0p/postgres-init:16.1
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: sonarr-secret
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.751@sha256:405053032fd6b4f7537c1b7fc8b8bde69dceba24546c68ed22f9bd63d9168f76
-    env:
-      TZ: Australia/Victoria
-      PUSHOVER_DEBUG: "false"
-      SONARR__INSTANCE_NAME: Sonarr
-      SONARR__PORT: &port 80
-      SONARR__LOG_LEVEL: info
-      SONARR__THEME: dark
-    envFrom: *envFrom
-      # - secretRef:
-      #     name: sonarr-secret
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: sonarr-secret
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sonarr
+              tag: 4.0.0.748@sha256:f1b1826ccbea3868ff6b30690417fdc1a0f3329ebad0909d0d11ddd856f9f4dd
+            env:
+              TZ: ${TIMEZONE}
+              SONARR__AUTHENTICATION_METHOD: External
+              SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              SONARR__INSTANCE_NAME: Sonarr
+              SONARR__PORT: &port 80
+              SONARR__LOG_LEVEL: info
+            envFrom: *envFrom
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 1000Mi
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
       main:
         ports:
@@ -78,47 +91,37 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
+        className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Sonarr
+          gethomepage.dev/icon: sonarr.png
+          gethomepage.dev/widget.type: sonarr
+          gethomepage.dev/widget.url: http://sonarr.downloads
+          gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SONARR_TOKEN}}"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/sonarr/nord.css"></head>';
+            sub_filter_once on;
         hosts:
-          - host: &host "{{ .Release.Name }}.davidstewen.com"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [10000]
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: ceph-block
     persistence:
-      media:
+      config:
+        enabled: true
+        existingClaim: *app
+      data:
         enabled: true
         type: nfs
-        server: 192.168.10.15
-        path: /volume2/piNFS01/flux-cluster/plex/media
-        mountPath: /media
-      scripts:
-        enabled: true
-        type: configMap
-        name: sonarr-configmap
-        subPath: pushover-notify.sh
-        mountPath: /scripts/pushover-notify.sh
-        defaultMode: 0775
-        readOnly: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 2000Mi
-    nodeSelector:
-      node-role.kubernetes.io/worker: worker
+        server: ${NAS_IP:=temp}
+        path: ${SECRET_NFS_DATA:=temp}
+        globalMounts:
+          - path: /data
