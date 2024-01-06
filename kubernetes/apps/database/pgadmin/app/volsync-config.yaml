@@ -15,13 +15,13 @@ spec:
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: "{{ .RESTIC_REPOSITORY_BASE }}/${CONFIG_CLUSTER_NAME}/pgadmin"
+        RESTIC_REPOSITORY: "{{ .REPOSITORY_TEMPLATE }}/pgadmin"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
   dataFrom:
     - extract:
-        key: volsync
+        key: volsync-restic-template
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.zinn.ca/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
@@ -32,18 +32,19 @@ metadata:
 spec:
   sourcePVC: config-pgadmin-0
   trigger:
-    schedule: "0 0 * * *"
+    schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
-    pruneIntervalDays: 14
+    pruneIntervalDays: 7
     repository: pgadmin-restic-secret
-    moverSecurityContext:
-      runAsUser: 5050
-      runAsGroup: 5050
     cacheCapacity: 1Gi
-    retain:
-      daily: 14
-      within: 7d
+    cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
-    cacheStorageClassName: local-hostpath
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      daily: 7
+      within: 3d

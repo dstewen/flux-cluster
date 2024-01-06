@@ -3,6 +3,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: mosquitto-restic
+  namespace: home
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -21,61 +22,23 @@ spec:
     - extract:
         key: volsync-restic-template
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mosquitto
-spec:
-  accessModes: ["ReadWriteOnce"]
-  dataSourceRef:
-    kind: ReplicationDestination
-    apiGroup: volsync.backube
-    name: mosquitto-rdst
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: ${CLUSTER_STORAGE_BLOCK}
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: mosquitto-rdst
-spec:
-  trigger:
-    manual: restore-once
-  restic:
-    repository: mosquitto-restic-secret
-    copyMethod: Snapshot
-    accessModes: ["ReadWriteOnce"]
-    storageClassName: ${CLUSTER_STORAGE_BLOCK}
-    volumeSnapshotClassName: ${CLUSTER_SNAPSHOT_BLOCK}
-    cacheAccessModes: ["ReadWriteOnce"]
-    cacheCapacity: 8Gi
-    cacheStorageClassName: ${CLUSTER_STORAGE_HOSTPATH}
-    moverSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-    capacity: 1Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
----
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: mosquitto-rsrc
+  namespace: home
 spec:
   sourcePVC: mosquitto
   trigger:
     schedule: "15 */8 * * *"
   restic:
+    copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: mosquitto-restic-secret
-    copyMethod: Snapshot
-    accessModes: ["ReadWriteOnce"]
-    storageClassName: ${CLUSTER_STORAGE_BLOCK}
-    volumeSnapshotClassName: ${CLUSTER_SNAPSHOT_BLOCK}
-    cacheAccessModes: ["ReadWriteOnce"]
     cacheCapacity: 8Gi
-    cacheStorageClassName: ${CLUSTER_STORAGE_HOSTPATH}
+    cacheStorageClassName: local-path
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
     moverSecurityContext:
       runAsUser: 568
       runAsGroup: 568
