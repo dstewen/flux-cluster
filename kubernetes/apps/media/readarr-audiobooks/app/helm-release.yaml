@@ -1,35 +1,47 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: readarr-audiobooks
   namespace: media
 spec:
-  install:
-    disableWait: true
-    remediation:
-      retries: 100
-  upgrade:
-    remediation:
-      retries: 100
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       interval: 15m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  interval: 30m
+  interval: 15m
   values:
-    image:
-      repository: ghcr.io/onedr0p/readarr-nightly
-      tag: 0.3.14.2354
-
-    env:
-      TZ: Australia/Victoria
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/readarr-nightly
+              tag: 0.3.14.2354
+            env:
+              TZ: "${TIMEZONE}"
+            resources:
+              requests:
+                memory: 250Mi
+                cpu: 500m
+              limits:
+                memory: 1500Mi
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 2000
 
     service:
       main:
@@ -39,72 +51,32 @@ spec:
 
     ingress:
       main:
-        primary: true
         enabled: true
-        ingressClassName: "internal"
+        className: nginx-internal
         annotations:
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-          external-dns.alpha.kubernetes.io/target: "${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"
+          nginx.ingress.kubernetes.io/auth-method: GET
+          nginx.ingress.kubernetes.io/auth-url: http://authelia.default.svc.cluster.local:8000/api/verify
+          nginx.ingress.kubernetes.io/auth-signin: https://auth.${SECRET_DOMAIN}?rm=$request_method
+          nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
+          nginx.ingress.kubernetes.io/auth-snippet: proxy_set_header X-Forwarded-Method $request_method;
         hosts:
-          - host: &host "readarr-audiobooks.${SECRET_DOMAIN_CASA}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-            secretName: wildcard-tls
-
-      local:
-        enabled: true
-        ingressClassName: "internal"
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "nginx-${CLUSTER_NAME}.${SECRET_DOMAIN_INTERNAL}"
-        hosts:
-          - host: &hostinternal "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
-            paths:
-              - path: /api
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *hostinternal
-            secretName: wildcard-tls
-
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 65539
 
     persistence:
       config:
-        enabled: true
         existingClaim: readarr-audiobooks-config-0
       media:
-        enabled: true
-        existingClaim: media-nfs
+        existingClaim: mali-downloads-media-nfs
         mountPath: /media
-      backup:
-        enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${NAS_IP}"
-            path: /mnt/biggie/backups/softwarrself/readarr-audiobooks
-        mountPath: /config/Backups
-        readOnly: false
-
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 500m
-      limits:
-        memory: 1500Mi
-
-    prometheus:
-      podMonitor:
-        enabled: true
-        interval: 10m
-        scrapeTimeout: 2m
+      downloads:
+        existingClaim: mali-downloads-nfs
+        mountPath: /downloads
