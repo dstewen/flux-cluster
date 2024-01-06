@@ -11,7 +11,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: ceph-block
+  storageClassName: ceph-filesystem
   resources:
     requests:
       storage: 10Gi
