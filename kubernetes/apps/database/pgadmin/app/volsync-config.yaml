@@ -30,7 +30,7 @@ metadata:
   name: pgadmin
   namespace: database
 spec:
-  sourcePVC: config-pgadmin-0
+  sourcePVC: pgadmin-config
   trigger:
     schedule: "0 7 * * *"
   restic:
