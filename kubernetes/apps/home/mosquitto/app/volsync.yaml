@@ -28,7 +28,7 @@ metadata:
   name: mosquitto-rsrc
   namespace: home
 spec:
-  sourcePVC: mosquitto
+  sourcePVC: mosquitto-config
   trigger:
     schedule: "15 */8 * * *"
   restic:
