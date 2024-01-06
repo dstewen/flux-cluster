@@ -122,6 +122,15 @@ data:
         - T1500G-10MPS:
             href: http://192.168.10.20
             icon: mdi-switch
+        - Unifi:
+            href: https://unifi.ui.com
+            icon: unifi.png
+            description: Unifi Dashboard
+            widget:
+              type: unifi
+              url: https://192.168.10.22:8443
+              username: {{HOMEPAGE_VAR_UNIFI_USERNAME}}
+              password: {{HOMEPAGE_VAR_UNIFI_PASSWORD}}
     - Monitoring:
         - Grafana-Status:
             href: https://grafana.davidstewen.com
@@ -189,8 +198,4 @@ data:
           dateStyle: long
           timeStyle: short
           hourCycle: h23
-    - unifi_console:
-        url: https://192.168.10.22:8443/
-        username: {{HOMEPAGE_VAR_UNIFI_USER}}
-        password: {{HOMEPAGE_VAR_UNIFI_PASSWORD}}
   docker.yaml: ""
