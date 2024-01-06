@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: home-assistant
+  name: home-assistant-src
   namespace: home
 spec:
   sourcePVC: home-assistant-config
