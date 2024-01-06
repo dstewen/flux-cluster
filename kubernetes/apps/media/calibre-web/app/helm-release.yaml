@@ -4,54 +4,51 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: calibre-web
-  namespace: media
 spec:
-  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
-      interval: 15m
+      version: 2.4.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  interval: 30m
   values:
-    image:
-      repository: ghcr.io/bjw-s/calibre-web
-      tag: 0.6.21@sha256:10f25a6f7243be001fa320e24ae2445f3e924704b219a6cc7fd9ba27323e461f
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 65539
+        pod:
+          enableServiceLinks: false
+          labels:
+            egress.home.arpa/internet: allow
+            egress.home.arpa/kubedns: allow # FIXME: Remove when clusterNetworkPolicy is in place
+            ingress.home.arpa/nginx-internal: allow
+          securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
+            fsGroup: ${APP_GID}
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 65542 # gladius:external-services
 
-    enableServiceLinks: false
+        containers:
+          main:
+            image:
+              repository: ghcr.io/bjw-s/calibre-web
+              tag: 0.6.21@sha256:3a0822def7b5d34251ade9a37287ed77c7032ce51f58ea9be055718452c946c2
+            env:
+              CACHE_DIR: /cache
+            resources:
+              requests:
+                cpu: 5m
+                memory: 470M
+              limits:
+                memory: 470M
 
-    env:
-      TZ: "${TIMEZONE}"
-
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: ceph-block
-
-    persistence:
-#      config:
-#        enabled: true
-#        existingClaim: calibre-web-config-0
-      media:
-        enabled: true
-        type: nfs
-        server: 192.168.10.15
-        path: /volume2/piNFS01/flux-cluster/media/books
-        mountPath: /media
-        readOnly: true
     service:
       main:
         ports:
@@ -60,58 +57,42 @@ spec:
 
     ingress:
       main:
-        primary: true
         enabled: true
-        ingressClassName: "internal"
+        className: internal-nginx
         annotations:
-          hajimari.io/enable: true
-          hajimari.io/icon: mdi:bookshelf
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          nginx.ingress.kubernetes.io/auth-url: http://ak-outpost-internal-proxy-outpost.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+          nginx.ingress.kubernetes.io/auth-signin: /outpost.goauthentik.io/start?rd=$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+          nginx.ingress.kubernetes.io/auth-snippet: proxy_set_header X-Forwarded-Host $http_host;
         hosts:
-          - host: &host "calibre-web.${SECRET_DOMAIN}"
+          - host: "${HOSTNAME}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
-              - *host
-#            secretName: wildcard-tls
-#      secondary:
-#        enabled: true
-#        ingressClassName: "internal"
-#        annotations:
-#          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-#          external-dns.alpha.kubernetes.io/target: "${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"
-#        hosts:
-#          - host: &hostsecond "calibre-web.${SECRET_DOMAIN}"
-#            paths:
-#              - path: /
-#                pathType: Prefix
-#        tls:
-#         - hosts:
-#              - *hostsecond
+              - "${HOSTNAME}"
 
-    resources:
-      requests:
-        cpu: 15m
-        memory: 256Mi
-      limits:
-        memory: 512Mi
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_CLAIM}"
+        advancedMounts:
+          main:
+            main:
+              - path: /config
 
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/worker
-              operator: In
-              values:
-              - worker
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          preference:
-            matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-              - arm64
+      media:
+        type: nfs
+        server: gladius.bjw-s.casa
+        path: /tank/Media
+        advancedMounts:
+          main:
+            main:
+              - path: /data/nas-media
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /cache
