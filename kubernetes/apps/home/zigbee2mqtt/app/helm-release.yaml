@@ -3,99 +3,119 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: zigbee2mqtt
-  namespace: home
+  name: &app zigbee2mqtt
 spec:
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
-      interval: 15m
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-charts
         namespace: flux-system
-  interval: 30m
   install:
-    disableWait: true
     remediation:
-      retries: 100
-    createNamespace: true
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
-      retries: 100
-  dependsOn:
-    - name: mosquitto
-      namespace: home
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    image:
-      repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: 1.35.0
-
-    env:
-      TZ: "${TIMEZONE}"
-      ZIGBEE2MQTT_DATA: /data
-      ZIGBEE2MQTT_CONFIG_MQTT_USER: "${MQTT_USER}"
-      ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD: "${MQTT_PASSWORD}"
-
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/koenkk/zigbee2mqtt
+              tag: 1.35.0@sha256:2b5cea0c2b10c47efa6c98816c8702787bff01fa29690ac5ddcf61a27ae6b8d8
+            env:
+              TZ: ${TIMEZONE}
+              ZIGBEE2MQTT_DATA: /config
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: false
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: false
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: false
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: false
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: false
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: true
+              ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: true
+              ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 80
+              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee.${PUBLIC_DOMAIN}
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: true
+              ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: true
+              ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+              ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: true
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto.home.svc.cluster.local
+              ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+              ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: false
+              ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 38400
+              ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: false
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyACM0
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: deconz
+            envFrom:
+              - secretRef:
+                  name: zigbee2mqtt-secret
+            resources:
+              requests:
+                smarter-devices/ttyACM0: 1
+                cpu: 10m
+                memory: 100M
+              limits:
+                smarter-devices/ttyACM0: 1
+                memory: 256M
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+        pod:
+          nodeSelector:
+            zigbee.feature.node.kubernetes.io/conbee: "true"
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 20
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/icon: mdi:zigbee
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths: &paths
+              - path: /
+                service:
+                  name: main
+                  port: http
+          - host: &customHost zigbee.${SECRET_DOMAIN}
+            paths: *paths
+        tls:
+          - hosts:
+              - *host
+              - *customHost
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
     service:
       main:
         ports:
           http:
-            port: &port 8080
-
-    ingress:
-      main:
-        enabled: true
-        primary: true
-        ingressClassName: "internal"
-        annotations:
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-          external-dns.alpha.kubernetes.io/target: "${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"
-        hosts:
-          - host: &host "zigbee2mqtt.${SECRET_DOMAIN_CASA}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-tls
-
-    persistence:
-      config:
-        enabled: true
-        existingClaim: zigbee2mqtt-config-0
-        mountPath: "/data"
-      usb:
-        enabled: true
-        type: hostPath
-        hostPath: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c46794596029ec11b42d6c7840c9ce8d-if00-port0
-
-    nodeSelector:
-      kubernetes.io/hostname: nuc1
-
-    securityContext:
-      privileged: true
-
-    podSecurityContext:
-      supplementalGroups:
-        - 20 # dialout for /dev/ttyUSB0
-
-    resources:
-      requests:
-        memory: 100Mi
-        cpu: 10m
-      limits:
-        memory: 1.5Gi
-
-    config:
-      # Minimal configuration.yml example
-      permit_join: true
-      homeassistant: true
-      mqtt:
-        server: mqtt://mosquitto:1883
-      serial:
-        port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c46794596029ec11b42d6c7840c9ce8d-if00-port0
-      frontend:
-        port: 8080
+            port: *port
