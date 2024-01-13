@@ -130,14 +130,14 @@ data:
         scrapeConfigSelectorNilUsesHelmValues: false
         enableAdminAPI: true
         walCompression: true
-        retentionSize: 8GB
+        retentionSize: 16GB
         storageSpec:
           volumeClaimTemplate:
             spec:
               storageClassName: local-hostpath
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 20Gi
     prometheusOperator:
       affinity:
         nodeAffinity:
