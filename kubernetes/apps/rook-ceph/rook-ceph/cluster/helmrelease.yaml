@@ -63,6 +63,7 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
+        prometheusEndpoint: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
 #        port: 8443
       mgr:
         count: 1
