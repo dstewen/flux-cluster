@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: audiobookshelf-config
-  namespace: media
+  namespace: home
   labels:
     k10.kasten.io/backup: "true"
 spec:

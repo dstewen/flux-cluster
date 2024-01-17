@@ -6,7 +6,6 @@ resources:
   - namespace.yaml
 #  - _pvc
 #  - ./arr-misc/ks.yaml
-#  - ./audiobookshelf/ks.yaml
 #  - ./bazarr/ks.yaml
 #  - ./calibre/ks.yaml
 #  - ./calibre-web/ks.yaml
