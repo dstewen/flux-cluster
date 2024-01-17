@@ -651,6 +651,6 @@ spec:
             - *host
     persistence:
       enabled: false
-#      storageClassName: local-path
+#      storageClassName: local-hostpath
     testFramework:
       enabled: false
