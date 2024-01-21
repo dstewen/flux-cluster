@@ -102,6 +102,15 @@ spec:
 #          - name: blade8
 #            devices:
 #              - name: /dev/nvme0n1p3
+      placement:
+        mgr: &placement
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/worker
+                      operator: Exists
+        mon: *placement
     cephBlockPools:
       - name: ceph-blockpool
         spec:
