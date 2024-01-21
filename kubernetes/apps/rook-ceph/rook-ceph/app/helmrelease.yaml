@@ -31,6 +31,9 @@ spec:
     - name: snapshot-controller
       namespace: storage
   values:
+    image:
+      repository: rook/ceph
+      tag: 18.2.0
     csi:
       csiAddons:
         enabled: false
