@@ -26,6 +26,19 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    resources:
+      server:
+        requests:
+          cpu: 15m
+          memory: 100M
+        limits:
+          memory: 500Mi
+      worker:
+        requests:
+          cpu: 15m
+          memory: 100M
+        limits:
+          memory: 500Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
