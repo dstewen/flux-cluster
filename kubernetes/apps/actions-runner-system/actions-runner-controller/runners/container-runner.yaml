@@ -67,36 +67,6 @@ spec:
 #        containers:
 #          - name: runner
 #            image: ghcr.io/onedr0p/:rolling@sha256:3e6532d747920680a2f50c2cc215aa225ffa61ab029237919fed931b2dff81fe
-    listenerTemplate:
-      spec:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: node-role.kubernetes.io/worker
-                  operator: In
-                  values:
-                  - worker
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: In
-                  values:
-                  - arm64
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 100
-                podAffinityTerm:
-                  labelSelector:
-                    matchExpressions:
-                      - key: actions.github.com/scale-set-name
-                        operator: In
-                        values:
-                          - arc-runner-set-containers-arm64
-                  topologyKey: kubernetes.io/hostname
     controllerServiceAccount:
       name: actions-runner-controller-gha-rs-controller
       namespace: actions-runner-system
