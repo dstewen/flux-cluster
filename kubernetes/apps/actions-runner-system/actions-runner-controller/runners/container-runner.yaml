@@ -62,7 +62,7 @@ spec:
                       - key: actions.github.com/scale-set-name
                         operator: In
                         values:
-                          - arc-runner-set-home-ops
+                          - arc-runner-set-containers-arm64
                   topologyKey: kubernetes.io/hostname
 #        containers:
 #          - name: runner
@@ -95,7 +95,7 @@ spec:
                       - key: actions.github.com/scale-set-name
                         operator: In
                         values:
-                          - arc-runner-set-home-ops
+                          - arc-runner-set-containers-arm64
                   topologyKey: kubernetes.io/hostname
     controllerServiceAccount:
       name: actions-runner-controller-gha-rs-controller
