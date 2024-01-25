@@ -50,4 +50,5 @@ resources:
   - ./victoriametrics-charts.yaml
   - ./vmware-tanzu.yaml
   - ./weave-gitops.yaml
+  - ./xenitab.yaml
   - ./xunholy-charts.yaml
