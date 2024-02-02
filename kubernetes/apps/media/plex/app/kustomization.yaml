@@ -7,5 +7,5 @@ resources:
   - ./helmrelease.yaml
 #  - ./gatus.yaml
   - ./pvc.yaml
-#  - ./volsync.yaml
-#  - ./volsync_backblazeb2.yaml
+  - ./volsync.yaml
+  - ./volsync_backblazeb2.yaml
