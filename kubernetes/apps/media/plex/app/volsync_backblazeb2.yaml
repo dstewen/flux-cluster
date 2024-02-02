@@ -3,14 +3,14 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: plex-restic
+  name: plex-volsync-backblazeb2
   namespace: media
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
     name: onepassword-connect
   target:
-    name: plex-restic-secret
+    name: plex-backblazeb2-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
@@ -21,22 +21,22 @@ spec:
         AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
   dataFrom:
     - extract:
-        key: volsync-restic-template
+        key: volsync-backblazeb2-template
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: plex
+  name: plex-backblazeb2-source
   namespace: media
 spec:
   sourcePVC: plex-config-0
   trigger:
-    schedule: "0 7 * * *"
+    schedule: "0 0 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
-    repository: plex-restic-secret
+    repository: plex-backblazeb2-secret
     cacheCapacity: 8Gi
     cacheStorageClassName: local-path
     volumeSnapshotClassName: csi-ceph-blockpool
