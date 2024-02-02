@@ -38,7 +38,7 @@ spec:
     pruneIntervalDays: 7
     repository: vaultwarden-restic-secret
     cacheCapacity: 2Gi
-    cacheStorageClassName: local-path
+    cacheStorageClassName: local-hostpath
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
     moverSecurityContext:
