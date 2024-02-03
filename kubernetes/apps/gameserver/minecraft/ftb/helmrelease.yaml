@@ -17,6 +17,23 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+              - amd64
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+            - key: node-role.kubernetes.io/worker
+              operator: In
+              values:
+              - worker
     livenessProbe:
       command:
         - mc-monitor
@@ -38,24 +55,28 @@ spec:
       tag: java8-multiarch@sha256:25a52cd6e29af2b3c4f808c0baefdd3dbf1dac18e7ebf4222c5e1c031c294bea
     minecraftServer:
       eula: "TRUE"
-      version: "1.12.2"
+      version: "1.20.1"
       type: "FTBA"
-      ftbModpackId: "35"
-      ftbModpackVersionId: "3.6.0"
-      difficulty: hard
+      ftbModpackId: "119"
+      ftbModpackVersionId: "1.12.1"
+      difficulty: normal
+      whitelist: dneck77
+      ops: dneck77
       pvp: true
-      memory: 6144M
+      memory: 8192M
       serviceType: LoadBalancer
+#      servicePort: 25565
       motd: "FTB:R"
-      loadBalancerIP: "${LB_MINECRAFT_IP}"
+      loadBalancerIP: 192.168.10.229
       externalTrafficPolicy: Local
+      worldSaveName: TurtleTest
     persistence:
       dataDir:
         enabled: true
         existingClaim: minecraft-ftb-data-v1
-    resources:
-      requests:
-        cpu: 34m
-        memory: 4506M
-      limits:
-        memory: 5279M
+    extraEnv:
+      # recommended rolling logs for saving disk
+      ENABLE_ROLLING_LOGS: true
+      ENABLE_WHITELIST: true
+      ENFORCE_WHITELIST: true
+      FORCE_WORLD_COPY: false
