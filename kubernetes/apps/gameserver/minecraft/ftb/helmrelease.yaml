@@ -36,8 +36,8 @@ spec:
               values:
               - worker
     securityContext:
-      runAsUser: &uid 568
-      fsGroup: *uid
+      runAsUser: 568
+      fsGroup: 568
     livenessProbe:
       enabled: false
     readinessProbe:
@@ -108,7 +108,7 @@ spec:
           type: ClusterIP
           port: 8123
         ingress:
-          ingressClassName: external
+          ingressClassName: internal
           enabled: true
           hosts:
           - name: &host "mc.${SECRET_DOMAIN}"
