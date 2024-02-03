@@ -36,8 +36,8 @@ spec:
               values:
               - worker
     securityContext:
-      runAsUser: 568
-      fsGroup: 568
+      runAsUser: 1000
+      fsGroup: 1000
     livenessProbe:
       enabled: false
     readinessProbe:
@@ -85,6 +85,7 @@ spec:
 #      servicePort: 25565
       motd: "TurtleTest FTB:R"
       externalTrafficPolicy: Local
+      allowNether: true
       worldSaveName: TurtleTest
       viewDistance: 12
       overrideServerProperties: true
@@ -118,6 +119,7 @@ spec:
             hosts:
             - *host
     persistence:
+#      storageClass: local-hostpath
       dataDir:
         enabled: true
         existingClaim: minecraft-ftb-data-v1
@@ -127,6 +129,6 @@ spec:
       ENABLE_WHITELIST: true
       ENFORCE_WHITELIST: true
       FORCE_WORLD_COPY: false
-      DEBUG: true
+#      DEBUG: true
 #      DEBUG_EXEC: true
-      DEBUG_MEMORY: true
+#      DEBUG_MEMORY: true
