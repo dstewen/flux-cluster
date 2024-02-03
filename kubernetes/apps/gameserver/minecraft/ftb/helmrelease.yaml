@@ -67,7 +67,7 @@ spec:
       serviceType: LoadBalancer
 #      servicePort: 25565
       motd: "FTB:R"
-      loadBalancerIP: 192.168.10.229
+      loadBalancerIP: 192.168.10.230
       externalTrafficPolicy: Local
       worldSaveName: TurtleTest
     persistence:
