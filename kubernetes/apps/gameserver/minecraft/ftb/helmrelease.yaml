@@ -9,6 +9,7 @@ spec:
   interval: 30m
   chart:
     spec:
+      # renovate: registryUrl=https://itzg.github.io/minecraft-server-charts/
       chart: minecraft
       version: 4.14.0
       sourceRef:
@@ -69,19 +70,24 @@ spec:
       eula: "TRUE"
       version: "1.20.1"
       type: "FTBA"
+      forceReDownload: true
       ftbModpackId: "119"
       ftbModpackVersionId: "11614"
       difficulty: normal
-      whitelist: dneck77
-      ops: dneck77
-      pvp: true
+      whitelist: "dneck77"
+      ops: "dneck77"
+      gameMode: survival
+      pvp: false
+      onlineMode: false
+      jvmXXOpts: "-XX:MaxRAMPercentage=75"
       memory: 8192M
       serviceType: LoadBalancer
 #      servicePort: 25565
-      motd: "FTB:R"
+      motd: "TurtleTest FTB:R"
       externalTrafficPolicy: Local
       worldSaveName: TurtleTest
       viewDistance: 12
+      overrideServerProperties: true
       extraPorts:
       - name: metrics
         containerPort: 9225
