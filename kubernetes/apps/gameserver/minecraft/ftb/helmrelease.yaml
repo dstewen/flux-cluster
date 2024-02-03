@@ -37,7 +37,7 @@ spec:
               - worker
     securityContext:
       runAsUser: 1000
-      fsGroup: 1000
+      fsGroup: 3000
     livenessProbe:
       enabled: false
     readinessProbe:
