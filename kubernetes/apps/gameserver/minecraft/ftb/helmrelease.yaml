@@ -81,5 +81,5 @@ spec:
       ENFORCE_WHITELIST: true
       FORCE_WORLD_COPY: false
       DEBUG: true
-      DEBUG_EXEC: true
+#      DEBUG_EXEC: true
       DEBUG_MEMORY: true
