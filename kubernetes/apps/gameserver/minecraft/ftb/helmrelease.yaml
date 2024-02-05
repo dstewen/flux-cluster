@@ -58,22 +58,22 @@ spec:
     serviceAnnotations:
       io.cilium/lb-ipam-ips: 192.168.10.230
       mc-router.itzg.me/externalServerName: "mcsv.${SECRET_DOMAIN}"
-#    livenessProbe:
-#      command:
-#        - mc-monitor
-#        - status
-#        - --host
-#        - localhost
-#      initialDelaySeconds: 60
-#      periodSeconds: 10
-#    readinessProbe:
-#      command:
-#        - mc-monitor
-#        - status
-#        - --host
-#        - localhost
-#      initialDelaySeconds: 60
-#      periodSeconds: 10
+    livenessProbe:
+      command:
+        - mc-health
+      initialDelaySeconds: 120
+      periodSeconds: 10
+    readinessProbe:
+      command:
+        - mc-health
+      initialDelaySeconds: 120
+      periodSeconds: 10
+    startupProbe:
+      command:
+        - mc-health
+      enabled: true
+      failureThreshold: 60
+      periodSeconds: 10
     image:
       repository: itzg/minecraft-server
       tag: java17
