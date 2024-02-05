@@ -49,12 +49,6 @@ spec:
     securityContext:
       runAsUser: 1000
       fsGroup: 2000
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
-    startupProbe:
-      enabled: false
     serviceAnnotations:
       io.cilium/lb-ipam-ips: 192.168.10.230
       mc-router.itzg.me/externalServerName: "mcsv.${SECRET_DOMAIN}"
