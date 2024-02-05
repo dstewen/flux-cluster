@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: itzg
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   maxHistory: 3
   install:
     createNamespace: true
