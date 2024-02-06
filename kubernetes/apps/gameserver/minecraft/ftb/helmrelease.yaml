@@ -51,7 +51,8 @@ spec:
         cpu: 1
         memory: 4G
       limits:
-        memory: 8G
+        cpu: 1
+        memory: 10G
     securityContext:
       runAsUser: 1000
       fsGroup: 2000
