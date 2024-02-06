@@ -46,6 +46,12 @@ spec:
               operator: In
               values:
               - worker
+    resources:
+      requests:
+        cpu: 1
+        memory: 4G
+      limits:
+        memory: 8G
     securityContext:
       runAsUser: 1000
       fsGroup: 2000
