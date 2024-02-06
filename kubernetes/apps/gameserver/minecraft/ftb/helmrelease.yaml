@@ -49,9 +49,9 @@ spec:
     securityContext:
       runAsUser: 1000
       fsGroup: 2000
-    serviceAnnotations:
-      io.cilium/lb-ipam-ips: 192.168.10.230
-      mc-router.itzg.me/externalServerName: "mcsv.${SECRET_DOMAIN}"
+#    serviceAnnotations:
+#      io.cilium/lb-ipam-ips: 192.168.10.230
+#      mc-router.itzg.me/externalServerName: "mcsv.${SECRET_DOMAIN}"
     livenessProbe:
       command:
         - mc-health
@@ -87,6 +87,7 @@ spec:
       jvmXXOpts: "-XX:MaxRAMPercentage=75"
       memory: 8192M
       serviceType: LoadBalancer
+      loadBalancerIP: "192.168.10.230"
 #      servicePort: 25565
       motd: "TurtleTest FTB:R"
       externalTrafficPolicy: Local
@@ -94,35 +95,35 @@ spec:
       worldSaveName: TurtleTest
       viewDistance: 12
       overrideServerProperties: true
-      extraPorts:
-      - name: metrics
-        containerPort: 9225
-        protocol: TCP
-        service:
-          enabled: true
-          embedded: false
-          type: ClusterIP
-          port: 9225
-        ingress:
-          enabled: false
-      - name: map
-        containerPort: 8123
-        protocol: TCP
-        service:
-          enabled: true
-          embedded: false
-          type: ClusterIP
-          port: 8123
-        ingress:
-          ingressClassName: internal
-          enabled: true
-          hosts:
-          - name: &host "mc.${SECRET_DOMAIN}"
-            path: /
-          tls:
-          - secretName: *host
-            hosts:
-            - *host
+#      extraPorts:
+#      - name: metrics
+#        containerPort: 9225
+#        protocol: TCP
+#        service:
+#          enabled: true
+#          embedded: false
+#          type: ClusterIP
+#          port: 9225
+#        ingress:
+#          enabled: false
+#      - name: map
+#        containerPort: 8123
+#        protocol: TCP
+#        service:
+#          enabled: true
+#          embedded: false
+#          type: ClusterIP
+#          port: 8123
+#        ingress:
+#          ingressClassName: internal
+#          enabled: true
+#          hosts:
+#          - name: &host "mc.${SECRET_DOMAIN}"
+#            path: /
+#          tls:
+#          - secretName: *host
+#            hosts:
+#            - *host
     persistence:
 #      storageClass: local-hostpath
       dataDir:
