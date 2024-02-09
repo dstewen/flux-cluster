@@ -74,9 +74,9 @@ spec:
             - name: Grafana-DS
               url: https://grafana.davidstewen.com
               icon: simple-icons:grafana
-            - name: Gitops
-              url: https://gitops.davidstewen.com/
-              icon: sawtooth-wave
+#            - name: Gitops
+#              url: https://gitops.davidstewen.com/
+#              icon: sawtooth-wave
             - name: Minio
               url: http://192.168.10.198:9001/
               icon: simple-icons:minio
