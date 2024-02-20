@@ -7,3 +7,4 @@ metadata:
 spec:
   staticConfigs:
     - targets: ['rook-ceph-mgr.rook-ceph.svc.cluster.local:9283']
+  metricsPath: /metrics
