@@ -6,5 +6,5 @@ metadata:
   name: ceph
 spec:
   staticConfigs:
-    - targets: ['rook-ceph-mgr.rook-ceph.svc.cluster.local:9283']
+    - targets: ["rook-ceph-mgr.rook-ceph.svc.cluster.local:9283"]
   metricsPath: /metrics
