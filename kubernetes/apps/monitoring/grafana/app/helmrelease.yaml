@@ -239,10 +239,6 @@ spec:
           revision: 3
           datasource: Prometheus
 
-        cert-manager:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
-          datasource: Prometheus
-
         # Ref: https://grafana.com/grafana/dashboards/13502-minio-dashboard/
         minio:
           # renovate: depName="MinIO Dashboard"
@@ -513,11 +509,6 @@ spec:
         snmp-stats:
           # renovate: depName="SNMP Stats ifmib"
           gnetId: 11169
-          revision: 1
-          datasource: Prometheus
-
-        speedtest:
-          gnetId: 13665
           revision: 1
           datasource: Prometheus
 
