@@ -96,7 +96,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/default
+              path: /var/lib/grafana/dashboards/default-folder
           - name: ceph
             orgId: 1
             folder: Ceph
@@ -104,7 +104,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/ceph
+              path: /var/lib/grafana/dashboards/ceph-folder
           - name: cilium
             orgId: 1
             folder: Cilium
@@ -112,7 +112,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/cilium
+              path: /var/lib/grafana/dashboards/cilium-folder
           - name: flux
             orgId: 1
             folder: Flux
@@ -120,7 +120,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/flux
+              path: /var/lib/grafana/dashboards/flux-folder
           - name: kubernetes
             orgId: 1
             folder: Kubernetes
@@ -128,7 +128,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/kubernetes
+              path: /var/lib/grafana/dashboards/kubernetes-folder
           - name: loki
             orgId: 1
             folder: Loki
@@ -136,7 +136,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/loki
+              path: /var/lib/grafana/dashboards/loki-folder
           - name: network
             orgId: 1
             folder: Network
@@ -144,7 +144,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/network
+              path: /var/lib/grafana/dashboards/network-folder
           - name: nginx
             orgId: 1
             folder: Nginx
@@ -152,7 +152,15 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/nginx
+              path: /var/lib/grafana/dashboards/nginx-folder
+          - name: prometheus
+            orgId: 1
+            folder: Prometheus
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/prometheus-folder
           - name: testing
             orgId: 1
             folder: Testing
@@ -160,7 +168,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/testing
+              path: /var/lib/grafana/dashboards/testing-folder
           - name: trivy
             orgId: 1
             folder: Trivy
@@ -168,7 +176,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/trivy
+              path: /var/lib/grafana/dashboards/trivy-folder
           - name: unifi
             orgId: 1
             folder: Unifi
@@ -176,7 +184,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/unifi
+              path: /var/lib/grafana/dashboards/unifi-folder
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -281,6 +289,10 @@ spec:
           # renovate: depName="Ceph - Pools"
           gnetId: 5342
           revision: 9
+          datasource: Prometheus
+
+        host-overview:
+          url: https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/hosts-overview.json
           datasource: Prometheus
 
       cilium:
@@ -494,6 +506,10 @@ spec:
             - { name: DS_LOKI, value: Loki }
 
       network:
+        cert-manager:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+          datasource: Prometheus
+
         snmp-stats:
           # renovate: depName="SNMP Stats ifmib"
           gnetId: 11169
@@ -504,6 +520,14 @@ spec:
           gnetId: 13665
           revision: 1
           datasource: Prometheus
+
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
 
         speedtest-exporter-dashboard:
           # renovate: depName="Speedtest Exporter"
@@ -542,6 +566,13 @@ spec:
           # renovate: depName="Nginx Ingress Controller"
           gnetId: 10187
           revision: 1
+          datasource: Prometheus
+
+      prometheus:
+        prometheus:
+          # renovate: depName="Prometheus"
+          gnetId: 19105
+          revision: 3
           datasource: Prometheus
 
       testing:
