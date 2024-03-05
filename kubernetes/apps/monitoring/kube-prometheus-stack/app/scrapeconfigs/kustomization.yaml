@@ -6,4 +6,4 @@ namespace: monitoring
 resources:
   - ./arc-controller-scrape.yaml
   - ./arc-listener-scrape.yaml
-  - ./rook-ceph-scrape.yaml
+#  - ./rook-ceph-scrape.yaml
