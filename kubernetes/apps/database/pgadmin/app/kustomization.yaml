@@ -5,6 +5,7 @@ namespace: database
 resources:
   - pgadmin-secret.yaml
   - helmrelease.yaml
+  - volsync-backblazeb2-source.yaml
   - volsync-config.yaml
   - pvc.yaml
 configMapGenerator:
