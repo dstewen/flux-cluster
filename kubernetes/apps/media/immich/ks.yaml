@@ -8,7 +8,6 @@ spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg-cluster
     - name: cluster-apps-external-secrets-stores
-    - name: cluster-apps-immich-redis
     - name: cluster-apps-volsync
   path: ./kubernetes/apps/media/immich/app
   prune: true
