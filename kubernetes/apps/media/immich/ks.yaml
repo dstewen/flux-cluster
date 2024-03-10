@@ -19,19 +19,3 @@ spec:
   retryInterval: 1m
   timeout: 5m
   wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: cluster-apps-immich-redis
-  namespace: flux-system
-spec:
-  path: ./kubernetes/apps/media/immich/redis
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-kubernetes
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
-  wait: true

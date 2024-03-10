@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - machine-learning
   - microservices
+  - redis
   - server
   - typesense
   - configmap.yaml
