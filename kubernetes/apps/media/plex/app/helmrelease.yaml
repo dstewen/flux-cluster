@@ -153,4 +153,4 @@ spec:
         path: /volume2/piNFS01/flux-cluster/plex/media
         globalMounts:
           - path: /media
-            readOnly: true
+            readOnly: false
