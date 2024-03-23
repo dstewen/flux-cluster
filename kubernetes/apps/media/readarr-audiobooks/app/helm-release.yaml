@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: readarr-audiobooks
+  name: &app readarr-audiobooks
   namespace: media
 spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       interval: 15m
       sourceRef:
         kind: HelmRepository
@@ -18,11 +18,11 @@ spec:
   interval: 15m
   values:
     controllers:
-      main:
+      readarr-audiobooks:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/readarr-nightly
               tag: 0.3.19.2437
@@ -44,13 +44,14 @@ spec:
               - 2000
 
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 8787
 
     ingress:
-      main:
+      app:
         enabled: true
         className: nginx-internal
         annotations:
@@ -65,7 +66,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
