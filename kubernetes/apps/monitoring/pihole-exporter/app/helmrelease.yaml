@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: pihole-exporter
+  name: &app pihole-exporter
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -45,9 +45,9 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      pihole-exporter:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/osnabrugge/pihole-exporter
               tag: v0.4.0@sha256:0e8e100ed3916db1d816a4d23066e65509d79840f6e2b81df8bab42a070e2f6b
@@ -64,7 +64,8 @@ spec:
               limits:
                 memory: 60M
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             enabled: false
@@ -73,7 +74,7 @@ spec:
             protocol: TCP
             port: 9617
     serviceMonitor:
-      main:
+      app:
         enabled: true
         endpoints:
         - port: metrics
