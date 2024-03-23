@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,11 +29,11 @@ spec:
       namespace: rook-ceph
   values:
     controllers:
-      main:
+      sabnzbd:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/sabnzbd
               tag: 4.2.3@sha256:2daf5e89096f47f4d3a0c28f0bf84323f91b797c30d4efe3d7f29f2121bc0f3c
@@ -42,10 +42,10 @@ spec:
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
                 sabnzbd,
-                sabnzbd.downloads,
-                sabnzbd.downloads.svc,
-                sabnzbd.downloads.svc.cluster,
-                sabnzbd.downloads.svc.cluster.local,
+                sabnzbd.media,
+                sabnzbd.media.svc,
+                sabnzbd.media.svc.cluster,
+                sabnzbd.media.svc.cluster.local,
                 sabnzbd.${SECRET_DOMAIN}
             envFrom:
               - secretRef:
@@ -87,21 +87,22 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Downloads
+          gethomepage.dev/group: Media
           gethomepage.dev/name: SABnzbd
           gethomepage.dev/icon: sabnzbd.png
           gethomepage.dev/widget.type: sabnzbd
-          gethomepage.dev/widget.url: http://sabnzbd.downloads:8080
+          gethomepage.dev/widget.url: http://sabnzbd.media:8080
           gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SABNZBD_TOKEN}}"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
@@ -112,7 +113,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
