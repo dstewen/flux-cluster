@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -42,11 +42,11 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      node-red:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/nodered/node-red
               tag: 3.1.7@sha256:b08c8130305554f919cfe9b7bb67131b8928d5a32054e1d751fa2022880d2d43
@@ -82,17 +82,19 @@ spec:
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
           hajimari.io/icon: cib:node-red
+          hajimari.io/group: Home
+          hajimari.io/appName: node-red
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths: &paths
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
           - host: &customHost "nr.${SECRET_DOMAIN}"
             paths: *paths
@@ -114,7 +116,7 @@ spec:
       tmp:
         type: emptyDir
     service:
-      main:
+      app:
         ports:
           http:
             port: 1880
