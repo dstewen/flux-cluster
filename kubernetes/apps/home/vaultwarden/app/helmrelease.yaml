@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -46,7 +46,7 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      vaultwarden:
         type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
@@ -60,7 +60,7 @@ spec:
               - secretRef:
                   name: vaultwarden-secret
         containers:
-          main:
+          app:
             image:
               repository: vaultwarden/server
               tag: 1.30.5
@@ -93,7 +93,8 @@ spec:
               limits:
                 memory: 128M
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 80
@@ -101,7 +102,7 @@ spec:
             enabled: true
             port: &websocket-port 3012
     ingress:
-      main:
+      app:
         enabled: true
         className: "internal"
         anotations:
@@ -114,17 +115,17 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: *port
               - path: /notifications/hub/negotiate
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: *port
               - path: /notifications/hub
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: *websocket-port
         tls:
           - hosts:
