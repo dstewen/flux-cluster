@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -44,11 +44,11 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      minio:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: quay.io/minio/minio
               tag: RELEASE.2024-01-11T07-46-16Z
@@ -96,14 +96,15 @@ spec:
               limits:
                 memory: 1Gi
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 9001
           s3:
             port: 9000
     serviceMonitor:
-      main:
+      app:
         enabled: true
         endpoints:
           - port: s3
@@ -112,7 +113,7 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -120,13 +121,13 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
           - host: &s3Host s3.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: s3
         tls:
           - hosts:
