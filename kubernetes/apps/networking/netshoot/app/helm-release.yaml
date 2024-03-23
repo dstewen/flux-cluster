@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: netshoot
+  name: &app netshoot
   namespace: networking
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -45,9 +45,9 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      netshoot:
         containers:
-          main:
+          app:
             image:
               repository: nicolaka/netshoot
               tag: latest
