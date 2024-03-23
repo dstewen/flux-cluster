@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: snmp-generator
+  name: &app snmp-generator
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -45,14 +45,14 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      snmp-generator:
         initContainers:
           init-generator:
             image:
               repository: quay.io/prometheus/snmp-generator
               tag: v0.25.0@sha256:df6554584509a3ae49f0258ae8b4fb15cf9bff39672b7e2d51ee5c461e5262fb
         containers:
-          main:
+          app:
             image:
               repository: quay.io/prometheus/snmp-exporter
               tag: v0.25.0@sha256:cf0768ea183aba8a91bc30e76edeed26790d32b23d37d1473337931ecd05cb8c
@@ -66,7 +66,8 @@ spec:
               limits:
                 memory: 60M
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             enabled: false
@@ -75,7 +76,7 @@ spec:
             protocol: TCP
             port: 9617
     serviceMonitor:
-      main:
+      app:
         enabled: true
         endpoints:
         - port: metrics
