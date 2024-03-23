@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,7 +31,7 @@ spec:
       namespace: rook-ceph
   values:
     controllers:
-      main:
+      radarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -44,7 +44,7 @@ spec:
               - secretRef:
                   name: radarr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
               tag: 5.3.5.8592@sha256:60d0a8a04a062654e27be6f1d8d780be2e821bd0e7815201f4bb32df8090b00b
@@ -84,21 +84,22 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Downloads
+          gethomepage.dev/group: Media
           gethomepage.dev/name: Radarr
           gethomepage.dev/icon: radarr.png
           gethomepage.dev/widget.type: radarr
-          gethomepage.dev/widget.url: http://radarr.downloads
+          gethomepage.dev/widget.url: http://radarr.media
           gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_RADARR_TOKEN}}"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
@@ -109,7 +110,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
