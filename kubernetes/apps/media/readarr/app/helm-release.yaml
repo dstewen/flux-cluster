@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,7 +31,7 @@ spec:
       namespace: rook-ceph
   values:
     controllers:
-      main:
+      readarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -44,7 +44,7 @@ spec:
               - secretRef:
                   name: readarr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/readarr-develop
               tag: 0.3.18.2411@sha256:a1d9eb2001d499322e00876106a675c36b6f750cd253843595bb8e022a54f37a
@@ -67,21 +67,22 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Downloads
+          gethomepage.dev/group: Media
           gethomepage.dev/name: Readarr
           gethomepage.dev/icon: readarr.png
           gethomepage.dev/widget.type: readarr
-          gethomepage.dev/widget.url: http://readarr.downloads
+          gethomepage.dev/widget.url: http://readarr.media
           gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_READARR_TOKEN}}"
           nginx.ingress.kubernetes.io/configuration-snippet: |-
             proxy_set_header Accept-Encoding "";
@@ -92,7 +93,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
