@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: home-assistant-code
+  name: &app home-assistant-code
   namespace: home
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,11 +29,11 @@ spec:
 #      namespace: home
   values:
     controllers:
-      main:
+      home-assistant-code:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/coder/code-server
               tag: 4.22.0
@@ -79,26 +79,32 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 80
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
+        annotations:
+          hajimari.io/icon: mdi:home
+          hajimari.io/enable: "true"
+          hajimari.io/group: Home
+          hajimari.io/appName: home-assistant
         hosts:
           - host: &host "{{ .Release.Name }}.davidstewen.com"
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
           - host: &customHost hass-code.davidstewen.com
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
