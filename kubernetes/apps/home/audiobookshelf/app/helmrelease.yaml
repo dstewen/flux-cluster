@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: audiobookshelf
+  name: &app audiobookshelf
   namespace: home
 spec:
   interval: 10m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -32,15 +32,11 @@ spec:
       namespace: volsync
   values:
     controllers:
-      main:
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+      audiobookshelf:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.8.0@sha256:34bc1414a7a65f3f1e12f3e03195561732cc740792d1dea1858d483006ceba1e
@@ -49,35 +45,60 @@ spec:
               AUDIOBOOKSHELF_GID: 568
               CONFIG_PATH: /config
               METADATA_PATH: /config/metadata
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthcheck
+                    port: &port 80
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
             resources:
               requests:
-                cpu: 100m
+                cpu: 10m
                 memory: 100Mi
               limits:
                 cpu: 1
                 memory: 500Mi
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 80
     ingress:
-      main:
+      app:
         enabled: true
+        classname: external
         annotations:
-          external-dns.home.arpa/enabled: "true"
-          cert-manager.home.arpa/enabled: "true"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          hajimari.io/icon: mdi:media
+          hajimari.io/enable: "true"
+          hajimari.io/group: Media
+          hajimari.io/appName: audiobookshelf
         hosts:
-          - host: &host audiobookshelf.${DOMAIN}
+          - host: &host audiobookshelf.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
-            secretName: audiobookshelf-tls
     persistence:
       config:
         enabled: true
@@ -87,7 +108,8 @@ spec:
         mountPath: /.npm
         type: emptyDir
       media:
-        enabled: true
-        existingClaim: nfs-singularity-media
+        type: nfs
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/media/audiobookshelf
         globalMounts:
           - path: /media
