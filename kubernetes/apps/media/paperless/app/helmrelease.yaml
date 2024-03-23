@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: paperless
+  name: &app paperless
   namespace: media
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -33,7 +33,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     controllers:
-      main:
+      paperless:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -47,21 +47,26 @@ spec:
                   name: paperless-dbinit-secret
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.6.2
+              tag: 2.6.3
             env:
-              PAPERLESS_CONSUMER_POLLING: 5
+              COMPOSE_PROJECT_NAME: paperless
+              PAPERLESS_CONSUMER_POLLING: 60
+              PAPERLESS_CONSUMER_RECURSIVE: "true"
+              PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_PORT: 8000
-              PAPERLESS_TIKA_ENABLED: 1
-              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
-              PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
+              PAPERLESS_REDIS: redis://paperless-redis.databases.svc.cluster.local.:6379
+              PAPERLESS_TASK_WORKERS: 2
+              PAPERLESS_TIKA_ENABLED: true
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+              PAPERLESS_TIKA_ENDPOINT: http://tika:9998
               PAPERLESS_TIME_ZONE: Australia/Victoria
               PAPERLESS_URL: https://{{ .Release.Name }}.davidstewen.com
-              PAPERLESS_REDIS: redis://localhost:6379
               PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
+              PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: HTTP_X_AUTHENTIK_USERNAME
               PAPERLESS_LOGOUT_REDIRECT_URL: https://id.davidstewen.com/logout
             envFrom:
               - secretRef:
@@ -89,19 +94,20 @@ spec:
               tag: 7.2.4@sha256:e647cfe134bf5e8e74e620f66346f93418acfc240b71dd85640325cb7cd01402
 
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 8000
 
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
           nginx.ingress.kubernetes.io/auth-method: GET
-          nginx.ingress.kubernetes.io/auth-url: http://authelia.default.svc.cluster.local/api/verify
-          nginx.ingress.kubernetes.io/auth-signin: https://auth.davidstewen.com?rm=$request_method
+          nginx.ingress.kubernetes.io/auth-url: http://authentik.security.svc.cluster.local/api/verify
+          nginx.ingress.kubernetes.io/auth-signin: https://id.davidstewen.com?rm=$request_method
           nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
           nginx.ingress.kubernetes.io/auth-snippet: proxy_set_header X-Forwarded-Method $request_method;
           gethomepage.dev/enabled: "true"
@@ -111,19 +117,27 @@ spec:
           gethomepage.dev/widget.type: paperlessngx
           gethomepage.dev/widget.url: http://paperless.default.svc.cluster.local:8000
           gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_PAPERLESS_API_TOKEN}}"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: mdi:barcode-scan
+          hajimari.io/appName: "Paperless"
+          hajimari.io/group: "Home"
         hosts:
           - host: &host "{{ .Release.Name }}.davidstewen.com"
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
 
     persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /data/local
       data:
         enabled: true
         existingClaim: data-paperless
@@ -132,31 +146,3 @@ spec:
             path: /usr/src/paperless/data
           - subPath: media
             path: /usr/src/paperless/media
-
-    networkpolicies:
-      main:
-        enabled: true
-
-        podSelector:
-          matchLabels:
-            app.kubernetes.io/name: paperless
-
-        policyTypes:
-          - Ingress
-
-        rules:
-          ingress:
-            - from:
-                - namespaceSelector:
-                    matchLabels:
-                      kubernetes.io/metadata.name: networking
-                - podSelector:
-                    matchLabels:
-                      app.kubernetes.io/name: ingress-nginx
-            - from:
-                - namespaceSelector:
-                    matchLabels:
-                      kubernetes.io/metadata.name: default
-                - podSelector:
-                    matchLabels:
-                      app.kubernetes.io/name: homepage
