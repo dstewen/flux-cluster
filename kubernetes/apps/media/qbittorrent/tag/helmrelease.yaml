@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: qbittools-tagging
+  name: &app qbittools-tagging
   namespace: media
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -38,13 +38,13 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
 
     controllers:
-      main:
+      qbittools-tagging:
         type: cronjob
         cronjob:
           schedule: "@hourly"
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/buroa/qbtools
               tag: v0.15.0@sha256:067a68a0c7b2f522b7527e7bb48cf18614d46c16fcbcd16561d1bbc7f7f983fd
@@ -70,5 +70,5 @@ spec:
                 memory: 500Mi
 
     service:
-      main:
+      app:
         enabled: false
