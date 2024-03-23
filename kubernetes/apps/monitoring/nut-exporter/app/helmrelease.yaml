@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -45,11 +45,11 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      nut-exporter:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/druggeri/nut_exporter
               tag: "3.1.1"
@@ -66,7 +66,8 @@ spec:
                 cpu: 100m
                 memory: 100Mi
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             enabled: false
