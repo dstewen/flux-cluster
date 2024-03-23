@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: pgadmin
+  name: &app pgadmin
   namespace: database
 spec:
   interval: 15m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -47,7 +47,9 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      pgadmin:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: statefulset
         statefulset:
           volumeClaimTemplates:
@@ -57,8 +59,6 @@ spec:
               storageClass: ceph-block
               globalMounts:
                 - path: /var/lib/pgadmin
-        annotations:
-          reloader.stakater.com/auto: "true"
         pod:
           securityContext:
             runAsUser: 5050
@@ -66,7 +66,7 @@ spec:
             fsGroup: 5050
             fsGroupChangePolicy: OnRootMismatch
         containers:
-          main:
+          app:
             image:
               repository: docker.io/dpage/pgadmin4
               tag: "8.4"
@@ -83,13 +83,14 @@ spec:
                 memory: 236M
 
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 80
 
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
