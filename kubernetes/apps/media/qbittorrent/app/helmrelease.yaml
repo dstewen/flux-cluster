@@ -50,7 +50,7 @@ spec:
                 memory: 16G
           reannounce:
             image:
-              repository: ghcr.io/buroa/qbittools
+              repository: ghcr.io/buroa/qbtools
               tag: v0.11.0
             args: ["reannounce", "-s", "localhost", "-p", "8080"]
         pod:
