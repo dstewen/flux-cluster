@@ -12,5 +12,5 @@ configMapGenerator:
       - ./configs/settings.js
 generatorOptions:
   disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
+#  annotations:
+#    kustomize.toolkit.fluxcd.io/substitute: disabled
