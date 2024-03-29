@@ -26,15 +26,27 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    env:
+      TZ: ${TIMEZONE}
+    nginx:
+      enabled: false
+    cert-manager:
+      enabled: false
+    metrics-server:
+      enabled: false
     extraArgs:
       - --enable-insecure-login
       - --enable-skip-login
       - --disable-settings-authorizer
+      - --token-ttl=43200
     ingress:
       enabled: true
       className: internal
       annotations:
         hajimari.io/icon: mdi:kubernetes
+        hajimari.io/info: Centralized Kubernetes Management
+        hajimari.io/appName: Kubernetes Dashboard
+        hajimari.io/group: Resources
       hosts:
         - &host "kubernetes.${SECRET_DOMAIN}"
       tls:
@@ -42,3 +54,5 @@ spec:
             - *host
     metricsScraper:
       enabled: true
+    serviceMonitor:
+      enabled: false
