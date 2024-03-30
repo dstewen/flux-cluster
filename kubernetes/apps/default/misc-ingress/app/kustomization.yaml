@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
 #  - ./mc-dns.yaml
 #  - ./mesh-ingress.yaml
+  - ./home-assistant-yellow-ingress.yaml
+  - ./home-assistantpi4-ingress.yaml
   - ./nas-ingress.yaml
 #  - ./portainer-ingress.yaml
 #  - ./tdarr-ingress.yaml

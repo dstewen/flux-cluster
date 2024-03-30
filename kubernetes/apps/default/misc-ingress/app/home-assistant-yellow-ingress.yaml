@@ -3,26 +3,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nas
+  name: home-assistant-yellow-ingress
   annotations:
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/icon: synology.png
-    gethomepage.dev/name: Synology
-    gethomepage.dev/group: Storage
-    gethomepage.dev/href: https://nas.${SECRET_DOMAIN}
+    gethomepage.dev/icon: home-assistant.png
+    gethomepage.dev/name: Home-Assistant-Yellow
+    gethomepage.dev/group: Home
+    gethomepage.dev/href: https://home-assistant-yellow.${SECRET_DOMAIN}
 spec:
   ingressClassName: internal
   rules:
-    - host: &host nas.${SECRET_DOMAIN}
+    - host: &host home-assistant-yellow.${SECRET_DOMAIN}
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: nas
+                name: home-assistant-yellow
                 port:
-                  number: 5000
+                  number: 8123
   tls:
     - hosts:
         - *host
@@ -30,21 +30,21 @@ spec:
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: nas
+  name: home-assistant-yellow
 subsets:
   - addresses:
-      - ip: 192.168.10.15
+      - ip: 192.168.10.84
     ports:
       - name: http
-        port: 5000
+        port: 8123
         protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nas
+  name: home-assistant-yellow
 spec:
   ports:
     - name: http
-      port: 5000
+      port: 8123
   type: ClusterIP
