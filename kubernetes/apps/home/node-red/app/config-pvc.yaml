@@ -3,9 +3,15 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: node-red
+  namespace: home
+  labels:
+    app.kubernetes.io/name: &name node-red
+    app.kubernetes.io/instance: *name
+    snapshot.home.arpa/enabled: "true"
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ceph-block
   resources:
     requests:
-      storage: 5G
-  storageClassName: ceph-block
+      storage: 5Gi

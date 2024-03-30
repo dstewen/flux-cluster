@@ -64,8 +64,8 @@ spec:
                   name: node-red-secret
             resources:
               requests:
-                cpu: 5m
-                memory: 36M
+                cpu: 10m
+                memory: 64M
               limits:
                 memory: 512M
             securityContext:
@@ -89,6 +89,7 @@ spec:
           hajimari.io/icon: cib:node-red
           hajimari.io/group: Home
           hajimari.io/appName: node-red
+#          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths: &paths
@@ -96,7 +97,7 @@ spec:
                 service:
                   identifier: app
                   port: http
-          - host: &customHost "nr.${SECRET_DOMAIN}"
+          - host: &customHost nr.${SECRET_DOMAIN}
             paths: *paths
         tls:
           - hosts:
