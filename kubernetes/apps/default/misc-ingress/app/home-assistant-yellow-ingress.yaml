@@ -10,6 +10,10 @@ metadata:
     gethomepage.dev/name: Home-Assistant-Yellow
     gethomepage.dev/group: Home
     gethomepage.dev/href: https://home-assistant-yellow.${SECRET_DOMAIN}
+    gethomepage.dev/widget.type: homeassistant
+    gethomepage.dev/widget.url: http://192.168.10.84:8123
+    gethomepage.dev/widget.key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiODkxY2UwNzhlNmU0MmVlOGU1NzJjNzI1YzAyYjU3NCIsImlhdCI6MTcxMTgwNzczOCwiZXhwIjoyMDI3MTY3NzM4fQ._OLAmbMOonKksTRXcXIvbQhw2PFVB0Sd3II8J4EGaHw"
+#    external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
 spec:
   ingressClassName: internal
   rules:
