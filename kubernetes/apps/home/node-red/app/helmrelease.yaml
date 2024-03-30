@@ -94,6 +94,7 @@ spec:
           hajimari.io/icon: cib:node-red
           hajimari.io/group: Home
           hajimari.io/appName: node-red
+          hajimari.io/url: https://nr.${SECRET_DOMAIN}
 #          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -112,8 +113,8 @@ spec:
       data:
         enabled: true
         existingClaim: node-red
-        globalMounts:
-          - path: /data
+#        globalMounts:
+#          - path: /data
       settings:
         type: configMap
         name: node-red-configmap
