@@ -6,10 +6,19 @@ metadata:
   name: nas
   annotations:
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/icon: synology.png
+    gethomepage.dev/icon: si-synology
     gethomepage.dev/name: Synology
     gethomepage.dev/group: Storage
     gethomepage.dev/href: https://nas.${SECRET_DOMAIN}
+    gethomepage.dev/widget.type: diskstation
+    gethomepage.dev/widget.url: http://192.168.10.15:5000
+#    Should be username and password below
+#    gethomepage.dev/widget.key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI3NDJkOThkZDUyN2Y0MjNiOGM2NTJiZGJjZDNlY2NjZiIsImlhdCI6MTcxMTgwODc1OSwiZXhwIjoyMDI3MTY4NzU5fQ.TzjKHJDC-pNDfg0ldAVR4iNmBGusoDAN-vVd3gyqa8U"
+    hajimari.io/enable: "true"
+    hajimari.io/icon: mdi:nas
+    hajimari.io/group: Home
+    hajimari.io/url: https://nas.${SECRET_DOMAIN}
+#    external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
 spec:
   ingressClassName: internal
   rules:
