@@ -54,11 +54,11 @@ spec:
               TZ: ${TIMEZONE}
 #              NODE_RED_ENABLE_PROJECTS: "true"
 #              NODE_RED_ENABLE_SAFE_MODE: "false"
-              NODE_RED_OAUTH_ISSUER_URL: "https://id.${SECRET_DOMAIN}/application/o/node-red/"
-              NODE_RED_OAUTH_AUTH_URL: "https://id.${SECRET_DOMAIN}/application/o/authorize/"
-              NODE_RED_OAUTH_CALLBACK_URL: "https://nr.${SECRET_DOMAIN}/auth/strategy/callback/"
-              NODE_RED_OAUTH_TOKEN_URL: "https://id.${SECRET_DOMAIN}/application/o/token/"
-              NODE_RED_OAUTH_USER_URL: "https://id.${SECRET_DOMAIN}/application/o/userinfo/"
+              NODE_RED_OAUTH_ISSUER_URL: https://id.${SECRET_DOMAIN}/application/o/node-red/
+              NODE_RED_OAUTH_AUTH_URL: https://id.${SECRET_DOMAIN}/application/o/authorize/
+              NODE_RED_OAUTH_CALLBACK_URL: https://nr.${SECRET_DOMAIN}/auth/strategy/callback/
+              NODE_RED_OAUTH_TOKEN_URL: https://id.${SECRET_DOMAIN}/application/o/token/
+              NODE_RED_OAUTH_USER_URL: https://id.${SECRET_DOMAIN}/application/o/userinfo/
             envFrom:
               - secretRef:
                   name: node-red-secret
