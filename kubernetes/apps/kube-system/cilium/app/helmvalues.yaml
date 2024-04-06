@@ -83,6 +83,7 @@ data:
         enabled: true
         annotations:
           grafana_folder: Cilium
+    routingMode: native
     prometheus:
       enabled: true
       serviceMonitor:
