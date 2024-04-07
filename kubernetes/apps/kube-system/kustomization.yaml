@@ -8,9 +8,11 @@ resources:
   - ./coredns/ks.yaml
 #  - ./descheduler/ks.yaml
   - ./external-secrets/ks.yaml
+  - ./intel-device-plugin/ks.yaml
 #  - ./local-path-provisioner/ks.yaml
   - ./metrics-server/ks.yaml
   - ./nfs-subdir-external-provisioner/ks.yaml
+  - ./node-feature-discovery/ks.yaml
   - ./reloader/ks.yaml
 #  - ./snapshot-controller/ks.yaml
 #  - ./spegel/ks.yaml
