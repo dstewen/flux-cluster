@@ -43,7 +43,6 @@ resources:
   - ./metrics-server.yaml
   - ./nextcloud.yaml
   - ./nfs-provisioner.yaml
-  - ./node-feature-discovery.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./redis-operator.yaml
