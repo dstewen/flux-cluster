@@ -27,7 +27,7 @@ spec:
               service:
                 name: syn-minio-ingress
                 port:
-                  number: 8123
+                  number: 9001
   tls:
     - hosts:
         - *host
