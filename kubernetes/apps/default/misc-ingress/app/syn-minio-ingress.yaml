@@ -6,7 +6,7 @@ metadata:
   name: syn-minio-ingress
   annotations:
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/icon: mdi:nas
+    gethomepage.dev/icon: si-minio
     gethomepage.dev/name: Syn-Minio
     gethomepage.dev/group: Home
     gethomepage.dev/href: https://syn-minio.${SECRET_DOMAIN}
