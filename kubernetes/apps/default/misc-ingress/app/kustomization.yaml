@@ -9,5 +9,6 @@ resources:
   - ./home-assistantpi4-ingress.yaml
   - ./nas-ingress.yaml
 #  - ./portainer-ingress.yaml
+  - ./syn-minio-ingress.yaml
 #  - ./tdarr-ingress.yaml
 #  - ./vpn-endpoint.yaml
