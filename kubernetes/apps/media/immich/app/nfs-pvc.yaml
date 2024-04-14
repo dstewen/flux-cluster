@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 192.168.10.15
-    path: /volume2/piNFS01/flux-cluster/plex/media/photos
+    path: /volume2/piNFS01/flux-cluster/media
   # Note: The first two options are strictly for NFSv4.2
 #  mountOptions: ["nfsvers=4.2", "nconnect=8", "hard", "noatime"]
   mountOptions: ["nfsvers=4.1", "hard", "noatime"]
