@@ -27,17 +27,15 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      storageClass: ceph-block
     auth:
       enabled: false
       sentinel: false
     master:
-      persistence:
-        enabled: false
       nodeSelector:
         node-role.kubernetes.io/worker: worker
     replica:
-      persistence:
-        enabled: false
       nodeSelector:
         node-role.kubernetes.io/worker: worker
     sentinel:
@@ -46,8 +44,6 @@ spec:
       getMasterTimeout: 10
       startupProbe:
         failureThreshold: 2
-      persistence:
-        enabled: false
       nodeSelector:
         node-role.kubernetes.io/worker: worker
     metrics:
