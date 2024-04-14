@@ -46,9 +46,20 @@ spec:
         failureThreshold: 2
       nodeSelector:
         node-role.kubernetes.io/worker: worker
+      resources:
+        requests:
+          cpu: 10m
+          memory: 10Mi
+        limits:
+          memory: 50Mi
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
         interval: 1m
-
+      resources:
+        requests:
+          cpu: 10m
+          memory: 10Mi
+        limits:
+          memory: 50Mi
