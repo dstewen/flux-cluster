@@ -11,7 +11,8 @@ data:
   LOG_LEVEL: verbose
 
   # Redis
-  REDIS_HOSTNAME: redis.database.svc.cluster.local
+#  REDIS_HOSTNAME: redis.database.svc.cluster.local
+  REDIS_HOSTNAME: redis-node-0.redis-headless.database.svc.cluster.local
   REDIS_PORT: "6379"
 
   # Typesense
