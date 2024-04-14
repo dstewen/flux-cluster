@@ -10,10 +10,11 @@ spec:
   accessModes: ["ReadWriteMany"]
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: "${SECRET_NFS_HOST_0}"
-    path: /mnt/kubernetes/immich
+    server: 192.168.10.15
+    path: /volume2/piNFS01/flux-cluster/plex/media/photos
   # Note: The first two options are strictly for NFSv4.2
-  mountOptions: ["nfsvers=4.2", "nconnect=8", "hard", "noatime"]
+#  mountOptions: ["nfsvers=4.2", "nconnect=8", "hard", "noatime"]
+  mountOptions: ["nfsvers=4.1", "hard", "noatime"]
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

@@ -34,7 +34,7 @@ spec:
 
   dependsOn:
     - name: redis
-      namespace: databases
+      namespace: database
     - name: immich-typesense
       namespace: media
   values:
@@ -51,7 +51,7 @@ spec:
           01-init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.2
+              tag: 16.1
 
             envFrom: &envFrom
               - configMapRef:
