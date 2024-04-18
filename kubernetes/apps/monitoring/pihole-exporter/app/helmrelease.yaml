@@ -73,6 +73,7 @@ spec:
             port: 9617
     serviceMonitor:
       app:
+        serviceName: *app
         enabled: true
         endpoints:
         - port: metrics
