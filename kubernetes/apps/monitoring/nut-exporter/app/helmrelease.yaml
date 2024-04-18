@@ -69,8 +69,6 @@ spec:
       app:
         controller: *app
         ports:
-          http:
-            enabled: false
           metrics:
             enabled: true
             protocol: TCP
