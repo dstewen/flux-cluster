@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: snmp-exporter-synology-nas
+  name: snmp-exporter-synology-nas-configmap
   namespace: monitoring
 data:
   snmp.yaml: |
