@@ -37,9 +37,9 @@ spec:
       namespace: monitoring
       params:
         - name: synology-nas-0
-          target: 192.168.10.15
           module:
             - synology
+          target: 192.168.10.15
       path: /snmp
 #      scrapeTimeout: 30s
 #      scrapeInterval: 60s
