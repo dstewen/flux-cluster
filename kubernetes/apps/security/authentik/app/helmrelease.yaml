@@ -90,9 +90,9 @@ spec:
         secretKeyRef:
           name: authentik-secret
           key: AUTHENTIK_REDIS__URL
-    annotations:
-      secret.reloader.stakater.com/reload: "authentik-secret"
-      configmap.reloader.stakater.com/reload: "authentik-branding"
+#    annotations:
+#      secret.reloader.stakater.com/reload: "authentik-secret"
+#      configmap.reloader.stakater.com/reload: "authentik-branding"
     authentik:
       log_level: info
       avatars: "gravatar,initials"
