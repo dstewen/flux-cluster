@@ -8,7 +8,9 @@ resources:
 #  - ./home-assistant/ks.yaml
 #  - ./mosquitto/ks.yaml
 #  - ./node-red/ks.yaml
+  - ./piper/ks.yaml
   - ./smtp-relay/ks.yaml
 #  - ./unifi/ks.yaml
   - ./vaultwarden/ks.yaml
+  - ./whisper/ks.yaml
 #  - ./zigbee2mqtt/ks.yaml
