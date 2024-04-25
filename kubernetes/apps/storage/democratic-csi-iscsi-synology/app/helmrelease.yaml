@@ -35,7 +35,7 @@ spec:
       name: "org.democratic-csi.iscsi-synology"
     driver:
       existingConfigSecret: democratic-csi-secret
-      image: docker.io/democraticcsi/democratic-csi:v1.9.0
+      image: ghcr.io/democraticcsi/democratic-csi:v1.9.0
       config:
         driver: synology-iscsi
     # https://kubernetes-csi.github.io/docs/external-provisioner.html
@@ -52,7 +52,7 @@ spec:
       enabled: true
       image: registry.k8s.io/sig-storage/csi-external-health-monitor-controller:v0.11.0
     csiProxy:
-      image: docker.io/democraticcsi/csi-grpc-proxy:v0.5.6
+      image: ghcr.io/democraticcsi/csi-grpc-proxy:v0.5.6
     controller:
       resources:
         requests:
@@ -81,7 +81,7 @@ spec:
       cleanup:
         image: docker.io/busybox:1.36.1
       driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.0
+        image: ghcr.io/democraticcsi/democratic-csi:v1.9.0
         resources:
           requests:
             cpu: 15m
