@@ -80,8 +80,11 @@ spec:
             - name: Minio
               url: http://192.168.10.198:9001/
               icon: simple-icons:minio
-            - name: Home-Assistant
+            - name: Home-Assistant-Pi4
               url: http://192.168.10.22:8123/
+              icon: simple-icons:homeassistant
+            - name: Home-Assistant-CM4
+              url: http://192.168.10.84:8123/
               icon: simple-icons:homeassistant
     ingress:
       main:
