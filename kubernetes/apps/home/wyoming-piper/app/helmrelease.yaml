@@ -16,22 +16,41 @@ spec:
   interval: 10m0s
   values:
     controllers:
-      main:
+      wyoming-piper:
         containers:
-          main:
+          app:
             image:
               repository: rhasspy/wyoming-piper
-              tag: v1.5.0
+              tag: 1.5.0
               pullPolicy: Always
             env:
               TZ: ${TIMEZONE}
             args:
               - --voice
               - en-gb-alan-low
+
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 100m
+                memory: 500Mi
+
         strategy: Recreate
     service:
-      main:
-        controller: main
+      app:
+        controller: wyoming-piper
         ports:
           tcp:
             port: 10200

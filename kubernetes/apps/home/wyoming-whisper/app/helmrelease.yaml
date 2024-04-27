@@ -16,9 +16,9 @@ spec:
   interval: 10m0s
   values:
     controllers:
-      main:
+      wyoming-whisper:
         containers:
-          main:
+          app:
             image:
               repository: rhasspy/wyoming-whisper
               tag: 2.0.0
@@ -40,8 +40,8 @@ spec:
               - en
         strategy: Recreate
     service:
-      main:
-        controller: main
+      app:
+        controller: wyoming-whisper
         ports:
           tcp:
             port: 10300
