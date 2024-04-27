@@ -90,8 +90,6 @@ spec:
               requests:
                 cpu: 100m
                 memory: 64M
-              limits:
-                memory: 128M
     service:
       main:
         ports:
