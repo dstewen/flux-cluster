@@ -75,8 +75,6 @@ spec:
               requests:
                 cpu: 100m
                 memory: 250Mi
-              limits:
-                memory: 250Mi
 
         pod:
           topologySpreadConstraints:

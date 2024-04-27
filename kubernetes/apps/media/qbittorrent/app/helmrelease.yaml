@@ -46,8 +46,6 @@ spec:
               requests:
                 cpu: 10m
                 memory: 250Mi
-              limits:
-                memory: 16G
           reannounce:
             image:
               repository: ghcr.io/buroa/qbtools

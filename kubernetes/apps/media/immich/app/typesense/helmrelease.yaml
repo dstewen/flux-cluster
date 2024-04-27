@@ -92,8 +92,6 @@ spec:
               requests:
                 cpu: 100m
                 memory: 380M
-              limits:
-                memory: 380M
 
         pod:
           enableServiceLinks: false

@@ -73,8 +73,6 @@ spec:
               requests:
                 cpu: 100m
                 memory: 6000Mi
-              limits:
-                memory: 6000Mi
 
     service:
       main:

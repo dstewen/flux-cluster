@@ -58,8 +58,6 @@ spec:
         requests:
           cpu: 10m
           memory: 100Mi
-        limits:
-          memory: 200Mi
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -86,8 +84,6 @@ spec:
           requests:
             cpu: 15m
             memory: 150Mi
-          limits:
-            memory: 250Mi
       driverRegistrar:
         image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.10.1
       format:
