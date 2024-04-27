@@ -113,6 +113,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/cilium-folder
+          - name: etcd
+            orgId: 1
+            folder: Etcd
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/etcd-folder
           - name: flux
             orgId: 1
             folder: Flux
@@ -302,6 +310,13 @@ spec:
 
         hubble-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/1.14.1/install/kubernetes/cilium/files/hubble/dashboards/hubble-dashboard.json
+          datasource: Prometheus
+
+      etcd:
+        etcd-cluster-overview:
+          # renovate: depName="Etcd Cluster Overview"
+          gnetId: 15308
+          revision: 1
           datasource: Prometheus
 
       flux:
@@ -568,7 +583,7 @@ spec:
 
       testing:
         arc-autoscaling-runner-set-monitoring:
-          url: https://github.com/actions/actions-runner-controller/commits/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
+          url: https://raw.githubusercontent.com/actions/actions-runner-controller/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
           datasource: Prometheus
 
         authentik:
@@ -577,11 +592,35 @@ spec:
           revision: 2
           datasource: Prometheus
 
+        cnpg-dashboard:
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.21.0/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource: Prometheus
+
         grafana-internals:
           # renovate: depName="Grafana Internals"
           gnetId: 3590
           revision: 3
           datasource: Prometheus
+
+        redis:
+          # renovate: depName="Redis"
+          gnetId: 11835
+          revision: 1
+          datasource: Prometheus
+
+        smart:
+          # renovate: depName="Dashboard for smartctl_exporter"
+          gnetId: 20204
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
 
       trivy:
         trivy-image-vulnerability-overview:
