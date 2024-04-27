@@ -584,7 +584,8 @@ spec:
       testing:
         arc-autoscaling-runner-set-monitoring:
           url: https://raw.githubusercontent.com/actions/actions-runner-controller/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
 
         authentik:
           # renovate: depName="Authentik"
