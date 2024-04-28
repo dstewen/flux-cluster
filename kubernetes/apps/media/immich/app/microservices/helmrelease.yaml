@@ -33,7 +33,8 @@ spec:
     keepHistory: false
 
   dependsOn:
-    - name: immich-typesense
+    - name: immich-server
+      namespace: media
 
   values:
     controllers:
