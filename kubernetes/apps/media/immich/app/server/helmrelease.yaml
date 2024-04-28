@@ -35,8 +35,8 @@ spec:
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
-    - name: immich-typesense
-      namespace: media
+#    - name: immich-typesense
+#      namespace: media
   values:
     controllers:
       main:
