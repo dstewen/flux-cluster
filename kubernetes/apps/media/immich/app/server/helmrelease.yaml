@@ -33,7 +33,7 @@ spec:
     keepHistory: false
 
   dependsOn:
-    - name: redis
+    - name: dragonfly-cluster
       namespace: database
     - name: immich-typesense
       namespace: media
