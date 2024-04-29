@@ -65,17 +65,17 @@ spec:
           path_prefix: /var/loki
           replication_factor: 3
           storage:
-#            bucketNames:
-#              admin: loki-k3s-vms-flux
-#              chunks: loki-k3s-vms-flux
-#              ruler: loki-k3s-vms-flux
+            bucketNames:
+              admin: loki-k3s-vms-flux
+              chunks: loki-k3s-vms-flux
+              ruler: loki-k3s-vms-flux
             s3:
               s3: http://192.168.10.198:9000/loki-k3s-vms-flux
               insecure: true
               region: us-east-1
               s3forcepathstyle: true
 #              endpoint: "${SYNOLOGY_NAS}:9000"
-              bucketnames: loki-k3s-vms-flux
+#              bucketnames: loki-k3s-vms-flux
               access_key_id: "loki-k3s-vms-flux-user"
               secret_access_key: "password"
           ring:
