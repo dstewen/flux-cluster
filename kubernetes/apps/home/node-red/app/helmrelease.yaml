@@ -117,13 +117,13 @@ spec:
         existingClaim: node-red
         globalMounts:
           - path: /data
-      settings:
-        type: configMap
-        name: node-red-configmap
-        globalMounts:
-          - path: /data/settings.js
-            subPath: settings.js
-            readOnly: false
+#      settings:
+#        type: configMap
+#        name: node-red-configmap
+#        globalMounts:
+#          - path: /data/settings.js
+#            subPath: settings.js
+#            readOnly: false
       tmp:
         type: emptyDir
     service:
