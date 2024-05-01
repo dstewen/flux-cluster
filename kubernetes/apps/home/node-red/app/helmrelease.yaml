@@ -115,8 +115,8 @@ spec:
       data:
         enabled: true
         existingClaim: node-red
-#        globalMounts:
-#          - path: /data
+        globalMounts:
+          - path: /data
       settings:
         type: configMap
         name: node-red-configmap
