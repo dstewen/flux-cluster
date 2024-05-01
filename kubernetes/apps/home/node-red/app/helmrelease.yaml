@@ -19,9 +19,13 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   values:
     defaultPodOptions:
       affinity:
