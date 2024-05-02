@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -21,6 +21,7 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
   uninstall:
     keepHistory: false
@@ -44,14 +45,14 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      minio:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: quay.io/minio/minio
-              tag: RELEASE.2024-01-11T07-46-16Z
+              tag: RELEASE.2024-05-01T01-11-10Z@sha256:f95dc4fc35439654a71300f765b485e114e7a720318dbce24ccd4f324d1475cf
             env:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
               MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN}
@@ -94,15 +95,16 @@ spec:
                 memory: 100Mi
                 cpu: 100m
     service:
-      main:
+      app:
+        controller: minio
         ports:
           http:
             port: 9001
           s3:
             port: 9000
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: minio
         endpoints:
           - port: s3
             scheme: http
@@ -110,7 +112,7 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -118,13 +120,13 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
           - host: &s3Host s3.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: s3
         tls:
           - hosts:
