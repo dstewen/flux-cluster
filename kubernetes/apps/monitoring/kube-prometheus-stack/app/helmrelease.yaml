@@ -181,23 +181,23 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
-#        affinity:
-#          nodeAffinity:
-#            requiredDuringSchedulingIgnoredDuringExecution:
-#              nodeSelectorTerms:
-#              - matchExpressions:
-#                - key: kubernetes.io/arch
-#                  operator: In
-#                  values:
-#                  - arm64
-#            preferredDuringSchedulingIgnoredDuringExecution:
-#            - weight: 50
-#              preference:
-#                matchExpressions:
-#                - key: node-role.kubernetes.io/worker
-#                  operator: In
-#                  values:
-#                  - worker
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              preference:
+                matchExpressions:
+                - key: node-role.kubernetes.io/worker
+                  operator: In
+                  values:
+                  - worker
 #    prometheusOperator:
 #      affinity:
 #        nodeAffinity:
