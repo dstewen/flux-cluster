@@ -72,12 +72,6 @@ spec:
             - matchExpressions:
                 - key: node-role.kubernetes.io/control-plane
                   operator: Exists
-    resources:
-      requests:
-        cpu: 200m     # Increase CPU to 200m. Defaults to 100m
-        memory: 128Mi
-      limits:
-        memory: 500Mi # Increase memory to 500Mi. Defaults to 128Mi
     tolerations:
       - key: CriticalAddonsOnly
         operator: Exists
