@@ -116,6 +116,13 @@ spec:
         hajimari.io/icon: simple-icons:webauthn
         hajimari.io/group: Security
         hajimari.io/appName: Authentik
+        hajimari.io/url: https://id.${SECRET_DOMAIN}
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Security
+        gethomepage.dev/name: Authentik
+        gethomepage.dev/icon: si-authentik
+        gethomepage.dev/href: https://id.${SECRET_DOMAIN}
+
       hosts:
         - host: &host "id.${SECRET_DOMAIN}"
           paths:
