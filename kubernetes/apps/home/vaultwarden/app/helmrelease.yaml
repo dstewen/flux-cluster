@@ -107,6 +107,14 @@ spec:
           external-dns.alpha.kubernetes.io/target: services.${SECRET_DOMAIN}.
           hajimari.io/icon: mdi:lock
           hajimari.io/enable: "true"
+          hajimari.io/appName: "Vaultwarden"
+          hajimari.io/group: "Home"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: Vaultwarden
+          gethomepage.dev/icon: si-vaultwarden
+          gethomepage.dev/description: Vaultwarden
+
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
