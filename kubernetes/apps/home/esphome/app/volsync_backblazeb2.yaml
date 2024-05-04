@@ -3,14 +3,14 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: esphome-restic
+  name: esphome-volsync-backblazeb2
   namespace: home
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
     name: onepassword-connect
   target:
-    name: esphome-restic-secret
+    name: esphome-backblazeb2-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
@@ -21,25 +21,25 @@ spec:
         AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
   dataFrom:
     - extract:
-        key: volsync-restic-template
+        key: volsync-backblazeb2-template
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: esphome
+  name: esphome-backblazeb2-source
   namespace: home
 spec:
   sourcePVC: esphome-config
   trigger:
-    schedule: "0 7 * * *"
+    schedule: "0 0 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
-    repository: esphome-restic-secret
-    cacheCapacity: 2Gi
+    repository: esphome-backblazeb2-secret
+    cacheCapacity: 8Gi
     cacheStorageClassName: local-hostpath
-    volumeSnapshotClassName: csi-ceph-filesystem
+    volumeSnapshotClassName: csi-espceph-filesystem
     storageClassName: ceph-filesystem
     moverSecurityContext:
       runAsUser: 568
