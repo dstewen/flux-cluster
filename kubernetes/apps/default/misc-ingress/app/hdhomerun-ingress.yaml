@@ -1,0 +1,55 @@
+---
+# Copied from Lildrunksmurf
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hdhomerun-ingress
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/icon: hdhomerun.png
+    gethomepage.dev/name: HDHomeRun
+    gethomepage.dev/group: Home
+    gethomepage.dev/href: http://172.16.20.101/
+    hajimari.io/enable: "true"
+    hajimari.io/icon: mdi:hdhomerun
+    hajimari.io/group: Home
+    hajimari.io/url: http://172.16.20.101/
+#    external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host hdhomerun.${SECRET_DOMAIN}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: hdhomerun
+                port:
+                  number: 8123
+  tls:
+    - hosts:
+        - *host
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: hdhomerun
+subsets:
+  - addresses:
+      - ip: 172.16.20.101
+    ports:
+      - name: http
+        port: 80
+        protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdhomerun
+spec:
+  ports:
+    - name: http
+      port: 80
+  type: ClusterIP
