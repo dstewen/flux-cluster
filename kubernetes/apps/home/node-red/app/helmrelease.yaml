@@ -101,7 +101,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: node-red
-          gethomepage.dev/icon: mdi:resistor
+          gethomepage.dev/icon: sdi-nodered
 #          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
