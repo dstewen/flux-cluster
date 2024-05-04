@@ -108,7 +108,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: esphome
-          gethomepage.dev/icon: resistor.png
+          gethomepage.dev/icon: mdi-resistor
           gethomepage.dev/description: ESPHome
           gethomepage.dev/widget.type: esphome
           gethomepage.dev/widget.url: http://esphome.default:6052
