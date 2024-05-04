@@ -6,4 +6,4 @@ namespace: home
 resources:
   - ./helmrelease.yaml
   - ./pvc.yaml
-  - ./volsync.yaml
+#  - ./volsync.yaml
