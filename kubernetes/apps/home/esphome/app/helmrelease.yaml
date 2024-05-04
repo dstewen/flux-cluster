@@ -105,6 +105,14 @@ spec:
           hajimari.io/appName: "ESPHome"
           hajimari.io/icon: mdi:chip
           hajimari.io/group: "home automation"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: esphome
+          gethomepage.dev/icon: resistor.png
+          gethomepage.dev/description: ESPHome
+          gethomepage.dev/widget.type: esphome
+          gethomepage.dev/widget.url: http://esphome.default:6052
+          gethomepage.dev/widget.key: "834c5259ed37fc041ba31a32f8d9bd608fb9a2ab"
         hosts:
           - host: &host "esphome.${SECRET_DOMAIN}"
             paths:
