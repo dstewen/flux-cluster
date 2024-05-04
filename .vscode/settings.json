@@ -14,6 +14,25 @@
       "*/terraform/**/*.tf": "terraform",
       "./kubernetes/**/*.sops.toml": "plaintext"
   },
+  "files.trimTrailingWhitespace": true,
+  "material-icon-theme.folders.associations": {
+    // top level
+    "hack": "scripts",
+    // .github
+    ".github/workflows": "robot",
+    // namespaces
+    "actions-runner-system": "github",
+    "cert-manager": "guard",
+    "database": "database",
+    "default": "home",
+    "flux-system": "pipe",
+    "kube-system": "kubernetes",
+    "monitoring": "event",
+    "networking": "connection",
+    "rook-ceph": "base",
+    "storage": "dump",
+    "volsync": "aws",
+},
   "sops.defaults.ageKeyFile": "age.key",
   "yaml.schemas": {
       "ansible": "./ansible/*.yaml",
