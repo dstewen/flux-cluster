@@ -98,6 +98,10 @@ spec:
           hajimari.io/group: Home
           hajimari.io/appName: node-red
           hajimari.io/url: https://nr.${SECRET_DOMAIN}
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: node-red
+          gethomepage.dev/icon: mdi:resistor
 #          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
