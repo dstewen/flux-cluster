@@ -102,7 +102,7 @@ spec:
           gethomepage.dev/group: Home
           gethomepage.dev/name: node-red
           gethomepage.dev/icon: si-nodered
-          gethomepage.dev/widget.url: https://nr.${SECRET_DOMAIN}
+          gethomepage.dev/href: https://nr.${SECRET_DOMAIN}
 #          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
