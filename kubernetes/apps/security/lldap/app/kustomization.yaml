@@ -6,3 +6,6 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 #  - ./gatus.yaml
+# Volsync disabled need to change to PVCs
+#  - ./volsync_backblazeb2.yaml
+#  - ./volsync_nas.yaml

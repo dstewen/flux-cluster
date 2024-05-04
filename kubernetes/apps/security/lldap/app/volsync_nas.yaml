@@ -3,19 +3,19 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: unifi-restic
-  namespace: home
+  name: lldap-restic
+  namespace: security
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
     name: onepassword-connect
   target:
-    name: unifi-restic-secret
+    name: lldap-restic-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}/unifi'
+        RESTIC_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}/lldap'
         RESTIC_PASSWORD: '{{ .RESTIC_PASSWORD }}'
         AWS_ACCESS_KEY_ID: '{{ .AWS_ACCESS_KEY_ID }}'
         AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
@@ -27,24 +27,24 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: unifi
-  namespace: home
+  name: lldap-rsrc-dst-minio
+  namespace: security
 spec:
-  sourcePVC: unifi-config
+  sourcePVC: lldap-data
   trigger:
     schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
-    repository: unifi-restic-secret
+    repository: lldap-restic-secret
     cacheCapacity: 2Gi
-    cacheStorageClassName: local-path
+    cacheStorageClassName: local-hostpath
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
     moverSecurityContext:
-      runAsUser: 999
-      runAsGroup: 999
-      fsGroup: 999
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
     retain:
       daily: 7
       within: 3d
