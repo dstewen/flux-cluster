@@ -30,7 +30,7 @@ metadata:
   name: vaultwarden-backblazeb2-source
   namespace: home
 spec:
-  sourcePVC: vaultwarden
+  sourcePVC: vaultwarden-data
   trigger:
     schedule: "0 0 * * *"
   restic:
