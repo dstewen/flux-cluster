@@ -39,7 +39,7 @@ spec:
     repository: esphome-backblazeb2-secret
     cacheCapacity: 8Gi
     cacheStorageClassName: local-hostpath
-    volumeSnapshotClassName: csi-espceph-filesystem
+    volumeSnapshotClassName: csi-ceph-filesystem
     storageClassName: ceph-filesystem
     moverSecurityContext:
       runAsUser: 568
