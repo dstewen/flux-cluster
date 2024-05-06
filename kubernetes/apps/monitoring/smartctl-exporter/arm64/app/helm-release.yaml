@@ -40,3 +40,8 @@ spec:
       enabled: true
     prometheusRules:
       enabled: false
+    resources:
+      limits:
+        memory: 300Mi
+      requests:
+        memory: 50Mi
