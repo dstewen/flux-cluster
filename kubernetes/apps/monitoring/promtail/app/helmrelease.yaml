@@ -31,3 +31,9 @@ spec:
     tolerations:
       - effect: NoSchedule
         operator: Exists
+    resources:
+      requests:
+        cpu: 15m
+        memory: 128M
+      limits:
+        memory: 256M
