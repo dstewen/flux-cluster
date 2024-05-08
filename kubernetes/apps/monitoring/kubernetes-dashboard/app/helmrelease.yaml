@@ -42,6 +42,8 @@ spec:
         - hosts:
             - *host
     kong:
-      enabled: false
+      enabled: true
     metricsScraper:
       enabled: true
+    nginx:
+      enabled: false
