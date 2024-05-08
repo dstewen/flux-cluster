@@ -47,3 +47,11 @@ spec:
       enabled: true
     nginx:
       enabled: false
+      controller:
+        electionID: ingress-controller-leader
+        ingressClassResource:
+          name: internal
+          default: false
+          controllerValue: k8s.io/internal
+        service:
+          type: ClusterIP
