@@ -13,7 +13,7 @@
   jobs:
     publish:
       name: Schemas
-      runs-on: ["arc-runner-set-home-ops"]
+      runs-on: ["arc-runner-set-home-ops-amd64-runner"]
       permissions:
         contents: read
         packages: write
