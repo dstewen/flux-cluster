@@ -5,4 +5,5 @@ kind: Kustomization
 namespace: actions-runner-system
 resources:
   - ./container-runner.yaml
+  - ./home-ops-amd64-runner.yaml
   - ./home-ops-runner.yaml
