@@ -3,30 +3,38 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres16-test
   namespace: database
   annotations:
     kyverno.io/ignore: "true"
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.9-12
-  enableSuperuserAccess: true
-  inheritedMetadata:
-    labels:
-      kube-image-keeper.enix.io/image-caching-policy: ignore
+#  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-6
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.2-v0.2.1
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
     storageClass: local-path
   superuserSecret:
     name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+# Note: Bootstrap is needed when recovering from an existing cnpg cluster
 #  bootstrap:
 #    recovery:
 #      source: &previousCluster postgres-v3
   postgresql:
     parameters:
       max_connections: "600"
+      max_slot_wal_keep_size: 10GB
       shared_buffers: 512MB
+    shared_preload_libraries:
+      - "vectors.so"
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "500m"
+    limits:
+      memory: "4Gi"
   monitoring:
     enablePodMonitor: true
   backup:
@@ -35,9 +43,11 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
+      data:
+        compression: bzip2
       destinationPath: s3://cnpg-backups-new/
       endpointURL: http://192.168.10.198:9000
-      serverName: &currentCluster postgres-v4
+      serverName: &currentCluster postgres16-v1
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -45,6 +55,11 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
 # Note: externalClusters is needed when recovering from an existing cnpg cluster
 #  externalClusters:
 #    - name: *previousCluster
@@ -66,15 +81,15 @@ spec:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: node-role.kubernetes.io/worker
-            operator: In
-            values:
-            - worker
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 1
-        preference:
-          matchExpressions:
           - key: kubernetes.io/arch
             operator: In
             values:
             - arm64
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+          - key: node-role.kubernetes.io/worker
+            operator: In
+            values:
+            - worker
