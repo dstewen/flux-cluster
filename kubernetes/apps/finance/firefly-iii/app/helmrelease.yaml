@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: firefly-iii
+  name: &app firefly-iii
   namespace: finance
 spec:
   interval: 15m
@@ -51,6 +51,7 @@ spec:
               - secretRef:
                   name: firefly-iii-secret
             env:
+              TZ: "${TIMEZONE}"
               DB_CONNECTION: pgsql
               DB_HOST:
                 valueFrom:
