@@ -5,3 +5,4 @@ kind: Kustomization
 namespace: finance
 resources:
   - ./helmrelease.yaml
+  - ./pvc.yaml
