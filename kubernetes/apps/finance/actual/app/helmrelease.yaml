@@ -27,7 +27,7 @@ spec:
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync
-      namespace: storage
+      namespace: volsync
   values:
     controllers:
       actual:
@@ -39,7 +39,7 @@ spec:
               repository: ghcr.io/actualbudget/actual-server
               tag: 24.5.0
             env:
-              GENERIC_TIMEZONE: America/Edmonton
+              GENERIC_TIMEZONE: Australia/Victoria
             resources:
               requests:
                 cpu: 15m
