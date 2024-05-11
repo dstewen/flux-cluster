@@ -77,4 +77,4 @@ spec:
                   port: http
     persistence:
       data:
-        existingClaim: *app
+        existingClaim: actual-data
