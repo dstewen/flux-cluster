@@ -37,7 +37,7 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 7
     repository: esphome-backblazeb2-secret
-    cacheCapacity: 8Gi
+    cacheCapacity: 2Gi
     cacheStorageClassName: local-hostpath
     volumeSnapshotClassName: csi-ceph-filesystem
     storageClassName: ceph-filesystem
