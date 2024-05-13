@@ -539,7 +539,8 @@ spec:
           # renovate: depName="Speedtest Exporter"
           gnetId: 13665
           revision: 4
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
 
         synology-nas-overview:
           # renovate: depName="Synology NAS Overview"
@@ -607,6 +608,21 @@ spec:
           gnetId: 3590
           revision: 3
           datasource: Prometheus
+
+        k3s-rook-global-overview:
+          # renovate: depName="K3S with Rook Global Overview"
+          gnetId: 20807
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        promtail-monitoring-metrics-logs:
+          # renovate: depName="Promtail Monitoring - Metrics and Logs"
+          gnetId: 20881
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_LOKI, value: Loki }
 
         redis:
           # renovate: depName="Redis"
