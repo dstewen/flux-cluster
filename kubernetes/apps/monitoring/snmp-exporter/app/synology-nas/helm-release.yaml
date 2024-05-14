@@ -25,11 +25,18 @@ spec:
       repository: quay.io/prometheus/snmp-exporter
     extraArgs:
       - "--config.file=/config/snmp.yaml"
+      - "--config.file=/run/secrets/snmp-exporter/auth.yaml"
     extraConfigmapMounts:
       - name: *app
         mountPath: /config/snmp.yaml
         subPath: snmp.yaml
         configMap: *app
+        readOnly: true
+        defaultMode: 420
+    extraSecretMounts:
+      - name: secret-files
+        mountPath: /run/secrets/snmp-exporter
+        secretName: snmp-exporter-secret-files
         readOnly: true
         defaultMode: 420
     podAnnotations:
