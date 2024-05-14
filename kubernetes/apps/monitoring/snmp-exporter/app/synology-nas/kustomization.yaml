@@ -5,10 +5,10 @@ namespace: monitoring
 resources:
   - config-map.yaml
   - helm-release.yaml
-#configMapGenerator:
-#  - name: dell-idrac-dashboard
-#    files:
-#      - dell-idrac-dashboard.json=./dashboard.json
+configMapGenerator:
+  - name: snmp-exporter-synology
+    files:
+      - snmp.yaml=./snmp.yml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
