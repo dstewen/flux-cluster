@@ -36,7 +36,7 @@ spec:
     extraSecretMounts:
       - name: secret-files
         mountPath: /run/secrets/snmp-exporter
-        secretName: snmp-exporter-secret-files
+        secretName: secret-synology-auth
         readOnly: true
         defaultMode: 420
     podAnnotations:
