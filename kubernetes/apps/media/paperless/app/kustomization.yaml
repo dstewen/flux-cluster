@@ -7,4 +7,5 @@ resources:
 #  - gatus.yaml
   - helmrelease.yaml
   - pvc.yaml
-#  - volsync.yaml
+  - volsync_backblazeb2.yaml
+  - volsync_nas.yaml
