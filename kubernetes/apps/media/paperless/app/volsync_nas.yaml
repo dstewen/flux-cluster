@@ -4,7 +4,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: paperless-restic
-  namespace: home
+  namespace: media
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -28,7 +28,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: paperless-rsrc-dst-minio
-  namespace: home
+  namespace: media
 spec:
   sourcePVC: paperless-config
   trigger:
