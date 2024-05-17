@@ -19,7 +19,8 @@
     ":semanticCommits",
     ":automergeDigest",
     ":automergeBranch",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    "mergeConfidence:all-badges"
   ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
