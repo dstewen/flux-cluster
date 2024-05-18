@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 57.2.1
+      version: 58.5.3
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -165,6 +165,10 @@ spec:
         tls:
           - hosts:
               - "prometheus.${SECRET_DOMAIN}"
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -181,6 +185,15 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
+
+        thanos:
+          image: quay.io/thanos/thanos:${THANOS_VERSION}
+          version: "${THANOS_VERSION#v}"
+          objectStorageConfig:
+            existingSecret:
+              name: *secret
+              key: config
+
         affinity:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
