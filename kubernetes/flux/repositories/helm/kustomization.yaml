@@ -49,6 +49,7 @@ resources:
   - ./robusta.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
+  - ./stevehipwell.yaml
   - ./synology-csi.yaml
   - ./victoriametrics-charts.yaml
   - ./vmware-tanzu.yaml
