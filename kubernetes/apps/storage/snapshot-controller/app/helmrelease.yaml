@@ -28,6 +28,7 @@ spec:
     keepHistory: false
   values:
     controller:
+      revisionHistoryLimit: 3
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -49,3 +50,4 @@ spec:
         create: true
     webhook:
       enabled: false
+      revisionHistoryLimit: 3
