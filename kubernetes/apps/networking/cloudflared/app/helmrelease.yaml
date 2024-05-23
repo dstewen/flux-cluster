@@ -46,6 +46,7 @@ spec:
     controllers:
       cloudflared:
         replicas: 2
+        revisionHistoryLimit: 3
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
