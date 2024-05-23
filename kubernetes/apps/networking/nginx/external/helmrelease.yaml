@@ -30,6 +30,7 @@ spec:
       namespace: networking
   values:
     fullnameOverride: nginx-external
+    revisionHistoryLimit: 3
     controller:
       replicaCount: 1
       service:
