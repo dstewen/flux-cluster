@@ -29,6 +29,7 @@ spec:
   values:
     controllers:
       esphome:
+        revisionHistoryLimit: 3
         pod:
           affinity:
             nodeAffinity:
