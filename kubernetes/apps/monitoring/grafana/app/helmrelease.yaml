@@ -29,6 +29,7 @@ spec:
     - name: local-path-provisioner
       namespace: storage
   values:
+    revisionHistoryLimit: 3
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
