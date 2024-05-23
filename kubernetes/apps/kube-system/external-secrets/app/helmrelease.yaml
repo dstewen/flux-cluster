@@ -28,6 +28,7 @@ spec:
     keepHistory: false
   values:
     installCRDs: true
+    revisionHistoryLimit: 3
     serviceMonitor:
       enabled: true
       interval: 1m
