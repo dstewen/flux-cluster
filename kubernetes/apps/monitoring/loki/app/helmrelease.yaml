@@ -54,6 +54,7 @@ spec:
       valuesKey: AWS_SECRET_ACCESS_KEY
   values:
     deploymentMode: SimpleScalable
+    revisionHistoryLimit: 3
     loki:
       podAnnotations:
         configmap.reloader.stakater.com/reload: *cephBucket
