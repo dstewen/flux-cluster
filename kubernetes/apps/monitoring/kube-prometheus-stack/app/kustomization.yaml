@@ -7,8 +7,8 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 #  - ./helmvalues.yaml
-#  - ./podmonitors
-#  - ./scrapeconfigs
+  - ./podmonitors
+  - ./scrapeconfigs
 #  - ./prometheusrules
 #  - ./gatus.yaml
 configMapGenerator:
