@@ -46,7 +46,7 @@ spec:
       image: registry.k8s.io/sig-storage/csi-resizer:v1.10.1
     # https://kubernetes-csi.github.io/docs/external-snapshotter.html
     externalSnapshotter:
-      image: registry.k8s.io/sig-storage/csi-snapshotter:v7.0.2
+      image: registry.k8s.io/sig-storage/csi-snapshotter:v8.0.0
     # https://github.com/kubernetes-csi/external-health-monitor
     externalHealthMonitorController:
       enabled: true
