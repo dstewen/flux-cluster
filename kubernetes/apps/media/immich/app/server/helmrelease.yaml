@@ -94,9 +94,9 @@ spec:
 
     ingress:
       main:
-        className: external
+        className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+#          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           hajimari.io/appName: Photos
