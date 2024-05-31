@@ -19,9 +19,9 @@ spec:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
 # Note: Bootstrap is needed when recovering from an existing cnpg cluster
-#  bootstrap:
-#    recovery:
-#      source: &previousCluster postgres-v3
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v1
   postgresql:
     parameters:
       max_connections: "600"
@@ -47,7 +47,7 @@ spec:
         compression: bzip2
       destinationPath: s3://cnpg-backups-new/
       endpointURL: http://192.168.10.198:9000
-      serverName: &currentCluster postgres16-v1
+      serverName: &currentCluster postgres16-v2
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -55,27 +55,22 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
-  bootstrap:
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
 # Note: externalClusters is needed when recovering from an existing cnpg cluster
-#  externalClusters:
-#    - name: *previousCluster
-#      barmanObjectStore:
-#        wal:
-#          compression: bzip2
-#          maxParallel: 8
-#        destinationPath: s3://cnpg-zd6qkutg/
-#        endpointURL: https://${SECRET_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
-#        s3Credentials:
-#          accessKeyId:
-#            name: cloudnative-pg-secret
-#            key: aws-access-key-id
-#          secretAccessKey:
-#            name: cloudnative-pg-secret
-#            key: aws-secret-access-key
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: s3://cnpg-backups-new/
+        endpointURL: http://192.168.10.198:9000
+        s3Credentials:
+          accessKeyId:
+            name: cloudnative-pg-secret
+            key: aws-access-key-id
+          secretAccessKey:
+            name: cloudnative-pg-secret
+            key: aws-secret-access-key
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
