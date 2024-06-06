@@ -18,6 +18,8 @@ spec:
     - --proactor_threads=2
     - --cluster_mode=emulated
     - --default_lua_flags=allow-undeclared-keys
+  nodeSelector:
+    kubernetes.io/arch: amd64
   resources:
     requests:
       cpu: 100m
