@@ -106,6 +106,8 @@ spec:
             port: *port
           metrics:
             port: 8080
+    nodeSelector:
+      kubernetes.io/arch: amd64
     serviceAccount:
       create: true
       name: *app
