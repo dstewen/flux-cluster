@@ -78,6 +78,7 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
+          create: true
       resources:
         requests:
           cpu: 15m
@@ -115,4 +116,5 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
+          create: true
 
