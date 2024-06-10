@@ -32,7 +32,7 @@ spec:
       envFrom:
         - secretRef:
             name: *secret
-
+      addPrometheusAnnotations: true
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -76,9 +76,8 @@ spec:
             - secretRef:
                 name: *secret
       metrics:
-        prometheus:
-          serviceMonitor:
-            enabled: true
+        serviceMonitor:
+          enabled: true
 #            create: true
       resources:
         requests:
@@ -115,8 +114,7 @@ spec:
           cpu: 15m
           memory: 100M
       metrics:
-        prometheus:
-          serviceMonitor:
-            enabled: true
+        serviceMonitor:
+          enabled: true
 #           create: true
 
