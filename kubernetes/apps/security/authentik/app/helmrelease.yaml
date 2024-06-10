@@ -52,6 +52,15 @@ spec:
                 - arm64
 
     authentik:
+      log_level: info
+      avatars: "gravatar,initials"
+      email:
+        host: smtp-relay.home.svc.cluster.local
+        port: 2525
+        from: "Access <dstewen@internode.on.net>"
+      error_reporting:
+        enable: false
+        send_pii: false
       redis:
         host: dragonfly.database.svc.cluster.local
         db: 4
