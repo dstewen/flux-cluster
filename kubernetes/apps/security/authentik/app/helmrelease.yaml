@@ -59,6 +59,7 @@ spec:
       autoscaling:
         enabled: true
         minReplicas: 2
+        maxReplicas: 2
       initContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16.3@sha256:8ba3204f6b293dd168766009aae2ce4fa986a29b931c2d30ac1b30238ac750b8
@@ -98,6 +99,7 @@ spec:
       autoscaling:
         enabled: true
         minReplicas: 2
+        maxReplicas: 2
       resources:
         requests:
           cpu: 15m
