@@ -76,9 +76,8 @@ spec:
             - secretRef:
                 name: *secret
       metrics:
-        prometheus:
-          serviceMonitor:
-            enabled: true
+        serviceMonitor:
+          enabled: true
       resources:
         requests:
           cpu: 15m
