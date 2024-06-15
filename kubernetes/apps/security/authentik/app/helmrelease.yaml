@@ -33,6 +33,8 @@ spec:
         - secretRef:
             name: *secret
       addPrometheusAnnotations: true
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
