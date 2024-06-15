@@ -75,9 +75,9 @@ spec:
 
     ingress:
       app:
-        className: "external"
+        className: "internal"
         annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
           hajimari.io/enable: "true"
           hajimari.io/instance: "admin"
           hajimari.io/icon: "simple-icons:speedtest"
