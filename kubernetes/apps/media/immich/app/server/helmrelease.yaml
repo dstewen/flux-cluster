@@ -64,7 +64,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.106.4@sha256:d39cb7ecbcc9924f2c51a3e0deb8a469075996c6ba9e1384eb2ddb550984848e
-            args: ["start-server.sh"]
+#            args: ["start-server.sh"]
 
             env:
               IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
