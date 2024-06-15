@@ -76,6 +76,23 @@ spec:
       replicas: 2
       extraArgs: ["--alert.query-url=https://thanos.${SECRET_DOMAIN}"]
 #      additionalStores: ["thanos.turbo.ac:10901"]
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
     queryFrontend:
       enabled: true
       replicas: 2
@@ -86,6 +103,23 @@ spec:
               name: &configMap thanos-cache-configmap
               key: cache.yaml
       extraArgs: ["--query-range.response-cache-config=$(THANOS_CACHE_CONFIG)"]
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - arm64
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - worker
       ingress:
         enabled: true
         ingressClassName: internal
