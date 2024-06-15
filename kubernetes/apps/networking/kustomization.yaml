@@ -11,3 +11,4 @@ resources:
 #  - ./netboot/ks.yaml
 #  - ./netshoot/ks.yaml
   - ./nginx/ks.yaml
+  - ./openspeedtest/ks.yaml
