@@ -70,12 +70,12 @@ spec:
             command: ["/home/runner/run.sh"]
 
 # Required for arc metrics
-    listenerTemplate:
-      metadata:
-        annotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/path: "/metrics"
-          prometheus.io/port: "8080"
+#    listenerTemplate:
+#      metadata:
+#        annotations:
+#          prometheus.io/scrape: "true"
+#          prometheus.io/path: "/metrics"
+#          prometheus.io/port: "8080"
 
     controllerServiceAccount:
       name: actions-runner-controller-gha-rs-controller
