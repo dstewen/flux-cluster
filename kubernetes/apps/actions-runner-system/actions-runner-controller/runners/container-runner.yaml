@@ -68,12 +68,15 @@ spec:
 #          - name: runner
 #            image: ghcr.io/onedr0p/actions-runner:2.314.1@sha256:ce221cd0936c29b121fe90e985b682a6cb6428f1416b9a131cd5313ac7a3e420
 #            command: ["/home/runner/run.sh"]
-#    listenerTemplate:
-#      metadata:
-#        annotations:
-#          prometheus.io/scrape: "true"
-#          prometheus.io/path: "/metrics"
-#          prometheus.io/port: "8080"
+
+# Required for arc metrics
+    listenerTemplate:
+      metadata:
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/path: "/metrics"
+          prometheus.io/port: "8080"
+
     controllerServiceAccount:
       name: actions-runner-controller-gha-rs-controller
       namespace: actions-runner-system
