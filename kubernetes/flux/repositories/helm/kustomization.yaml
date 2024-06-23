@@ -43,11 +43,13 @@ resources:
   - ./metrics-server.yaml
   - ./nextcloud.yaml
   - ./nfs-provisioner.yaml
+  - ./openebs.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./redis-operator.yaml
   - ./robusta.yaml
   - ./rook-ceph.yaml
+  - ./spegel.yaml
   - ./stakater.yaml
   - ./stevehipwell.yaml
   - ./synology-csi.yaml
