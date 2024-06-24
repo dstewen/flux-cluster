@@ -7,5 +7,6 @@ resources:
 #  - ./democratic-csi-iscsi-synology/ks.yaml
   - ./local-path-provisioner/ks.yaml
 #  - ./minio/ks.yaml
+  - ./openebs/ks.yaml
 #  - ./synology-csi/ks.yaml
   - ./snapshot-controller/ks.yaml
