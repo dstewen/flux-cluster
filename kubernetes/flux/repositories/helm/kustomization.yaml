@@ -43,7 +43,7 @@ resources:
   - ./metrics-server.yaml
   - ./nextcloud.yaml
   - ./nfs-provisioner.yaml
-  - ./openebs.yaml
+#  - ./openebs.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./redis-operator.yaml
