@@ -27,6 +27,9 @@ spec:
       rbac:
         create: true
       localpv:
+        image:
+          registry: quay.io/
+          repository: openebs/provisioner-localpv
         hostpathClass:
           enabled: true
           name: openebs-hostpath
