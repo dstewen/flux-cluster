@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: quay.io/minio/minio
-              tag: RELEASE.2024-05-01T01-11-10Z@sha256:f95dc4fc35439654a71300f765b485e114e7a720318dbce24ccd4f324d1475cf
+              tag: RELEASE.2024-06-22T05-26-45Z@sha256:dda5e13d3df07fae2c1877701998742bcbe3bbb2b9c24c18ed5b9469cc777761
             env:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
               MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN}
@@ -94,6 +94,8 @@ spec:
               requests:
                 memory: 100Mi
                 cpu: 100m
+              limits:
+                memory: 2Gi
     service:
       app:
         controller: minio
