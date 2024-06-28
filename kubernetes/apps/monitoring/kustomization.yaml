@@ -19,4 +19,4 @@ resources:
   - ./thanos/ks.yaml
   - ./unpoller/ks.yaml
 # Loads all resources in snmp-exporter folder
-  - snmp-exporter
+#  - snmp-exporter
