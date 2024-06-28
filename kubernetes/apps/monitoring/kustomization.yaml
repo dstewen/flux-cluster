@@ -13,8 +13,10 @@ resources:
   - ./pihole-exporter/ks.yaml
   - ./promtail/ks.yaml
   - ./smartctl-exporter/ks.yaml
-  - ./snmp-exporter/ks.yaml
+#  - ./snmp-exporter/ks.yaml
 #  - ./snmp-generator/ks.yaml
   - ./speedtest-exporter/ks.yaml
   - ./thanos/ks.yaml
   - ./unpoller/ks.yaml
+# Loads all resources in snmp-exporter folder
+  - snmp-exporter
