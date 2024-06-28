@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: snmp-exporter-pdu
+  name: snmp-exporter-synology-nas
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/monitoring/snmp-exporter/pdu/app
+  path: ./kubernetes/apps/monitoring/snmp-exporter-synology-nas/app
   prune: true
   sourceRef:
     kind: GitRepository
