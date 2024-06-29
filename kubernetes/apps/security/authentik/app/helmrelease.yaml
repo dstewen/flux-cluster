@@ -81,6 +81,7 @@ spec:
             - secretRef:
                 name: *secret
       metrics:
+        enabled: true
         serviceMonitor:
           enabled: true
 #          namespace: security
