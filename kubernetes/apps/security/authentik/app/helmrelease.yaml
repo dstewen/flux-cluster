@@ -66,6 +66,9 @@ spec:
       redis:
         host: dragonfly.database.svc.cluster.local
         db: 4
+    prometheus:
+      rules:
+        enabled: true
     server:
       autoscaling:
         enabled: true
@@ -80,9 +83,9 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
-          namespace: security
-          selector:
-            app.kubernetes.io/name: authentik
+#          namespace: security
+#          selector:
+#            app.kubernetes.io/name: authentik
       resources:
         requests:
           cpu: 15m
@@ -120,6 +123,6 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
-          namespace: security
+#          namespace: security
 #           create: true
 
