@@ -32,7 +32,7 @@ spec:
       envFrom:
         - secretRef:
             name: *secret
-      addPrometheusAnnotations: true
+      addPrometheusAnnotations: false
       nodeSelector:
         node-role.kubernetes.io/worker: worker
       affinity:
@@ -81,6 +81,8 @@ spec:
         serviceMonitor:
           enabled: true
           namespace: security
+          selector:
+            app.kubernetes.io/name: authentik
       resources:
         requests:
           cpu: 15m
