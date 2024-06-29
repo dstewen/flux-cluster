@@ -80,7 +80,7 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
-#            create: true
+          namespace: security
       resources:
         requests:
           cpu: 15m
@@ -118,5 +118,6 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
+          namespace: security
 #           create: true
 
