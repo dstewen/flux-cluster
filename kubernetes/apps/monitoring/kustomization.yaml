@@ -13,10 +13,13 @@ resources:
   - ./pihole-exporter/ks.yaml
   - ./promtail/ks.yaml
   - ./smartctl-exporter/ks.yaml
+#  - ./snmp-exporter-nas/ks.yaml
+#  - ./snmp-exporter-pdu/ks.yaml
 #  - ./snmp-exporter-s3400-48t6sp/ks.yaml
 #  - ./snmp-exporter-s3700-24t4f/ks.yaml
 #  - ./snmp-exporter-synology-nas/ks.yaml
 #  - ./snmp-exporter-t1500g-10mps/ks.yaml
+#  - ./snmp-exporter-ups/ks.yaml
 #  - ./snmp-generator/ks.yaml
   - ./speedtest-exporter/ks.yaml
   - ./thanos/ks.yaml
