@@ -5,10 +5,10 @@ namespace: monitoring
 resources:
 #  - config-map.yaml
   - helm-release.yaml
-configMapGenerator:
-  - name: snmp-exporter-synology-nas
-    files:
-      - snmp.yaml=./snmp.yml
+#configMapGenerator:
+#  - name: snmp-exporter-synology-nas
+#    files:
+#      - snmp.yaml=./snmp.yml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
