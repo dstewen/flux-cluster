@@ -10,4 +10,4 @@ resources:
 #  - ./typesense
   - ./server
   - ./microservices
-#  - ./machine-learning
+  - ./machine-learning
