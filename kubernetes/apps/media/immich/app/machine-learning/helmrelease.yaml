@@ -36,15 +36,6 @@ spec:
     - name: immich-server
 
   values:
-    defaultPodOptions:
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: *app
-
     controllers:
       main:
         replicas: 2
