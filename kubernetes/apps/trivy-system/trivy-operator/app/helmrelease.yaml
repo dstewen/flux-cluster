@@ -40,6 +40,17 @@ spec:
       configAuditScannerScanOnlyCurrentRevisions: true
     trivy:
       ignoreUnfixed: true
+
+      # -- resources resource requests and limits for scan job containers
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100M
+      # Defaults to 500m CPU and 500M memory limit
+        limits:
+          cpu: 500m
+          memory: 1000M
+
     serviceMonitor:
       enabled: true
     trivyOperator:
