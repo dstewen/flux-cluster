@@ -84,6 +84,9 @@ data:
         - AWS Console:
             - icon: aws.png
               href: https://aws.amazon.com/console/
+        - BackBlaze:
+            - icon: https://raw.githubusercontent.com/chaijunkin/dashboard-icons/main/png/backblaze.png
+              href: https://secure.backblaze.com/user_overview.htm
         - Terraform Cloud:
             - icon: terraform.png
               href: https://app.terraform.io
@@ -91,10 +94,10 @@ data:
             - icon: pushover.png
               href: https://client.pushover.net/
     - Git:
-        - k8s-at-home:
+        - kubesearch:
             - icon: kubernetes-dashboard.png
               description: Helm Chart Search
-              href: https://nanne.dev/k8s-at-home-search/
+              href: https://kubesearch.dev/
         - flux-cluster:
             - icon: github.png
               description: Renovate Dashboard
