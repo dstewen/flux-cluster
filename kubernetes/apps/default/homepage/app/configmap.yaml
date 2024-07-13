@@ -135,14 +135,6 @@ data:
               username: {{HOMEPAGE_VAR_UNIFI_USERNAME}}
               password: {{HOMEPAGE_VAR_UNIFI_PASSWORD}}
     - Monitoring:
-        - Grafana-Status:
-            href: https://grafana.davidstewen.com
-            icon: grafana.png
-            widget:
-              type: grafana
-              url: http://grafana.monitoring.svc.cluster.local:3000
-              username: {{HOMEPAGE_VAR_GRAFANA_USER}}
-              password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
         - Home-Assistant-Status:
             href: http://192.168.10.22:8123
             icon: si-homeassistant
