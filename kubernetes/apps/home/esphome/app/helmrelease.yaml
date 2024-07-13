@@ -112,7 +112,7 @@ spec:
           gethomepage.dev/icon: mdi-resistor
           gethomepage.dev/description: ESPHome
           gethomepage.dev/widget.type: esphome
-          gethomepage.dev/widget.url: http://esphome.default:6052
+          gethomepage.dev/widget.url: http://esphome.home:6052
           gethomepage.dev/widget.key: "834c5259ed37fc041ba31a32f8d9bd608fb9a2ab"
         hosts:
           - host: &host "esphome.${SECRET_DOMAIN}"
