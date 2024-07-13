@@ -137,7 +137,7 @@ data:
             icon: grafana.png
             widget:
               type: grafana
-              url: https://grafana.monitoring.svc.cluster.local:3000
+              url: https://grafana.davidstewen.com
               username: {{HOMEPAGE_VAR_GRAFANA_USER}}
               password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
         - Home-Assistant-Status:
