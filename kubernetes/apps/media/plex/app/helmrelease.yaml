@@ -125,7 +125,7 @@ spec:
           gethomepage.dev/icon: si-plex
           gethomepage.dev/description: My Plex Media Server
           gethomepage.dev/widget.type: plex
-          gethomepage.dev/widget.url: http://plex.default:32400
+          gethomepage.dev/widget.url: http://plex.media:32400
 
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
