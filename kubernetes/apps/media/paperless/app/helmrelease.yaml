@@ -138,7 +138,7 @@ spec:
           gethomepage.dev/icon: paperless.png
           gethomepage.dev/description: Document OCR Software
           gethomepage.dev/widget.type: paperlessngx
-          gethomepage.dev/widget.url: http://paperless.media:8000
+          gethomepage.dev/widget.url: http://paperless.media.svc.cluster.local:8000
           gethomepage.dev/widget.key: "834c5259ed37fc041ba31a32f8d9bd608fb9a2ab"
         hosts:
         - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
