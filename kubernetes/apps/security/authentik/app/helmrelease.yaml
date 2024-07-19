@@ -102,9 +102,9 @@ spec:
           gethomepage.dev/name: Authentik
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/description: OIDC User Management
-#          gethomepage.dev/widget.type: authentik
-#          gethomepage.dev/widget.url: http://authentik-server.security
-#          gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}"
+          gethomepage.dev/widget.type: authentik
+          gethomepage.dev/widget.url: http://authentik-server.security.svc.cluster.local
+          gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}"
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
         hosts:
           - id.${SECRET_DOMAIN}
