@@ -22,4 +22,4 @@ resources:
 #  - ./snmp-generator/ks.yaml
   - ./speedtest-exporter/ks.yaml
   - ./thanos/ks.yaml
-#  - ./unpoller/ks.yaml
+  - ./unpoller/ks.yaml
