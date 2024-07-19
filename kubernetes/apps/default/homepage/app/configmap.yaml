@@ -126,14 +126,9 @@ data:
             href: http://192.168.10.20
             icon: mdi-switch
         - Unifi:
-            href: https://unifi.ui.com
+            href: https://192.168.10.22:8443
             icon: unifi.png
             description: Unifi Dashboard
-            widget:
-              type: unifi
-              url: https://192.168.10.22:8443
-              username: {{HOMEPAGE_VAR_UNIFI_USERNAME}}
-              password: {{HOMEPAGE_VAR_UNIFI_PASSWORD}}
     - Monitoring:
         - Home-Assistant-Status:
             href: http://192.168.10.22:8123
