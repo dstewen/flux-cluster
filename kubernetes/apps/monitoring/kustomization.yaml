@@ -10,7 +10,7 @@ resources:
 #  - ./loki/ks.yaml
   - ./nut-exporter/ks.yaml
   - ./pihole-exporter/ks.yaml
-  - ./promtail/ks.yaml
+#  - ./promtail/ks.yaml
   - ./smartctl-exporter/ks.yaml
 #  - ./snmp-exporter-nas/ks.yaml
 #  - ./snmp-exporter-pdu/ks.yaml
