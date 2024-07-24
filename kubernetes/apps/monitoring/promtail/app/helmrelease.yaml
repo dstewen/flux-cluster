@@ -16,15 +16,15 @@ spec:
         namespace: flux-system
   values:
     nameOverride: *app
-    extraArgs:
-      - -client.external-labels=hostname=$(HOSTNAME),cluster=${SETTING_CLUSTERNAME}
-      - -config.expand-env
+#    extraArgs:
+#      - -client.external-labels=hostname=$(HOSTNAME),cluster=${SETTING_CLUSTERNAME}
+#      - -config.expand-env
 
     config:
       clients:
         - url: http://loki-headless.monitoring.svc.cluster.local/loki/api/v1/push
-          external_labels:
-            cluster: "k3s-vms-flux"
+#          external_labels:
+#            cluster: "k3s-vms-flux"
 #        - url: "https://${SECRET_GRAFANA_CLOUD_INSTANCE_ID}:${SECRET_GRAFANA_CLOUD_API_KEY}@logs-prod-us-central1.grafana.net/loki/api/v1/push"
     serviceMonitor:
       enabled: true
