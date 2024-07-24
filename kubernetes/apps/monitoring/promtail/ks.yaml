@@ -3,9 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-promtail
+  name: &app promtail
   namespace: flux-system
 spec:
+  targetNamespace: monitoring
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   path: ./kubernetes/apps/monitoring/promtail/app
   prune: true
   sourceRef:
