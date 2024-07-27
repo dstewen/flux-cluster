@@ -768,10 +768,10 @@ spec:
         gethomepage.dev/icon: grafana.png
         gethomepage.dev/name: Grafana
         gethomepage.dev/group: Monitoring
-        gethomepage.dev/widget.type: grafana
-        gethomepage.dev/widget.url: http://grafana.monitoring.svc.cluster.local
-        gethomepage.dev/widget.username: ${HOMEPAGE_VAR_GRAFANA_USERNAME}
-        gethomepage.dev/widget.password: ${HOMEPAGE_VAR_GRAFANA_PASSWORD}
+#        gethomepage.dev/widget.type: grafana
+#        gethomepage.dev/widget.url: http://grafana.monitoring.svc.cluster.local
+#        gethomepage.dev/widget.username: ${HOMEPAGE_VAR_GRAFANA_USERNAME}
+#        gethomepage.dev/widget.password: ${HOMEPAGE_VAR_GRAFANA_PASSWORD}
         external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
         hajimari.io/icon: simple-icons:grafana
       hosts:
