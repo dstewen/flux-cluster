@@ -545,6 +545,12 @@ spec:
           revision: 1
           datasource: Prometheus
 
+        snmp-interface-detail:
+          # renovate: depName="SNMP Interface Detail"
+          gnetId: 12492
+          revision: 4
+          datasource: Prometheus
+
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
