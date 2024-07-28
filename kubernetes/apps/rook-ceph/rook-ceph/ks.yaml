@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   path: ./kubernetes/apps/rook-ceph/rook-ceph/app
-  prune: false # never should be deleted
+  prune: true # never should be deleted
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
@@ -26,7 +26,7 @@ spec:
   dependsOn:
     - name: cluster-apps-rook-ceph
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
-  prune: false # never should be deleted
+  prune: true # never should be deleted
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
