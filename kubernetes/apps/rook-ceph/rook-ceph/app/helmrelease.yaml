@@ -36,6 +36,7 @@ spec:
         enabled: false
       # Set when encryption/compression is enabled
       cephFSKernelMountOptions: ms_mode=prefer-crc
+      enableLiveness: true
       # https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/1875#issuecomment-1858038261
       # https://github.com/kubernetes-csi/external-provisioner/issues/1099
       attacher:
