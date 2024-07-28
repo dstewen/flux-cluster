@@ -76,17 +76,17 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-          - name: nuc1
-            devices:
-              - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_860_S419NGAK201355E
-              - name: /dev/disk/by-id/nvme-Samsung_SSD_970_EVO_500GB_S466NX0K521460E
+#          - name: nuc1
+#            devices:
+#              - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_860_S419NGAK201355E
+#              - name: /dev/disk/by-id/nvme-Samsung_SSD_970_EVO_500GB_S466NX0K521460E
 #          - name: nuc2
 #            devices:
 #              - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_860_S3YANB0K230473L
-          - name: nuc3
-            devices:
-              - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_860_S3YANB0K230462F
-              - name: /dev/disk/by-id/nvme-INTEL_SSDPEKKW512G8_BTHH81000E09512D
+#          - name: nuc3
+#            devices:
+#              - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_860_S3YANB0K230462F
+#              - name: /dev/disk/by-id/nvme-INTEL_SSDPEKKW512G8_BTHH81000E09512D
           - name: blade4
             devices:
               - name: /dev/nvme0n1p3
