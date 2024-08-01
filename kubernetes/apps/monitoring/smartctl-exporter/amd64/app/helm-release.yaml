@@ -34,7 +34,7 @@ spec:
     config:
       devices:
         - /dev/sda
-        - /dev/nvme0n1
+        - /dev/nvme0
     nodeSelector:
       kubernetes.io/arch: amd64
     serviceMonitor:
