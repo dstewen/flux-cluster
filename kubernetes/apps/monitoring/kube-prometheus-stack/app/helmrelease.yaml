@@ -174,13 +174,13 @@ spec:
           - hosts:
               - "prometheus.${SECRET_DOMAIN}"
       thanosService:
-        enabled: true
+        enabled: false
       thanosServiceMonitor:
-        enabled: true
+        enabled: false
       prometheusSpec:
-        podMetadata:
-          annotations:
-            secret.reloader.stakater.com/reload: &secret thanos-objstore-config
+#        podMetadata:
+#          annotations:
+#            secret.reloader.stakater.com/reload: &secret thanos-objstore-config
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -197,13 +197,13 @@ spec:
                 requests:
                   storage: 20Gi
 
-        thanos:
-          image: quay.io/thanos/thanos:${THANOS_VERSION}
-          version: "${THANOS_VERSION#v}"
-          objectStorageConfig:
-            existingSecret:
-              name: *secret
-              key: config
+#        thanos:
+#          image: quay.io/thanos/thanos:${THANOS_VERSION}
+#          version: "${THANOS_VERSION#v}"
+#          objectStorageConfig:
+#            existingSecret:
+#              name: *secret
+#              key: config
 
         affinity:
           nodeAffinity:
