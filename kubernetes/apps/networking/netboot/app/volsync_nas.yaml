@@ -30,7 +30,7 @@ metadata:
   name: netboot-rsrc-dst-minio
   namespace: networking
 spec:
-  sourcePVC: netboot
+  sourcePVC: netboot-config
   trigger:
     schedule: "0 7 * * *"
   restic:
