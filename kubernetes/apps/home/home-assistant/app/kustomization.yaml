@@ -9,4 +9,3 @@ resources:
   - ./volsync_backblazeb2.yaml
   - ./volsync_nas.yaml
   - ./volume.yaml
-#  - ./gatus.yaml
