@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: media
 resources:
   - ./helmrelease.yaml
-#  - ./gatus.yaml
   - ./pvc.yaml
   - ./volsync_restic_nas_minio.yaml
   - ./volsync_backblazeb2.yaml
