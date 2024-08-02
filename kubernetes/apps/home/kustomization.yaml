@@ -6,7 +6,7 @@ resources:
   - namespace.yaml
 #  - ./audiobookshelf/ks.yaml
   - ./esphome/ks.yaml
-  - ./home-assistant/ks.yaml
+#  - ./home-assistant/ks.yaml
 #  - ./mosquitto/ks.yaml
   - ./node-red/ks.yaml
   - ./smtp-relay/ks.yaml
