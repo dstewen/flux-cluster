@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pgadmin
+  name: &app pgadmin
   namespace: database
 spec:
   interval: 15m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.3.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -47,7 +47,7 @@ spec:
                 values:
                 - worker
     controllers:
-      main:
+      pgadmin:
         type: statefulset
         statefulset:
           volumeClaimTemplates:
@@ -59,6 +59,7 @@ spec:
                 - path: /var/lib/pgadmin
         annotations:
           reloader.stakater.com/auto: "true"
+#          secret.reloader.stakater.com/reload: authelia-secret
         pod:
           securityContext:
             runAsUser: 5050
@@ -66,30 +67,29 @@ spec:
             fsGroup: 5050
             fsGroupChangePolicy: OnRootMismatch
         containers:
-          main:
+          app:
             image:
               repository: docker.io/dpage/pgadmin4
-              tag: "8.10"
-            strategy:
-              type: Recreate
+              tag: 8.10@sha256:ab92b145c617f3c48ff54ed2cd765210a12e7b4f0d0da7897d944b2a90203910
             envFrom:
               - secretRef:
                   name: pgadmin-secret
             resources:
               requests:
                 cpu: 15m
-                memory: 164M
+                memory: 100M
               limits:
-                memory: 236M
+                memory: 500M
 
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 80
 
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
@@ -103,7 +103,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
