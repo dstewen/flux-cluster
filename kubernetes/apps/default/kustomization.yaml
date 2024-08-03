@@ -5,6 +5,6 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./hajimari/ks.yaml
-  - ./homepage/ks.yaml
+#  - ./homepage/ks.yaml
   - ./misc-ingress/ks.yaml
 
