@@ -19,6 +19,7 @@ spec:
       audiobookshelf:
         annotations:
           reloader.stakater.com/auto: "true"
+#          secret.reloader.stakater.com/reload: &secret audiobookshelf-secret
         pod:
           affinity:
             nodeAffinity:
@@ -47,9 +48,9 @@ spec:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.11.0@sha256:725c287ac1b56f8115dfc7fca75d8490976af59466f893fbf344711bd117f8cb
-            envFrom:
-              - secretRef:
-                  name: *secret
+#            envFrom:
+#              - secretRef:
+#                  name: *secret
             env:
               TZ: "${TIMEZONE}"
               PORT: &port 8080
