@@ -18,7 +18,7 @@ spec:
     controllers:
       audiobookshelf:
         annotations:
-          secret.reloader.stakater.com/reload: &secret audiobookshelf-secret
+          reloader.stakater.com/auto: "true"
         pod:
           affinity:
             nodeAffinity:
