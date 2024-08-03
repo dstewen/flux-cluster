@@ -95,7 +95,7 @@ spec:
       loadBalancerIP: "192.168.10.230"
 #      servicePort: 25565
       motd: "TurtleTest FTB:R"
-      externalTrafficPolicy: Local
+      externalTrafficPolicy: Cluster
       allowNether: true
       worldSaveName: TurtleTest
       viewDistance: 12
