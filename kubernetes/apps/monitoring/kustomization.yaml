@@ -20,6 +20,6 @@ resources:
   - ./snmp-exporter-t1500g-10mps/ks.yaml
 #  - ./snmp-exporter-ups/ks.yaml
 #  - ./snmp-generator/ks.yaml
-  - ./speedtest-exporter/ks.yaml
+#  - ./speedtest-exporter/ks.yaml
 #  - ./thanos/ks.yaml
   - ./unpoller/ks.yaml
