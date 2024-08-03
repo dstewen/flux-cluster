@@ -1,90 +1,109 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: audiobookshelf
-  namespace: home
 spec:
-  interval: 10m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.3.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: volsync
+  interval: 30m
   values:
     controllers:
-      main:
+      audiobookshelf:
+        annotations:
+          secret.reloader.stakater.com/reload: &secret audiobookshelf-secret
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            runAsUser: &uid 568
+            runAsGroup: &gid 2000
+            fsGroup: 2000
             fsGroupChangePolicy: OnRootMismatch
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.11.0@sha256:725c287ac1b56f8115dfc7fca75d8490976af59466f893fbf344711bd117f8cb
+            envFrom:
+              - secretRef:
+                  name: *secret
             env:
-              AUDIOBOOKSHELF_UID: 568
-              AUDIOBOOKSHELF_GID: 568
+              TZ: "${TIMEZONE}"
+              PORT: &port 8080
+              AUDIOBOOKSHELF_UID: *uid
+              AUDIOBOOKSHELF_GID: *gid
               CONFIG_PATH: /config
-              METADATA_PATH: /config/metadata
+              METADATA_PATH: /metadata
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthcheck
+                    port: *port
+              readiness: *probes
             resources:
               requests:
                 cpu: 100m
-                memory: 100Mi
+                memory: 150Mi
+              limits:
+                memory: 300Mi
     service:
-      main:
+      app:
+        controller: audiobookshelf
         ports:
           http:
-            port: 80
+            port: *port
     ingress:
       main:
-        enabled: true
+        className: internal
         annotations:
-          external-dns.home.arpa/enabled: "true"
-          cert-manager.home.arpa/enabled: "true"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Audiobookshelf
+          gethomepage.dev/icon: audiobookshelf.svg
+#          gethomepage.dev/widget.type: audiobookshelf
+#          gethomepage.dev/widget.url: http://audiobookshelf.media:8080
+#          gethomepage.dev/widget.key: "{{`{{HOMEPAGE_VAR_AUDIOBOOKSHELF_TOKEN}}`}}"
+          external-dns.alpha.kubernetes.io/target: internal.davidstewen.com
         hosts:
-          - host: &host audiobookshelf.${DOMAIN}
+          - host: &host "ab.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
-            secretName: audiobookshelf-tls
+
     persistence:
       config:
         enabled: true
         existingClaim: audiobookshelf-config
+
       cache:
-        enabled: true
-        mountPath: /.npm
         type: emptyDir
-      media:
-        enabled: true
-        existingClaim: nfs-singularity-media
         globalMounts:
-          - path: /media
+          - path: /.npm
+
+      metadata:
+        enabled: true
+        existingClaim: audiobookshelf-metadata
+        globalMounts:
+          - path: /metadata
+
+      audiobooks:
+        enabled: true
+        type: nfs
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/media/audiobookshelf
+        globalMounts:
+          - path: /audiobooks
