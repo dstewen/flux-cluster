@@ -642,8 +642,8 @@ spec:
 
         k8s-pod-metrics:
           # renovate: depName="K8S Pod Metrics"
-          gnetId: 21548
-          revision: 1
+          gnetId: 23548
+          revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
