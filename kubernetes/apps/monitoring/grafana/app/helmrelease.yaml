@@ -640,6 +640,13 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
+        k8s-pod-metrics:
+          # renovate: depName="K8S Pod Metrics"
+          gnetId: 21548
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
         promtail-monitoring-metrics-logs:
           # renovate: depName="Promtail Monitoring - Metrics and Logs"
           gnetId: 20881
@@ -664,6 +671,13 @@ spec:
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        volsync:
+          # renovate: depName="VolSync Dashboard"
+          gnetId: 21356
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
