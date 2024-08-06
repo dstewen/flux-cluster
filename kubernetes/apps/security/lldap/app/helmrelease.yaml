@@ -55,6 +55,8 @@ spec:
               requests:
                 cpu: 5m
                 memory: 36M
+              limits:
+                memory: 64M
         pod:
           affinity:
             nodeAffinity:
