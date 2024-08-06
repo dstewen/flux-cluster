@@ -88,6 +88,8 @@ spec:
         requests:
           cpu: 15m
           memory: 100M
+        limits:
+          memory: 700M
       ingress:
         enabled: true
         ingressClassName: external
@@ -118,6 +120,8 @@ spec:
         requests:
           cpu: 15m
           memory: 100M
+        limits:
+          memory: 700M
       metrics:
         serviceMonitor:
           enabled: true
