@@ -55,3 +55,9 @@ spec:
       tag: *tag
     metrics:
       disableAuth: true
+    resources:
+      limits:
+        memory: 300M
+      requests:
+        cpu: 15m
+        memory: 64M
