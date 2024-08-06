@@ -87,7 +87,7 @@ spec:
       resources:
         requests:
           cpu: 15m
-          memory: 100M
+          memory: 200M
         limits:
           memory: 700M
       ingress:
@@ -119,7 +119,7 @@ spec:
       resources:
         requests:
           cpu: 15m
-          memory: 100M
+          memory: 200M
         limits:
           memory: 700M
       metrics:
