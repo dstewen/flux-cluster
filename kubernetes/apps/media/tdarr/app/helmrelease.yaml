@@ -127,9 +127,9 @@ spec:
               - path: /app/server
                 subPath: server
 
-      media:
-        enabled: true
-        existingClaim: nfs-media
+#      media:
+#        enabled: true
+#        existingClaim: nfs-media
 
       movies:
         type: nfs
