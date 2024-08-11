@@ -51,6 +51,8 @@ spec:
         # capabilities:
         #   add:
         #     - CHOWN
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
 
     controllers:
       tdarr-node:
