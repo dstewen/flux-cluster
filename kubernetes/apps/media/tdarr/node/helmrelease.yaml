@@ -86,7 +86,7 @@ spec:
             resources:
               requests:
                 gpu.intel.com/i915: 1
-                cpu: 2000m
+                cpu: 100m
                 memory: 2048Mi
               limits:
                 gpu.intel.com/i915: 1
