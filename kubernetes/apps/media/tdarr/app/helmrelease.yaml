@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.dmfrey.com/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -96,13 +96,13 @@ spec:
 
     ingress:
       app:
-        className: external
+        className: internal
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          auth.home.arpa/enabled: "true"
+#          cert-manager.io/cluster-issuer: letsencrypt-prod
+#          auth.home.arpa/enabled: "true"
           hajimari.io/enable: "true"
           hajimari.io/icon: clarity:media-changer-solid
-          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
           - host: *host
             paths:
@@ -113,7 +113,7 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: tdarr-tls-external
+#            secretName: tdarr-tls-external
 
     persistence:
       config:
@@ -131,13 +131,34 @@ spec:
         enabled: true
         existingClaim: nfs-media
 
-      backups:
-        enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${QNAP_ADDR}"
-            path: /plexbackups/backups/tdarr
+      movies:
+        type: nfs
+        server: 192.168.10.15
+        path: /volume2/piNFS01/flux-cluster/plex/media/Movies
         globalMounts:
-          - path: /app/server/Tdarr/Backups
-            readOnly: false
+          - path: /mnt/movies
+
+      tv:
+        type: nfs
+        server: 192.168.10.15
+        path: "/volume2/piNFS01/flux-cluster/plex/media/TV Shows"
+        globalMounts:
+          - path: /mnt/tv
+
+      other_videos:
+        type: nfs
+        server: 192.168.10.15
+        path: "/volume2/piNFS01/flux-cluster/plex/media/Other Videos"
+        globalMounts:
+          - path: /mnt/other_videos
+
+#      backups:
+#        enabled: true
+#        type: custom
+#        volumeSpec:
+#          nfs:
+#            server: "${QNAP_ADDR}"
+#            path: /plexbackups/backups/tdarr
+#        globalMounts:
+#          - path: /app/server/Tdarr/Backups
+#            readOnly: false
