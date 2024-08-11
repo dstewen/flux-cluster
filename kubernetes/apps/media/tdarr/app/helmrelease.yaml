@@ -129,6 +129,11 @@ spec:
               - path: /app/server
                 subPath: server
 
+      cache:
+        existingClaim: tdarr-cache
+        globalMounts:
+          - path: /mnt/cache
+
 #      media:
 #        enabled: true
 #        existingClaim: nfs-media
