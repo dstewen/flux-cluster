@@ -103,6 +103,11 @@ spec:
 
     persistence:
 
+      cache:
+        existingClaim: tdarr-cache
+        globalMounts:
+          - path: /mnt/cache
+
 #      media:
 #        # enabled: true
 #        existingClaim: nfs-media
