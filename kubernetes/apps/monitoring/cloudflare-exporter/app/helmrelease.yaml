@@ -48,7 +48,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/Cyb3r-Jak3/cloudflare-exporter
+              repository: ghcr.io/cyb3r-jak3/cloudflare-exporter
               tag: 2.3.1
             env:
               TZ: ${TIMEZONE}
