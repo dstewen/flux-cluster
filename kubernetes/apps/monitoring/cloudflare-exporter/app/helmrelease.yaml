@@ -52,6 +52,7 @@ spec:
               tag: v2.3.1
             env:
               TZ: ${TIMEZONE}
+              CF_ZONES: ${SECRET_DOMAIN}
               FREE_TIER: false
             envFrom:
             - secretRef:
