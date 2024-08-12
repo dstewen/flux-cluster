@@ -34,88 +34,81 @@ spec:
     keepHistory: false
 
   values:
-
     defaultPodOptions:
       securityContext:
         runAsUser: 0
         runAsGroup: 0
-        fsGroup: 0
-        fsGroupChangePolicy: OnRootMismatch
+        fsGroup: 100
+        fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
-          - 34
-          - 44
-          - 109
-          - 1568
-          - 65534
-        # capabilities:
-        #   add:
-        #     - CHOWN
+          - 44 # video
+          - 125 # render
+          - 105 # render
+          - 568
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
 
     controllers:
       tdarr:
-
         containers:
           app:
             image:
-              repository: ghcr.io/haveagitgat/tdarr_acc
-              tag: 2.00.20.1
-
+              repository: ghcr.io/haveagitgat/tdarr
+              tag: 2.23.01
             env:
-              TZ: ${TIMEZONE}
-              PUID: "1000"
-              PGID: "1000"
-              ffmpegPath: "/usr/local/bin/ffmpeg"
-              TDARR_INSTANCE_NAME: Tdarr
-              TDARR__PORT: &port 8265
-              TDARR__APPLICATION_URL: &host "tdarr.${SECRET_DOMAIN}"
-              TDARR__LOG_LEVEL: info
-
-            ports:
-              - name: http
-                containerPort: &port 8265
-              - name: server
-                containerPort: &serverPort 8266
-
+              TZ: Europe/Helsinki
             resources:
               requests:
-                cpu: 10m
-                memory: 250Mi
+                memory: 1.5Gi
 
+          node:
+            image:
+              repository: ghcr.io/haveagitgat/tdarr_node
+              tag: 2.23.01
+              pullPolicy: IfNotPresent
+            env:
+              - name: nodeID
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+              - name: serverIP
+                value: localhost
+              - name: serverPort
+                value: 8266
+            resources:
+              requests:
+                memory: 1Gi
+                cpu: 1000m
+                gpu.intel.com/i915: 1
+              limits:
+                memory: 2Gi
+                gpu.intel.com/i915: 1
     service:
       app:
         controller: tdarr
+        type: LoadBalancer
         ports:
           http:
-            port: *port
-      server:
-        controller: tdarr
-        ports:
-          http:
+            port: 8265
+          server:
+            enabled: true
             protocol: TCP
-            port: *serverPort
+            port: 8266
 
     ingress:
       app:
         className: internal
-        annotations:
-#          cert-manager.io/cluster-issuer: letsencrypt-prod
-#          auth.home.arpa/enabled: "true"
-          hajimari.io/enable: "true"
-          hajimari.io/icon: clarity:media-changer-solid
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - host: *host
+          - host: &hostName "tdarr.${SECRET_DOMAIN}"
             paths:
               - path: /
+                pathType: Prefix
                 service:
                   identifier: app
-                  port: *port
+                  port: http
         tls:
           - hosts:
-              - *host
-#            secretName: tdarr-tls-external
+              - *hostName
 
     persistence:
       config:
@@ -132,7 +125,7 @@ spec:
       cache:
         existingClaim: tdarr-cache
         globalMounts:
-          - path: /mnt/cache
+          - path: /cache
 
 #      media:
 #        enabled: true
