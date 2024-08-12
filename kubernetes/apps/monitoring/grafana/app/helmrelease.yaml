@@ -170,6 +170,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/prometheus-folder
+          - name: system
+            orgId: 1
+            folder: System
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/system-folder
           - name: testing
             orgId: 1
             folder: Testing
@@ -609,12 +617,7 @@ spec:
           revision: 3
           datasource: Prometheus
 
-      testing:
-        arc-autoscaling-runner-set-monitoring:
-          url: https://raw.githubusercontent.com/actions/actions-runner-controller/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-
+      system:
         authentik:
           # renovate: depName="Authentik"
           gnetId: 14837
@@ -650,6 +653,12 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
+        prometheus-metrics-for-external-secrets:
+          # renovate: depName="Prometheus metrics for External Secrets"
+          gnetId: 21640
+          revision: 1
+          datasource: Prometheus
+
         promtail-monitoring-metrics-logs:
           # renovate: depName="Promtail Monitoring - Metrics and Logs"
           gnetId: 20881
@@ -682,6 +691,12 @@ spec:
           # renovate: depName="VolSync Dashboard"
           gnetId: 21356
           revision: 3
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+      testing:
+        arc-autoscaling-runner-set-monitoring:
+          url: https://raw.githubusercontent.com/actions/actions-runner-controller/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
