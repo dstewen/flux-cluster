@@ -52,8 +52,7 @@ spec:
               tag: v2.3.1
             env:
               TZ: ${TIMEZONE}
-              # Configure application
-#              CF_API_EMAIL:
+              FREE_TIER: false
             envFrom:
             - secretRef:
                 name: cloudflare-exporter-secret
