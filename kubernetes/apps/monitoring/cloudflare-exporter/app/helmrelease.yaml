@@ -53,7 +53,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               # Configure application
-              CF_API_EMAIL:
+#              CF_API_EMAIL:
             envFrom:
             - secretRef:
                 name: cloudflare-exporter-secret
