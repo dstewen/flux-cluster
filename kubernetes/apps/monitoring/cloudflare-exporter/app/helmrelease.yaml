@@ -53,7 +53,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               CF_ZONES: ${SECRET_DOMAIN}
-              FREE_TIER: false
+              FREE_TIER: true
             envFrom:
             - secretRef:
                 name: cloudflare-exporter-secret
