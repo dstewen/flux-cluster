@@ -56,26 +56,24 @@ spec:
             envFrom:
             - secretRef:
                 name: cloudflare-exporter-secret
-#            resources:
-#              requests:
-#                cpu: 15m
-#                memory: 30M
+            resources:
+              requests:
+                cpu: 10m
+                memory: 30M
 #              limits:
 #                memory: 64M
     service:
       app:
         controller: *app
         ports:
-          metrics:
-            enabled: true
-            protocol: TCP
+          http:
             port: 8080
     serviceMonitor:
       app:
         serviceName: *app
         enabled: true
         endpoints:
-        - port: metrics
+        - port: http
           scheme: http
           path: /metrics
           interval: 5m
