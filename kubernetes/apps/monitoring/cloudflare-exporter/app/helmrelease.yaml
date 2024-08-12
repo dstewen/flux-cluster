@@ -2,38 +2,42 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cloudflare-exporter
+  name: &app cloudflare-exporter
   namespace: monitoring
 spec:
+
+  interval: 15m
+
   chart:
     spec:
       chart: cloudflare-exporter
       version: '0.2.1'
-      reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
         name: cloudflare-exporter
         namespace: flux-system
+  maxHistory: 2
   install:
     createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     image:
       repository: ghcr.io/lablabs/cloudflare_exporter
       tag: 0.0.16
     env:
-      - name: TZ
-        value: ${TIMEZONE}
-      - name: CF_API_TOKEN
-        value: ${CLOUDFLARE_API_TOKEN_METRICS}
-      - name: CF_ZONES
-        value: ${CLOUDFLARE_ZONES}
-      - name: FREE_TIER
-        value: 'true'
+      TZ: ${TIMEZONE}
+#      CF_API_TOKEN: ${CLOUDFLARE_API_TOKEN_METRICS}
+#      CF_ZONES: ${CLOUDFLARE_ZONES}
+      FREE_TIER: 'true'
+    envFrom:
+      - secretRef:
+          name: cloudflare-exporter-secret
     serviceMonitor:
       enabled: true
-    tolerations:
-      - key: k8s.pascaliske.dev/location
-        operator: Equal
-        value: public
-        effect: NoSchedule
-  interval: 10m0s
