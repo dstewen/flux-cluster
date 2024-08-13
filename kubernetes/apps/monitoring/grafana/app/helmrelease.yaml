@@ -656,7 +656,7 @@ spec:
         prometheus-metrics-for-external-secrets:
           # renovate: depName="Prometheus metrics for External Secrets"
           gnetId: 21640
-          revision: 1
+          revision: 4
           datasource: Prometheus
 
         promtail-monitoring-metrics-logs:
