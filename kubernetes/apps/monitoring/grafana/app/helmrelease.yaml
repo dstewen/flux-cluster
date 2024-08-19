@@ -257,8 +257,8 @@ spec:
 
         cloudnative-pg:
           # renovate: depName="CloudNativePG Dashboard"
-          gnetId: 20417
-          revision: 2
+          gnetId: 30417
+          revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
