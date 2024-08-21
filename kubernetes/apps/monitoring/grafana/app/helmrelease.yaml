@@ -258,7 +258,7 @@ spec:
         cloudnative-pg:
           # renovate: depName="CloudNativePG Dashboard"
           gnetId: 20417
-          revision: 2
+          revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
@@ -697,6 +697,27 @@ spec:
       testing:
         arc-autoscaling-runner-set-monitoring:
           url: https://raw.githubusercontent.com/actions/actions-runner-controller/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        ceph-storage:
+          # renovate: depName="Storage Ceph"
+          gnetId: 21711
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        fgc-nginx01-web-analytic:
+          # renovate: depName="Analytics NGINX"
+          gnetId: 13865
+          revision: 6
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
+        ssh-logs:
+          # renovate: depName="SSH Logs"
+          gnetId: 17514
+          revision: 2
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
 
