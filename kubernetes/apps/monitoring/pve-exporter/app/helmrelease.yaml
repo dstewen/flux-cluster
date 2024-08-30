@@ -49,8 +49,8 @@ spec:
         endpoints:
           - path: /pve
             params:
-              cluster:
-                - "1"
+#              cluster:
+#                - "1"
               module:
                 - default
               node:
