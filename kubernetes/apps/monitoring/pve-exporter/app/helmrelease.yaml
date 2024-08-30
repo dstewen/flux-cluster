@@ -56,7 +56,7 @@ spec:
               node:
                 - "1"
               target:
-                - pve1.davidstewen.com
+                - 192.168.10.87
             port: http
             scheme: http
         serviceName: pve-exporter
