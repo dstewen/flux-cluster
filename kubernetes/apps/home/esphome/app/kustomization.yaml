@@ -6,5 +6,5 @@ namespace: home
 resources:
   - ./helmrelease.yaml
   - ./pvc.yaml
-#  - ./volsync_backblazeb2.yaml
-#  - ./volsync_nas.yaml
+  - ./volsync_backblazeb2.yaml
+  - ./volsync_nas.yaml
