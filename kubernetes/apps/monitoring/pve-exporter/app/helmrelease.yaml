@@ -51,6 +51,12 @@ spec:
             envFrom:
               - secretRef:
                   name: pve-exporter-secret
+            resources:
+              requests:
+                cpu: 50m
+                memory: 32M
+              limits:
+                memory: 128M
         pod:
           securityContext:
             runAsUser: 568
