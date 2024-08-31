@@ -6,6 +6,6 @@ namespace: home
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./volsync_backblazeb2.yaml
-  - ./volsync_nas.yaml
+#  - ./volsync_backblazeb2.yaml
+#  - ./volsync_nas.yaml
   - ./volume.yaml
