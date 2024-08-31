@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: paperless-backblazeb2-source
+  name: paperless-backblazeb2-rsrc
   namespace: media
 spec:
   sourcePVC: paperless-config

@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: tdarr
+  name: tdarr-minio-rsrc
   namespace: media
 spec:
   sourcePVC: tdarr-config

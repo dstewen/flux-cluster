@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: unifi-rsrc-dst-minio
+  name: unifi-minio-rsrc
   namespace: home
 spec:
   sourcePVC: unifi-config

@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: node-red-backblazeb2-source
+  name: node-red-backblazeb2-rsrc
   namespace: home
 spec:
   sourcePVC: node-red

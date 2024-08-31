@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: esphome-rsrc-dst-minio
+  name: esphome-minio-rsrc
   namespace: home
 spec:
   sourcePVC: esphome-config

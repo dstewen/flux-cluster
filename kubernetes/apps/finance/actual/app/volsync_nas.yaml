@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: actual-rsrc-dst-minio
+  name: actual-minio-rsrc
   namespace: finance
 spec:
   sourcePVC: actual-data

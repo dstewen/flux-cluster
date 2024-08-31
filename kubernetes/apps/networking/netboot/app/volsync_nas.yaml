@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: netboot-rsrc-dst-minio
+  name: netboot-minio-rsrc
   namespace: networking
 spec:
   sourcePVC: netboot-config

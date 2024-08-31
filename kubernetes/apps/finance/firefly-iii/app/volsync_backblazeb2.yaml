@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: firefly-iii-backblazeb2-source
+  name: firefly-iii-backblazeb2-rsrc
   namespace: finance
 spec:
   sourcePVC: firefly-iii-data

@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: firefly-iii-rsrc-dst-minio
+  name: firefly-iii-minio-rsrc
   namespace: finance
 spec:
   sourcePVC: firefly-iii-data

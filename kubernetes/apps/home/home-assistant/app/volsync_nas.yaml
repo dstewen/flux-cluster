@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: home-assistant-rsrc-dst-minio
+  name: home-assistant-minio-rsrc
   namespace: home
 spec:
   sourcePVC: home-assistant-config

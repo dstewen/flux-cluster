@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: node-red-rsrc-dst-minio
+  name: node-red-minio-rsrc
   namespace: home
 spec:
   sourcePVC: node-red
