@@ -32,6 +32,11 @@ spec:
 #        configMap: *app
 #        readOnly: true
 #        defaultMode: 420
+    resources:
+      limits:
+        memory: 300Mi
+      requests:
+        memory: 50Mi
     serviceMonitor:
       enabled: true
       namespace: monitoring
