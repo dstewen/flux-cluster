@@ -47,7 +47,7 @@ spec:
           main:
             image:
               repository: ghcr.io/buroa/qbtools
-              tag: v0.16.4@sha256:745f7aea5d685de3e837bcf4ac5a1a18c2c8f51ba9a42fb8ed63d96c9eec8cac
+              tag: v0.16.10@sha256:fec06dd13ec90694110ca912eb9003d3a46d29be83944538599b35fc78dcbf18
               pullPolicy: IfNotPresent
 
             args:
