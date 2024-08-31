@@ -34,9 +34,9 @@ spec:
 #        defaultMode: 420
     resources:
       limits:
-        memory: 300Mi
+        memory: 128Mi
       requests:
-        memory: 50Mi
+        memory: 32Mi
     serviceMonitor:
       enabled: true
       namespace: monitoring
