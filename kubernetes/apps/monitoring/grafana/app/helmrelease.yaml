@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 8.4.7
+      version: 8.4.9
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -550,6 +550,18 @@ spec:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
 
+        snmp-device:
+          # renovate: depName="SNMP device"
+          gnetId: 20347
+          revision: 1
+          datasource: Prometheus
+
+        snmp-exporter-internal-stats:
+          # renovate: depName="SNMP Exporter Internal Stats"
+          gnetId: 12197
+          revision: 1
+          datasource: Prometheus
+
         snmp-stats:
           # renovate: depName="SNMP Stats ifmib"
           gnetId: 11169
@@ -667,6 +679,13 @@ spec:
             - { name: DS_PROMETHEUS, value: Prometheus }
             - { name: DS_LOKI, value: Loki }
 
+        proxmox-via-prometheus:
+          # renovate: depName="Proxmox via Prometheus"
+          gnetId: 20881
+          revision: 5
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+
         redis:
           # renovate: depName="Redis"
           gnetId: 11835
@@ -699,6 +718,8 @@ spec:
           url: https://raw.githubusercontent.com/actions/actions-runner-controller/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+
+
 
       thanos:
         thanos-bucket-replicate:
