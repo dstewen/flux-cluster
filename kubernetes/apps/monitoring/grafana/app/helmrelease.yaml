@@ -553,7 +553,7 @@ spec:
         snmp-device:
           # renovate: depName="SNMP device"
           gnetId: 20347
-          revision: 1
+          revision: 2
           datasource: Prometheus
 
         snmp-exporter-internal-stats:
