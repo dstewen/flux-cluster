@@ -55,7 +55,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cilium
+    - name: cluster-apps-cilium
     - name: multus-config
   path: "./kubernetes/apps/kube-system/multus/app"
   prune: false # never should be deleted
