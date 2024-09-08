@@ -97,13 +97,13 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
-      annotations:
-        k8s.v1.cni.cncf.io/networks: |
-          [{
-            "name":"multus-iot",
-            "namespace": "kube-system",
-            "ips": ["172.16.20.99/24"]
-          }]
+#      annotations:
+#        k8s.v1.cni.cncf.io/networks: |
+#          [{
+#            "name":"multus-iot",
+#            "namespace": "kube-system",
+#            "ips": ["172.16.20.99/24"]
+#          }]
     service:
       app:
         controller: home-assistant
